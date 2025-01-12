@@ -1,0 +1,26 @@
+{
+    "name": "peklaiho/gauntlet-mud",
+    "description": "Gauntlet MUD is a MUD engine for multiplayer text adventure games.",
+    "type": "project",
+    "homepage": "https://github.com/peklaiho/gauntlet-mud",
+    "license": "AGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Pekka Laiho",
+            "email": "pekka.i.laiho@gmail.com",
+            "homepage": "https://laihoconsulting.com/"
+        }
+    ],
+    "require" : {
+        "peklaiho/madlisp": "^1.0",
+        "symfony/yaml": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gauntlet\\": "src/"
+        }
+    }
+}
