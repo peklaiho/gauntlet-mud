@@ -11,60 +11,17 @@ class MonsterStats
 {
     public static function getBaseHealth(int $level): float
     {
-        static $table = [
-            15,
-            25,
-            35,
-            50,
-            65,
-            80,
-            95,
-            110,
-            125,
-            145,
-            165,
-            185,
-            205,
-            225,
-            245,
-            265,
-            285,
-            305,
-            325,
-            355,
-            385,
-            415,
-            445,
-            475,
-            505,
-            535,
-            565,
-            595,
-            625,
-            665,
-            705,
-            745,
-            785,
-            825,
-            865,
-            905,
-            945,
-            985,
-            1025,
-            1075,
-            1125,
-            1175,
-            1225,
-            1275,
-            1335,
-            1395,
-            1465,
-            1535,
-            1615,
-            1705,
-        ];
+        // 16 at level 1
+        // 114 at level 10
+        // 253 at level 20
+        // 447 at level 30
+        // 773 at level 40
+        // 1435 at level 50
 
-        return $table[$level - 1];
+        $h1 = 15 * pow(1.1, $level);
+        $h2 = 15 * pow($level, 1.1);
+
+        return ($h1 + $h2) / 2;
     }
 
     public static function getDamageMultiplier(int $level): float
@@ -77,6 +34,9 @@ class MonsterStats
 
     public static function getDamageBonus(int $level): float
     {
+        // 0.4 at level 1
+        // 20 at level 50
+
         return $level / 2.5;
     }
 

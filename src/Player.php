@@ -118,7 +118,7 @@ class Player extends Living
             }
 
             return false;
-        } elseif ($this->getRoom()->hasFlag(RoomFlag::Peaceful)) {
+        } elseif ($this->getRoom()->getTemplate()->hasFlag(RoomFlag::Peaceful)) {
             if ($message) {
                 $this->outln("You have such a peaceful feeling here.");
             }
@@ -254,10 +254,10 @@ class Player extends Living
     public function getMaxHealth(): float
     {
         // Base value
-        $value = 45;
+        $value = 40;
 
-        // Bonus from level: 5 - 250
-        $value += $this->getLevel() * 5;
+        // Bonus from level: 10 - 500
+        $value += $this->getLevel() * 10;
 
         // Bonus from extra constitution
         $value += $this->getCon(false) * 20;
@@ -272,10 +272,10 @@ class Player extends Living
     public function getMaxMana(): float
     {
         // Base value
-        $value = 45;
+        $value = 40;
 
-        // Bonus from level: 5 - 250
-        $value += $this->getLevel() * 5;
+        // Bonus from level: 10 - 500
+        $value += $this->getLevel() * 10;
 
         // Bonus from intelligence
         $value += $this->getInt(false) * 20;
@@ -290,10 +290,10 @@ class Player extends Living
     public function getMaxMove(): float
     {
         // Base value
-        $value = 98.5;
+        $value = 98;
 
-        // Small bonus from level: 1.5 - 75
-        $value += $this->getLevel() * 1.5;
+        // Bonus from level: 2 - 100
+        $value += $this->getLevel() * 2;
 
         // Bonus from equipment
         $value += $this->getMod(Modifier::Move);
