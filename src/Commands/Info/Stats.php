@@ -31,7 +31,7 @@ class Stats extends BaseCommand
         $player->outln('You are %s %s human %s (level %d).', $player->getSize()->value,
             $player->getSex()->name(), $player->getName(), $player->getLevel());
 
-        $player->outln('You attributes are %d Str, %d Dex, %d Int and %d Con.',
+        $player->outln('Your attributes are %d Str, %d Dex, %d Int and %d Con.',
             $player->getStr(), $player->getDex(), $player->getInt(), $player->getCon());
 
         $trains = $player->getRemainingTraining();

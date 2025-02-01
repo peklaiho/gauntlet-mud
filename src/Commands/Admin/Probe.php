@@ -8,6 +8,7 @@
 namespace Gauntlet\Commands\Admin;
 
 use Gauntlet\BaseObject;
+use Gauntlet\Experience;
 use Gauntlet\Item;
 use Gauntlet\Living;
 use Gauntlet\Monster;
@@ -202,6 +203,9 @@ class Probe extends BaseCommand
 
         $player->outln('Level: %d', $target->getLevel());
         $player->outln('Experience: %d', $target->getExperience());
+        if ($target->isMonster()) {
+            $player->outln('Exp Multip: %.1f', Experience::getPenaltyMultiplier($player->getLevel(), $target->getLevel()));
+        }
         $player->outln('Coins: %d', $target->getCoins());
         $player->outln('Attributes: STR %d, DEX %d, INT %d, CON %d', $target->getStr(), $target->getDex(), $target->getInt(), $target->getCon());
 

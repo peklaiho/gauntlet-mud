@@ -11,67 +11,42 @@ use Gauntlet\Util\Log;
 
 class Experience
 {
+    protected static ?array $table = null;
+
+    public static function getExpTable(): array
+    {
+        // Create exp table
+        if (!self::$table) {
+            $monstersToKill = function ($level) {
+                return 8 * pow(1.09, $level);
+            };
+
+            self::$table = [0];
+
+            for ($level = 1; $level < MAX_LEVEL; $level++) {
+                self::$table[] = intval(round($monstersToKill($level) * MonsterStats::getExperience($level)));
+            }
+        }
+
+        return self::$table;
+    }
+
     public static function getPlayerExpToLevel(int $level): int
     {
-        static $table = [
-            0,
-            105,
-            335,
-            772,
-            1440,
-            2370,
-            3595,
-            5151,
-            7076,
-            9414,
-            12312,
-            15835,
-            20052,
-            25040,
-            30883,
-            37672,
-            45504,
-            54486,
-            64735,
-            76375,
-            89925,
-            105582,
-            123559,
-            144089,
-            167423,
-            193833,
-            223613,
-            257082,
-            294583,
-            338485,
-            390535,
-            452012,
-            524378,
-            609303,
-            708692,
-            824720,
-            959861,
-            1116934,
-            1299147,
-            1510146,
-            1756365,
-            2043023,
-            2376063,
-            2762239,
-            3209230,
-            3729654,
-            4334282,
-            5040176,
-            5862326,
-            6823735,
-        ];
+        $table = self::getExpTable();
 
-        return $table[$level - 1];
+        $exp = 0;
+
+        for ($i = 0; $i < $level; $i++) {
+            $exp += $table[$i];
+        }
+
+        return $exp;
     }
 
     public static function getPlayerLevelByExp(int $exp): int
     {
-        for ($i = 50; $i >= 1; $i--) {
+        for ($i = MAX_LEVEL; $i >= 1; $i--) {
             if ($exp >= self::getPlayerExpToLevel($i)) {
                 return $i;
             }
@@ -84,7 +59,7 @@ class Experience
             return 1;
         }
 
-        return max(0.1, 1 - (($playerLevel - $monsterLevel) * 0.05));
+        return max(0, 1 - (($playerLevel - $monsterLevel) * 0.1));
     }
 
     public static function getExpGain(Player $player, Monster $monster, float $damage): int

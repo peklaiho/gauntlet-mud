@@ -7,6 +7,7 @@
 
 namespace Gauntlet\Commands\Admin;
 
+use Gauntlet\Experience;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Util\Color;
@@ -30,6 +31,14 @@ class Debug extends BaseCommand
             for ($i = 0; $i < 32; $i++) {
                 $row = array_slice($colors, $i * 8, 8);
                 $player->outln(implode(' ', $row));
+            }
+        } elseif (str_starts_with_case('exp', $input->get(0))) {
+            $player->outln('Level    Exp     Total');
+            $table = Experience::getExpTable();
+            $total = 0;
+            for ($i = 0; $i < count($table); $i++) {
+                $total += $table[$i];
+                $player->outln('%2d  %8d  %8d', $i + 1, $table[$i], $total);
             }
         } else {
             $player->outln('Unknown subcmd.');
