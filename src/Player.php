@@ -13,6 +13,7 @@ use Gauntlet\Enum\Attribute;
 use Gauntlet\Enum\Damage;
 use Gauntlet\Enum\EqSlot;
 use Gauntlet\Enum\Modifier;
+use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\RoomFlag;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
@@ -41,6 +42,7 @@ class Player extends Living
     protected Preferences $preferences;
     protected ColorPref $colorPref;
     protected array $aliases = [];
+    protected PlayerClass $class = PlayerClass::Warrior; // Just a default
     protected bool $acceptedRules = false;
     protected Collection $mail;
 
@@ -242,6 +244,11 @@ class Player extends Living
     public function getBank(): int
     {
         return $this->bank;
+    }
+
+    public function getClass(): PlayerClass
+    {
+        return $this->class;
     }
 
     #[\Override]
@@ -520,6 +527,11 @@ class Player extends Living
     public function setBank(int $val): void
     {
         $this->bank = $val;
+    }
+
+    public function setClass(PlayerClass $val): void
+    {
+        $this->class = $val;
     }
 
     public function addExperience(int $val): void

@@ -20,6 +20,7 @@ use Gauntlet\World;
 use Gauntlet\Data\IPlayerRepository;
 use Gauntlet\Enum\EqSlot;
 use Gauntlet\Enum\MailType;
+use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
 use Gauntlet\Util\Config;
@@ -36,8 +37,9 @@ class Intro implements IModule
     const STATE_NEW_PASSWORD = 11;
     const STATE_CONFIRM_PW = 12;
     const STATE_SELECT_SEX = 13;
-    const STATE_SELECT_SIZE = 14;
-    const STATE_SELECT_DEVICE = 15;
+    const STATE_SELECT_CLASS = 14;
+    const STATE_SELECT_SIZE = 15;
+    const STATE_SELECT_DEVICE = 16;
 
     public function __construct(
         protected IPlayerRepository $playerRepo,
@@ -160,10 +162,35 @@ class Intro implements IModule
                 } else {
                     $desc->setModuleData('sex', $sex);
 
-                    $desc->outln("Please select your physical size.");
-                    $desc->outln("Available choices: (t)iny, (s)mall, (m)edium, (l)arge, (h)uge");
-                    $desc->out("What is your size? ");
-                    $desc->setModuleData('state', self::STATE_SELECT_SIZE);
+                    $desc->outln("Please select your class.");
+                    $desc->outln("Available choices: " . PlayerClass::listChoices() . ' or (?) for more information');
+                    $desc->out("What is your class? ");
+                    $desc->setModuleData('state', self::STATE_SELECT_CLASS);
+                }
+                break;
+
+            case self::STATE_SELECT_CLASS:
+                if (strpos($raw, '?') !== false) {
+                    $desc->outln('Description of classes:');
+                    $infoText = PlayerClass::infoText();
+                    foreach ($infoText as $info) {
+                        $desc->outln($info);
+                    }
+                    $desc->out("What is your class? ");
+                } else {
+                    $class = PlayerClass::parse($raw);
+
+                    if (!$class) {
+                        $desc->out('Invalid class, try again. Which class do you want to play? ');
+                    } else {
+                        $desc->setModuleData('class', $class);
+                        $desc->outln("Ok, you shall be a {$class->value}!");
+
+                        $desc->outln("Please select your physical size.");
+                        $desc->outln("Available choices: (t)iny, (s)mall, (m)edium, (l)arge, (h)uge");
+                        $desc->out("What is your size? ");
+                        $desc->setModuleData('state', self::STATE_SELECT_SIZE);
+                    }
                 }
                 break;
 
@@ -218,6 +245,7 @@ class Intro implements IModule
             $player->setName($desc->getModuleData('name'));
             $player->setPassword(password_hash($desc->getModuleData('password'), PASSWORD_DEFAULT));
             $player->setSex($desc->getModuleData('sex'));
+            $player->setClass($desc->getModuleData('class'));
             $player->setSize($desc->getModuleData('size'));
             $player->initNewPlayer($mobileDevice);
 

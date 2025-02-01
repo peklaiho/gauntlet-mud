@@ -14,6 +14,7 @@ use Gauntlet\Player;
 use Gauntlet\PlayerItems;
 use Gauntlet\Enum\AdminLevel;
 use Gauntlet\Enum\Attribute;
+use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
 use Gauntlet\Util\Lisp;
@@ -93,6 +94,9 @@ class YamlPlayerRepository implements IPlayerRepository
         $player->setLevel($data['level'] ?? 1);
         $player->setName($data['name']);
         $player->setPassword($data['password']);
+        if (array_key_exists('class', $data)) {
+            $player->setClass(PlayerClass::tryFrom($data['class']) ?? PlayerClass::Warrior);
+        }
         if (array_key_exists('sex', $data)) {
             $player->setSex(Sex::tryFrom($data['sex']) ?? Sex::Neutral);
         }
@@ -133,6 +137,7 @@ class YamlPlayerRepository implements IPlayerRepository
             'level' => $player->getLevel(),
             'name' => $player->getName(),
             'password' => $player->getPassword(),
+            'class' => $player->getClass()->value,
             'sex' => $player->getSex()->value,
             'size' => $player->getSize()->value,
             'coins' => $player->getCoins(),

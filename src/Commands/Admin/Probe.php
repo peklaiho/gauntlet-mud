@@ -187,6 +187,7 @@ class Probe extends BaseCommand
 
             $this->showAmbientMessages($player, $target);
         } else {
+            $player->outln('Class: %s', $target->getClass()->value);
             $player->outln(
                 'Created on: %s, Age: %s',
                 gmdate('Y-m-d H:i:s', $target->getCreationTime()),

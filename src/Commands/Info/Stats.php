@@ -28,8 +28,9 @@ class Stats extends BaseCommand
             return;
         }
 
-        $player->outln('You are %s %s human %s (level %d).', $player->getSize()->value,
-            $player->getSex()->name(), $player->getName(), $player->getLevel());
+        $player->outln('You are %s %s human %s %s (level %d).', $player->getSize()->value,
+            $player->getSex()->name(), $player->getClass()->value, $player->getName(),
+            $player->getLevel());
 
         $player->outln('Your attributes are %d Str, %d Dex, %d Int and %d Con.',
             $player->getStr(), $player->getDex(), $player->getInt(), $player->getCon());
