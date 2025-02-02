@@ -234,7 +234,7 @@ class Updater
                     if (!$living->isPlayer()) {
                         continue;
                     }
-                    if ($living->getRoom()->getTerrain() == Terrain::Underground) {
+                    if ($living->getRoom()->getTemplate()->getTerrain() == Terrain::Underground) {
                         continue;
                     }
 
