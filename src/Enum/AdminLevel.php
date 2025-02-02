@@ -26,6 +26,17 @@ enum AdminLevel: int
         };
     }
 
+    public function abbrev(): string
+    {
+        return match($this) {
+            self::Immortal => 'Imm',
+            self::DemiGod => 'Dem',
+            self::God => 'God',
+            self::GreaterGod => 'GrG',
+            self::Implementor => 'Imp'
+        };
+    }
+
     public static function validate(?AdminLevel $required, ?AdminLevel $realized): bool
     {
         if (!$required) {
