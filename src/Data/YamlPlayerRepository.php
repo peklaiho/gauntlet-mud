@@ -94,6 +94,7 @@ class YamlPlayerRepository implements IPlayerRepository
         $player->setLevel($data['level'] ?? 1);
         $player->setName($data['name']);
         $player->setPassword($data['password']);
+        $player->setTitle($data['title'] ?? null);
         if (array_key_exists('class', $data)) {
             $player->setClass(PlayerClass::tryFrom($data['class']) ?? PlayerClass::Warrior);
         }
@@ -137,6 +138,7 @@ class YamlPlayerRepository implements IPlayerRepository
             'level' => $player->getLevel(),
             'name' => $player->getName(),
             'password' => $player->getPassword(),
+            'title' => $player->getTitle(),
             'class' => $player->getClass()->value,
             'sex' => $player->getSex()->value,
             'size' => $player->getSize()->value,

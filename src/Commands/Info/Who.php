@@ -34,6 +34,9 @@ class Who extends BaseCommand
                     $name .= ' (' . $living->getAdminLevel()->name() . ')';
                     $name = $player->colorize($name, ColorPref::ADMIN);
                 }
+                if ($player->getTitle()) {
+                    $name .= ' ' . $player->getTitle();
+                }
                 $player->outln($name);
                 $output = true;
             }

@@ -68,6 +68,7 @@ use Gauntlet\Commands\Move;
 use Gauntlet\Commands\Quit;
 use Gauntlet\Commands\Save;
 use Gauntlet\Commands\ShopCmd;
+use Gauntlet\Commands\Title;
 use Gauntlet\Commands\Train;
 use Gauntlet\Commands\Transfer;
 
@@ -143,6 +144,7 @@ class CommandMap
                 new CommandInfo('stats', Stats::class, Stats::STATS),
                 new CommandInfo('tell', Tell::class),
                 new CommandInfo('time', Date::class),
+                new CommandInfo('title', Title::class),
                 new CommandInfo('train', Train::class),
                 (Config::moneyType() == MoneyType::Credits) ? (new CommandInfo('transfer', Transfer::class)) : null,
                 // new CommandInfo('thesaurus', Dict::class, Dict::THESAURUS),

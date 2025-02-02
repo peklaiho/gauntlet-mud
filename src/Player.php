@@ -39,6 +39,7 @@ class Player extends Living
     protected int $experience = 0;
     protected string $name;
     protected string $password;
+    protected ?string $title = null;
     protected Preferences $preferences;
     protected ColorPref $colorPref;
     protected array $aliases = [];
@@ -341,6 +342,11 @@ class Player extends Living
         return $this->password;
     }
 
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
     public function getPreference(string $key, $defaultValue = null)
     {
         return $this->getPreferences()->get($key, $defaultValue);
@@ -563,6 +569,11 @@ class Player extends Living
     public function setPassword(string $val): void
     {
         $this->password = $val;
+    }
+
+    public function setTitle(?string $val): void
+    {
+        $this->title = $val;
     }
 
     // Attacks and damage
