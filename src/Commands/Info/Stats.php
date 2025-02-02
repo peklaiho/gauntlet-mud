@@ -39,6 +39,10 @@ class Stats extends BaseCommand
         if ($trains > 0) {
             $player->outln('You have %d attribute training points remaining.', $trains);
         }
+        $skillPoints = $player->getRemainingSkillPoints();
+        if ($skillPoints > 0) {
+            $player->outln('You have %d %spoints remaining.', $skillPoints, $player->getClass()->spellSkill());
+        }
 
         $expLine = 'You have ' . $player->getExperience() . ' experience';
         if ($player->getLevel() < MAX_LEVEL) {

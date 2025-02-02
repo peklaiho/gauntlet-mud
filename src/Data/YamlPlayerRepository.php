@@ -17,6 +17,7 @@ use Gauntlet\Enum\Attribute;
 use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
+use Gauntlet\Enum\Skill;
 use Gauntlet\Util\Lisp;
 use Gauntlet\Util\Log;
 
@@ -117,6 +118,14 @@ class YamlPlayerRepository implements IPlayerRepository
                 }
             }
         }
+        if (array_key_exists('skills', $data)) {
+            foreach ($data['skills'] as $skillName => $val) {
+                $skill = Skill::tryFrom($skillName);
+                if ($skill) {
+                    $player->setSkillLevel($skill, $val);
+                }
+            }
+        }
         $player->setHealth($data['health'] ?? 1);
         $player->setMana($data['mana'] ?? 1);
         $player->setMove($data['move'] ?? 1);
@@ -148,6 +157,7 @@ class YamlPlayerRepository implements IPlayerRepository
             'preferences' => $player->getPreferences()->getAll(),
             'color_pref' => $player->getColorPref()->getAll(),
             'training' => $player->getTraining(),
+            'skills' => $player->getSkillPoints(),
             'health' => $player->getHealth(),
             'mana' => $player->getMana(),
             'move' => $player->getMove(),

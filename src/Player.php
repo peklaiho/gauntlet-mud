@@ -23,6 +23,7 @@ use Gauntlet\Trait\CarryingCapacity;
 use Gauntlet\Trait\CreationTime;
 use Gauntlet\Trait\Level;
 use Gauntlet\Trait\SexAndSize;
+use Gauntlet\Trait\SkillPoints;
 use Gauntlet\Trait\TemporaryPlayerItems;
 use Gauntlet\Trait\Training;
 use Gauntlet\Util\Color;
@@ -55,6 +56,7 @@ class Player extends Living
     use CreationTime;
     use Level;
     use SexAndSize;
+    use SkillPoints;
     use TemporaryPlayerItems;
     use Training;
 

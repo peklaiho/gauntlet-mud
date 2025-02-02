@@ -17,13 +17,13 @@ enum PlayerClass: string
     public static function parse(string $val): ?PlayerClass
     {
         if (str_starts_with_case($val, 'm')) {
-            return PlayerClass::Mage;
+            return self::Mage;
         } elseif (str_starts_with_case($val, 'r')) {
-            return PlayerClass::Rogue;
+            return self::Rogue;
         } elseif (str_starts_with_case($val, 's')) {
-            return PlayerClass::Shaman;
+            return self::Shaman;
         } elseif (str_starts_with_case($val, 'w')) {
-            return PlayerClass::Warrior;
+            return self::Warrior;
         }
 
         return null;
@@ -46,5 +46,14 @@ enum PlayerClass: string
             '(W)arrior is the master of physical combat. Warriors overwhelm their enemies with brute force.' .
                 ' They can wield the deadliest weapons and gain additional attacks.',
         ];
+    }
+
+    public function spellSkill(): string
+    {
+        if ($this == self::Mage || $this == self::Shaman) {
+            return 'spell';
+        }
+
+        return 'skill';
     }
 }
