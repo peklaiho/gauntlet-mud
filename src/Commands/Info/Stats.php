@@ -20,10 +20,11 @@ class Stats extends BaseCommand
 {
     public const STATS = 'stats';
     public const COIN = 'coin';
+    public const CREDITS = 'credits';
 
     public function execute(Player $player, Input $input, ?string $subcmd): void
     {
-        if ($subcmd == self::COIN) {
+        if ($subcmd == self::COIN || $subcmd == self::CREDITS) {
             $this->showCoins($player);
             return;
         }
@@ -39,9 +40,11 @@ class Stats extends BaseCommand
         if ($trains > 0) {
             $player->outln('You have %d attribute training points remaining.', $trains);
         }
-        $skillPoints = $player->getRemainingSkillPoints();
-        if ($skillPoints > 0) {
-            $player->outln('You have %d %spoints remaining.', $skillPoints, $player->getClass()->spellSkill());
+        if (Config::useSkillPoints()) {
+            $skillPoints = $player->getRemainingSkillPoints();
+            if ($skillPoints > 0) {
+                $player->outln('You have %d %spoints remaining.', $skillPoints, $player->getClass()->spellSkill());
+            }
         }
 
         $expLine = 'You have ' . $player->getExperience() . ' experience';
@@ -102,12 +105,10 @@ class Stats extends BaseCommand
     {
         if ($subcmd == self::STATS) {
             return 'Display information and statistics about your character.';
+        } elseif ($subcmd == self::COIN) {
+            return "Show how many coins you are carrying.";
         } else {
-            if (Config::moneyType() == MoneyType::Credits) {
-                return 'Display your credit balance.';
-            } else {
-                return "Show how many coins you are carrying.";
-            }
+            return 'Display your credit balance.';
         }
     }
 
@@ -120,15 +121,25 @@ class Stats extends BaseCommand
 
     public function getSeeAlso(?string $subcmd): array
     {
-        if ($subcmd == self::COIN) {
+        if ($subcmd == self::COIN || $subcmd == self::CREDITS) {
             $result = ['balance'];
-            if (Config::moneyType() == MoneyType::Coins) {
+
+            if ($subcmd == self::COIN) {
                 $result[] = 'currency';
+            } else {
+                $result[] = 'transfer';
             }
+
             return $result;
         }
 
         return parent::getSeeAlso($subcmd);
+    }
+
+    public function canExecute(Player $player, ?string $subcmd): bool
+    {
+        return ($subcmd == self::COIN && Config::moneyType() == MoneyType::Coins) ||
+            ($subcmd == self::CREDITS && Config::moneyType() == MoneyType::Credits);
     }
 
     private function showCoins(Player $player): void

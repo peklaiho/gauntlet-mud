@@ -21,11 +21,10 @@ class CommandParser
     public function parse(Player $player, Input $input): bool
     {
         $cmdName = $input->getCommand();
-        $cmdInfo = $this->map->getCommand($cmdName, $player->getAdminLevel());
+        $cmdInfo = $this->map->getCommand($player, $cmdName);
 
         if ($cmdInfo) {
-            $cmd = SERVICE_CONTAINER->get($cmdInfo->getName());
-            $cmd->execute($player, $input, $cmdInfo->getSubcmd());
+            $cmdInfo->getCommand()->execute($player, $input, $cmdInfo->getSubcmd());
             return true;
         }
 
@@ -34,7 +33,7 @@ class CommandParser
 
     public function suggestion(Player $player, Input $input): ?string
     {
-        $list = $this->map->getList($player->getAdminLevel());
+        $list = $this->map->getList($player);
         return Levenshtein::findClosest($input->getCommand(), $list, 1);
     }
 }

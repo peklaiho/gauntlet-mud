@@ -10,6 +10,8 @@ namespace Gauntlet\Commands;
 use Gauntlet\Action;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
+use Gauntlet\Enum\MoneyType;
+use Gauntlet\Util\Config;
 use Gauntlet\Util\Currency;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\LivingFinder;
@@ -86,5 +88,10 @@ class Transfer extends BaseCommand
     public function getSeeAlso(?string $subcmd): array
     {
         return ['credits'];
+    }
+
+    public function canExecute(Player $player, ?string $subcmd): bool
+    {
+        return Config::moneyType() == MoneyType::Credits;
     }
 }

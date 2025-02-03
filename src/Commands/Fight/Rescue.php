@@ -12,6 +12,7 @@ use Gauntlet\Action;
 use Gauntlet\Fight;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
+use Gauntlet\Enum\Skill;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\LivingFinder;
 use Gauntlet\Util\Log;
@@ -101,5 +102,10 @@ class Rescue extends BaseCommand
     public function getSeeAlso(?string $subcmd): array
     {
         return ['assist', 'kill'];
+    }
+
+    public function canExecute(Player $player, ?string $subcmd): bool
+    {
+        return $player->hasSkill(Skill::Rescue);
     }
 }

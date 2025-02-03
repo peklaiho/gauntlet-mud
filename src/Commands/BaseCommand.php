@@ -25,4 +25,9 @@ abstract class BaseCommand
     {
         return [];
     }
+
+    public function canExecute(Player $player, ?string $subcmd): bool
+    {
+        return true;
+    }
 }

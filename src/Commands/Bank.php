@@ -35,7 +35,7 @@ class Bank extends BaseCommand
         if (!$player->canSeeRoom()) {
             $player->outln(MESSAGE_DARK);
             return;
-        } elseif (!$player->getRoom()->hasFlag(RoomFlag::Bank)) {
+        } elseif (!$player->getRoom()->getTemplate()->hasFlag(RoomFlag::Bank)) {
             $message = match($subcmd) {
                 self::BALANCE => 'You must be in a bank to check your balance.',
                 self::DEPOSIT => "You must be in a bank to deposit $moneyType.",
@@ -59,7 +59,7 @@ class Bank extends BaseCommand
             return $amount;
         };
 
-        $takeFee = function ($amount) use ($player) {
+        $takeFee = function ($amount) use ($player, $moneyType) {
             static $fee = 5;
             $format = Currency::format($fee, false);
             $player->outln("The bank deducts a fee of $format $moneyType for the transaction.");

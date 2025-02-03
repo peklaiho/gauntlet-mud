@@ -40,4 +40,9 @@ class Config
     {
         return 10;
     }
+
+    public static function useSkillPoints(): bool
+    {
+        return false;
+    }
 }

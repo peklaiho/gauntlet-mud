@@ -7,13 +7,14 @@
 
 namespace Gauntlet;
 
+use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Enum\AdminLevel;
 
 class CommandInfo
 {
     public function __construct(
         protected string $alias,
-        protected string $name,
+        protected BaseCommand $cmd,
         protected ?string $subcmd = null,
         protected ?AdminLevel $admin = null
     ) {
@@ -30,9 +31,9 @@ class CommandInfo
         return $this->alias;
     }
 
-    public function getName(): string
+    public function getCommand(): BaseCommand
     {
-        return $this->name;
+        return $this->cmd;
     }
 
     public function getSubcmd(): ?string

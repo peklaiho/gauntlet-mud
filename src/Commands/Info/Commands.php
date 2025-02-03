@@ -29,14 +29,14 @@ class Commands extends BaseCommand
     public function execute(Player $player, Input $input, ?string $subcmd): void
     {
         if ($subcmd == self::COMMANDS) {
-            $list = $this->cmds->getList($player->getAdminLevel());
+            $list = $this->cmds->getList($player);
         } else {
             $list = $this->socials->list();
         }
 
         if ($subcmd == self::COMMANDS && $player->getAdminLevel() && $input->hasFlag('a')) {
             $player->outln("Available admin commands:");
-            $list = $this->cmds->getList($player->getAdminLevel(), true);
+            $list = $this->cmds->getList($player, true);
         } elseif (!$input->empty()) {
             $name = $input->get(0);
             $player->outln("Available %s starting with '$name':", $subcmd);

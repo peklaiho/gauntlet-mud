@@ -44,11 +44,11 @@ class Help extends BaseCommand
             return;
         }
 
-        $cmdInfo = $this->cmdMap->getCommand($input->get(0), $player->getAdminLevel());
+        $cmdInfo = $this->cmdMap->getCommand($player, $input->get(0));
 
         if ($cmdInfo) {
-            $cmd = SERVICE_CONTAINER->get($cmdInfo->getName());
             $cmdName = $player->colorize($cmdInfo->getAlias(), ColorPref::HIGHLIGHT);
+            $cmd = $cmdInfo->getCommand();
 
             if ($input->count() > 1) {
                 $context = $cmd->getContextHelp($cmdInfo->getSubcmd());

@@ -75,7 +75,6 @@ use Gauntlet\Commands\Transfer;
 use Gauntlet\Enum\AdminLevel;
 use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\MoneyType;
-use Gauntlet\Util\Config;
 
 class CommandMap
 {
@@ -85,117 +84,117 @@ class CommandMap
     {
         if (!self::$map) {
             self::$map = [
-                new CommandInfo('!', 'Repeat'),
+                // new CommandInfo('!', 'Repeat'),
 
                 // Movement
-                new CommandInfo('north', Move::class, Direction::North->value),
-                new CommandInfo('east', Move::class, Direction::East->value),
-                new CommandInfo('south', Move::class, Direction::South->value),
-                new CommandInfo('west', Move::class, Direction::West->value),
-                new CommandInfo('up', Move::class, Direction::Up->value),
-                new CommandInfo('down', Move::class, Direction::Down->value),
+                new CommandInfo('north', SERVICE_CONTAINER->get(Move::class), Direction::North->value),
+                new CommandInfo('east', SERVICE_CONTAINER->get(Move::class), Direction::East->value),
+                new CommandInfo('south', SERVICE_CONTAINER->get(Move::class), Direction::South->value),
+                new CommandInfo('west', SERVICE_CONTAINER->get(Move::class), Direction::West->value),
+                new CommandInfo('up', SERVICE_CONTAINER->get(Move::class), Direction::Up->value),
+                new CommandInfo('down', SERVICE_CONTAINER->get(Move::class), Direction::Down->value),
 
-                new CommandInfo('alias', Alias::class, Alias::ALIAS),
-                new CommandInfo('assist', Assist::class),
-                new CommandInfo('balance', Bank::class, Bank::BALANCE),
-                new CommandInfo('board', BulletinBoard::class),
-                new CommandInfo('buy', ShopCmd::class, ShopCmd::BUY),
-                new CommandInfo('close', DoorCmd::class, DoorCmd::CLOSE),
-                (Config::moneyType() == MoneyType::Coins) ? (new CommandInfo('coin', Stats::class, Stats::COIN)) : null,
-                new CommandInfo('colorpref', ColorPref::class),
-                new CommandInfo('commands', Commands::class, Commands::COMMANDS),
-                new CommandInfo('consider', Consider::class),
-                (Config::moneyType() == MoneyType::Credits) ? (new CommandInfo('credits', Stats::class, Stats::COIN)) : null,
-                new CommandInfo('date', Date::class),
-                new CommandInfo('deposit', Bank::class, Bank::DEPOSIT),
-                new CommandInfo('dictionary', Dict::class, Dict::DICTIONARY),
-                new CommandInfo('discard', Drop::class, Drop::DISCARD),
-                new CommandInfo('drop', Drop::class, Drop::DROP),
-                new CommandInfo('equipment', Equipment::class),
-                new CommandInfo('emote', Emote::class),
-                new CommandInfo('exits', Exits::class),
-                new CommandInfo('flee', Flee::class),
-                new CommandInfo('find', Find::class),
-                new CommandInfo('get', Get::class),
-                new CommandInfo('give', Give::class),
-                new CommandInfo('gossip', Comm::class, Comm::GOSSIP),
-                new CommandInfo('hit', Attack::class),
-                new CommandInfo('help', Help::class),
-                new CommandInfo('inventory', Inventory::class),
-                new CommandInfo('info', Info::class),
-                new CommandInfo('kill', Attack::class),
-                new CommandInfo('look', Look::class),
-                new CommandInfo('lock', DoorCmd::class, DoorCmd::LOCK),
-                new CommandInfo('list', ShopCmd::class, ShopCmd::LIST),
-                new CommandInfo('mail', Mail::class),
-                new CommandInfo('open', DoorCmd::class, DoorCmd::OPEN),
-                new CommandInfo('ooc', Comm::class, Comm::OOC),
-                new CommandInfo('party', GroupCmd::class),
-                new CommandInfo('put', Put::class),
-                new CommandInfo('preferences', Preferences::class),
-                new CommandInfo('quit', Quit::class),
-                new CommandInfo('remove', Remove::class),
-                new CommandInfo('rescue', Rescue::class),
-                new CommandInfo('say', Say::class),
-                new CommandInfo('save', Save::class),
-                new CommandInfo('sense', Sense::class),
-                new CommandInfo('sell', ShopCmd::class, ShopCmd::SELL),
-                new CommandInfo('socials', Commands::class, Commands::SOCIALS),
-                new CommandInfo('stats', Stats::class, Stats::STATS),
-                new CommandInfo('tell', Tell::class),
-                new CommandInfo('time', Date::class),
-                new CommandInfo('title', Title::class),
-                new CommandInfo('train', Train::class),
-                (Config::moneyType() == MoneyType::Credits) ? (new CommandInfo('transfer', Transfer::class)) : null,
-                // new CommandInfo('thesaurus', Dict::class, Dict::THESAURUS),
-                new CommandInfo('unlock', DoorCmd::class, DoorCmd::UNLOCK),
-                new CommandInfo('unalias', Alias::class, Alias::UNALIAS),
-                new CommandInfo('wear', Wear::class, Wear::WEAR),
-                new CommandInfo('who', Who::class),
-                new CommandInfo('whoami', Whoami::class),
-                new CommandInfo('wield', Wear::class, Wear::WIELD),
-                new CommandInfo('withdraw', Bank::class, Bank::WITHDRAW),
+                new CommandInfo('alias', SERVICE_CONTAINER->get(Alias::class), Alias::ALIAS),
+                new CommandInfo('assist', SERVICE_CONTAINER->get(Assist::class)),
+                new CommandInfo('balance', SERVICE_CONTAINER->get(Bank::class), Bank::BALANCE),
+                new CommandInfo('board', SERVICE_CONTAINER->get(BulletinBoard::class)),
+                new CommandInfo('buy', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::BUY),
+                new CommandInfo('close', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::CLOSE),
+                new CommandInfo('coin', SERVICE_CONTAINER->get(Stats::class), Stats::COIN),
+                new CommandInfo('colorpref', SERVICE_CONTAINER->get(ColorPref::class)),
+                new CommandInfo('commands', SERVICE_CONTAINER->get(Commands::class), Commands::COMMANDS),
+                new CommandInfo('consider', SERVICE_CONTAINER->get(Consider::class)),
+                new CommandInfo('credits', SERVICE_CONTAINER->get(Stats::class), Stats::CREDITS),
+                new CommandInfo('date', SERVICE_CONTAINER->get(Date::class)),
+                new CommandInfo('deposit', SERVICE_CONTAINER->get(Bank::class), Bank::DEPOSIT),
+                new CommandInfo('dictionary', SERVICE_CONTAINER->get(Dict::class), Dict::DICTIONARY),
+                new CommandInfo('discard', SERVICE_CONTAINER->get(Drop::class), Drop::DISCARD),
+                new CommandInfo('drop', SERVICE_CONTAINER->get(Drop::class), Drop::DROP),
+                new CommandInfo('equipment', SERVICE_CONTAINER->get(Equipment::class)),
+                new CommandInfo('emote', SERVICE_CONTAINER->get(Emote::class)),
+                new CommandInfo('exits', SERVICE_CONTAINER->get(Exits::class)),
+                new CommandInfo('flee', SERVICE_CONTAINER->get(Flee::class)),
+                new CommandInfo('find', SERVICE_CONTAINER->get(Find::class)),
+                new CommandInfo('get', SERVICE_CONTAINER->get(Get::class)),
+                new CommandInfo('give', SERVICE_CONTAINER->get(Give::class)),
+                new CommandInfo('gossip', SERVICE_CONTAINER->get(Comm::class), Comm::GOSSIP),
+                new CommandInfo('hit', SERVICE_CONTAINER->get(Attack::class)),
+                new CommandInfo('help', SERVICE_CONTAINER->get(Help::class)),
+                new CommandInfo('inventory', SERVICE_CONTAINER->get(Inventory::class)),
+                new CommandInfo('info', SERVICE_CONTAINER->get(Info::class)),
+                new CommandInfo('kill', SERVICE_CONTAINER->get(Attack::class)),
+                new CommandInfo('look', SERVICE_CONTAINER->get(Look::class)),
+                new CommandInfo('lock', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::LOCK),
+                new CommandInfo('list', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::LIST),
+                new CommandInfo('mail', SERVICE_CONTAINER->get(Mail::class)),
+                new CommandInfo('open', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::OPEN),
+                new CommandInfo('ooc', SERVICE_CONTAINER->get(Comm::class), Comm::OOC),
+                new CommandInfo('party', SERVICE_CONTAINER->get(GroupCmd::class)),
+                new CommandInfo('put', SERVICE_CONTAINER->get(Put::class)),
+                new CommandInfo('preferences', SERVICE_CONTAINER->get(Preferences::class)),
+                new CommandInfo('quit', SERVICE_CONTAINER->get(Quit::class)),
+                new CommandInfo('remove', SERVICE_CONTAINER->get(Remove::class)),
+                new CommandInfo('rescue', SERVICE_CONTAINER->get(Rescue::class)),
+                new CommandInfo('say', SERVICE_CONTAINER->get(Say::class)),
+                new CommandInfo('save', SERVICE_CONTAINER->get(Save::class)),
+                new CommandInfo('sense', SERVICE_CONTAINER->get(Sense::class)),
+                new CommandInfo('sell', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::SELL),
+                new CommandInfo('socials', SERVICE_CONTAINER->get(Commands::class), Commands::SOCIALS),
+                new CommandInfo('stats', SERVICE_CONTAINER->get(Stats::class), Stats::STATS),
+                new CommandInfo('tell', SERVICE_CONTAINER->get(Tell::class)),
+                new CommandInfo('time', SERVICE_CONTAINER->get(Date::class)),
+                new CommandInfo('title', SERVICE_CONTAINER->get(Title::class)),
+                new CommandInfo('train', SERVICE_CONTAINER->get(Train::class)),
+                new CommandInfo('transfer', SERVICE_CONTAINER->get(Transfer::class)),
+                // new CommandInfo('thesaurus', SERVICE_CONTAINER->get(Dict::class), Dict::THESAURUS),
+                new CommandInfo('unlock', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::UNLOCK),
+                new CommandInfo('unalias', SERVICE_CONTAINER->get(Alias::class), Alias::UNALIAS),
+                new CommandInfo('wear', SERVICE_CONTAINER->get(Wear::class), Wear::WEAR),
+                new CommandInfo('who', SERVICE_CONTAINER->get(Who::class)),
+                new CommandInfo('whoami', SERVICE_CONTAINER->get(Whoami::class)),
+                new CommandInfo('wield', SERVICE_CONTAINER->get(Wear::class), Wear::WIELD),
+                new CommandInfo('withdraw', SERVICE_CONTAINER->get(Bank::class), Bank::WITHDRAW),
 
                 // Admin commands
-                new CommandInfo('admin', Comm::class, Comm::ADMIN, AdminLevel::Immortal),
-                new CommandInfo('ban', Ban::class, null, AdminLevel::GreaterGod),
-                new CommandInfo('conns', Connections::class, null, AdminLevel::GreaterGod),
-                new CommandInfo('debug', Debug::class, null, AdminLevel::Implementor),
-                new CommandInfo('discon', Disconnect::class, null, AdminLevel::GreaterGod),
-                new CommandInfo('drain', Drain::class, null, AdminLevel::DemiGod),
-                new CommandInfo('echor', EchoCmd::class, EchoCmd::ROOM, AdminLevel::DemiGod),
-                new CommandInfo('echoz', EchoCmd::class, EchoCmd::ZONE, AdminLevel::DemiGod),
-                new CommandInfo('echog', EchoCmd::class, EchoCmd::GLOBAL, AdminLevel::God),
-                new CommandInfo('eval', EvalLisp::class, EvalLisp::EVAL, AdminLevel::God),
-                new CommandInfo('evalas', EvalLisp::class, EvalLisp::EVALAS, AdminLevel::God),
-                new CommandInfo('goto', GotoRoom::class, null, AdminLevel::Immortal),
-                new CommandInfo('load', Load::class, null, AdminLevel::God),
-                new CommandInfo('peace', Peace::class, null, AdminLevel::DemiGod),
-                new CommandInfo('probe', Probe::class, null, AdminLevel::DemiGod),
-                new CommandInfo('purge', Purge::class, null, AdminLevel::DemiGod),
-                new CommandInfo('query', Listing::class, null, AdminLevel::DemiGod),
-                new CommandInfo('reload', Reload::class, null, AdminLevel::GreaterGod),
-                new CommandInfo('restore', Restore::class, null, AdminLevel::DemiGod),
-                new CommandInfo('reset', Reset::class, null, AdminLevel::God),
-                new CommandInfo('server', Server::class, null, AdminLevel::Immortal),
-                new CommandInfo('shutdown', Shutdown::class, null, AdminLevel::Implementor),
-                new CommandInfo('todo', Todo::class, null, AdminLevel::DemiGod),
+                new CommandInfo('admin', SERVICE_CONTAINER->get(Comm::class), Comm::ADMIN, AdminLevel::Immortal),
+                new CommandInfo('ban', SERVICE_CONTAINER->get(Ban::class), null, AdminLevel::GreaterGod),
+                new CommandInfo('conns', SERVICE_CONTAINER->get(Connections::class), null, AdminLevel::GreaterGod),
+                new CommandInfo('debug', SERVICE_CONTAINER->get(Debug::class), null, AdminLevel::Implementor),
+                new CommandInfo('discon', SERVICE_CONTAINER->get(Disconnect::class), null, AdminLevel::GreaterGod),
+                new CommandInfo('drain', SERVICE_CONTAINER->get(Drain::class), null, AdminLevel::DemiGod),
+                new CommandInfo('echor', SERVICE_CONTAINER->get(EchoCmd::class), EchoCmd::ROOM, AdminLevel::DemiGod),
+                new CommandInfo('echoz', SERVICE_CONTAINER->get(EchoCmd::class), EchoCmd::ZONE, AdminLevel::DemiGod),
+                new CommandInfo('echog', SERVICE_CONTAINER->get(EchoCmd::class), EchoCmd::GLOBAL, AdminLevel::God),
+                new CommandInfo('eval', SERVICE_CONTAINER->get(EvalLisp::class), EvalLisp::EVAL, AdminLevel::God),
+                new CommandInfo('evalas', SERVICE_CONTAINER->get(EvalLisp::class), EvalLisp::EVALAS, AdminLevel::God),
+                new CommandInfo('goto', SERVICE_CONTAINER->get(GotoRoom::class), null, AdminLevel::Immortal),
+                new CommandInfo('load', SERVICE_CONTAINER->get(Load::class), null, AdminLevel::God),
+                new CommandInfo('peace', SERVICE_CONTAINER->get(Peace::class), null, AdminLevel::DemiGod),
+                new CommandInfo('probe', SERVICE_CONTAINER->get(Probe::class), null, AdminLevel::DemiGod),
+                new CommandInfo('purge', SERVICE_CONTAINER->get(Purge::class), null, AdminLevel::DemiGod),
+                new CommandInfo('query', SERVICE_CONTAINER->get(Listing::class), null, AdminLevel::DemiGod),
+                new CommandInfo('reload', SERVICE_CONTAINER->get(Reload::class), null, AdminLevel::GreaterGod),
+                new CommandInfo('restore', SERVICE_CONTAINER->get(Restore::class), null, AdminLevel::DemiGod),
+                new CommandInfo('reset', SERVICE_CONTAINER->get(Reset::class), null, AdminLevel::God),
+                new CommandInfo('server', SERVICE_CONTAINER->get(Server::class), null, AdminLevel::Immortal),
+                new CommandInfo('shutdown', SERVICE_CONTAINER->get(Shutdown::class), null, AdminLevel::Implementor),
+                new CommandInfo('todo', SERVICE_CONTAINER->get(Todo::class), null, AdminLevel::DemiGod),
             ];
         }
 
         return self::$map;
     }
 
-    public function getCommand(string $input, ?AdminLevel $admin): ?CommandInfo
+    public function getCommand(Player $player, string $input): ?CommandInfo
     {
         foreach (self::getMap() as $cmd) {
-            if (!$cmd) {
-                continue;
-            }
             if (!str_starts_with_case($cmd->getAlias(), $input)) {
                 continue;
             }
-            if (!AdminLevel::validate($cmd->getAdmin(), $admin)) {
+            if (!AdminLevel::validate($cmd->getAdmin(), $player->getAdminLevel())) {
+                continue;
+            }
+            if (!$cmd->getCommand()->canExecute($player, $cmd->getSubcmd())) {
                 continue;
             }
 
@@ -205,18 +204,18 @@ class CommandMap
         return null;
     }
 
-    public function getList(?AdminLevel $admin, bool $onlyAdmin = false): array
+    public function getList(Player $player, bool $onlyAdmin = false): array
     {
         $list = [];
 
         foreach (self::getMap() as $cmd) {
-            if (!$cmd) {
-                continue;
-            }
-            if (!AdminLevel::validate($cmd->getAdmin(), $admin)) {
+            if (!AdminLevel::validate($cmd->getAdmin(), $player->getAdminLevel())) {
                 continue;
             }
             if (!$cmd->getAdmin() && $onlyAdmin) {
+                continue;
+            }
+            if (!$cmd->getCommand()->canExecute($player, $cmd->getSubcmd())) {
                 continue;
             }
 

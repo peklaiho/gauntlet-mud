@@ -84,6 +84,12 @@ function get_di_container(): Gauntlet\Util\ServiceContainer
 {
     $container = new Gauntlet\Util\ServiceContainer();
 
+    /*
+    $container->setDebugLog(function ($message) {
+        echo "$message\n";
+    });
+    */
+
     $container->set(Gauntlet\Network\INetwork::class, function ($c, int $depth) {
         return new Gauntlet\Network\TcpServer();
     });

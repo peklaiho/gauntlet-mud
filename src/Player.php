@@ -17,6 +17,7 @@ use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\RoomFlag;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
+use Gauntlet\Enum\Skill;
 use Gauntlet\Module\Editor;
 use Gauntlet\Module\Pager;
 use Gauntlet\Trait\CarryingCapacity;
@@ -210,6 +211,25 @@ class Player extends Living
         }
 
         // No light
+        return false;
+    }
+
+    public function hasSkill(Skill $skill): bool
+    {
+        // Immortals have all skills
+        if ($this->getAdminLevel()) {
+            return true;
+        }
+
+        $skills = SkillMap::getSkills($this->getClass());
+
+        foreach ($skills as $skillInfo) {
+            if ($this->getLevel() >= $skillInfo[0] && $skill == $skillInfo[1] &&
+                (!Config::useSkillPoints() || $this->getSkillLevel($skill) > 0)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
