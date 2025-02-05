@@ -9,6 +9,7 @@ namespace Gauntlet\Enum;
 
 enum ItemFlag: string
 {
+    case Backstab = 'backstab'; // Weapon can backstab
     case MonsterCorpse = 'mcorpse';
     case PlayerCorpse = 'pcorpse';
     case Plural = 'plural'; // Treat as plural even if 1 item (pants, boots)

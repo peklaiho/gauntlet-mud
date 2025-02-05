@@ -79,8 +79,28 @@ class Fight
         }
     }
 
-    // True if attacker can successfully hit victim
-    public function canHit(Living $attacker, Living $victim): bool
+    public function specialAttack(Living $attacker, Living $victim, float $damage): void
+    {
+        // Set the parties as fighting each other
+        $this->setTargets($attacker, $victim);
+
+        if ($damage > 0) {
+            $this->damage($victim, $damage, $attacker);
+        }
+
+        // Handle wimpy
+        if ($victim->isPlayer()) {
+            $wimpy = $victim->getPreference(Preferences::WIMPY, 0);
+            if ($wimpy > 0) {
+                $healthPercent = ($victim->getHealth() * 100) / $victim->getMaxHealth();
+                if ($healthPercent <= $wimpy) {
+                    $this->flee($victim);
+                }
+            }
+        }
+    }
+
+    public function chanceToHit(Living $attacker, Living $victim): int
     {
         // Base chance to hit
         $toHit = BASE_TO_HIT;
@@ -92,7 +112,13 @@ class Fight
         $toHit -= $victim->bonusToDodge();
 
         // Make sure chance to hit is within bounds
-        $toHit = min(max($toHit, MIN_TO_HIT), MAX_TO_HIT);
+        return min(max($toHit, MIN_TO_HIT), MAX_TO_HIT);
+    }
+
+    // True if attacker can successfully hit victim
+    public function canHit(Living $attacker, Living $victim): bool
+    {
+        $toHit = $this->chanceToHit($attacker, $victim);
 
         return Random::percent($toHit);
     }
@@ -164,7 +190,7 @@ class Fight
         return null;
     }
 
-    private function getAttackDamage(Living $attacker, ?Living $victim): float
+    public function getAttackDamage(Living $attacker, ?Living $victim): float
     {
         // Get random damage between min/max
         $dmg = Random::floatRange($attacker->getMinDamage(), $attacker->getMaxDamage());

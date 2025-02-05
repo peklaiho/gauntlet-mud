@@ -34,6 +34,7 @@ use Gauntlet\Commands\Comm\Say;
 use Gauntlet\Commands\Comm\Tell;
 use Gauntlet\Commands\Fight\Assist;
 use Gauntlet\Commands\Fight\Attack;
+use Gauntlet\Commands\Fight\Backstab;
 use Gauntlet\Commands\Fight\Flee;
 use Gauntlet\Commands\Fight\Rescue;
 use Gauntlet\Commands\Info\Commands;
@@ -96,6 +97,7 @@ class CommandMap
 
                 new CommandInfo('alias', SERVICE_CONTAINER->get(Alias::class), Alias::ALIAS),
                 new CommandInfo('assist', SERVICE_CONTAINER->get(Assist::class)),
+                new CommandInfo('backstab', SERVICE_CONTAINER->get(Backstab::class)),
                 new CommandInfo('balance', SERVICE_CONTAINER->get(Bank::class), Bank::BALANCE),
                 new CommandInfo('board', SERVICE_CONTAINER->get(BulletinBoard::class)),
                 new CommandInfo('buy', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::BUY),

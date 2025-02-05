@@ -40,6 +40,21 @@ class Action
         $this->act->toRoom('@a rushes to aid @A!', false, $living, null, $target, true);
     }
 
+    public function backstab(Living $living, Living $target): void
+    {
+        $weapon = $living->getWeapon();
+
+        if ($weapon) {
+            $this->act->toChar("You stab @T in the back with your @p!", $living, $weapon, $target);
+            $this->act->toVict('@a stabs you in the back with @s @p!', false, $living, $weapon, $target);
+            $this->act->toRoom('@a stabs @A in the back with @s @p!', false, $living, $weapon, $target, true);
+        } else {
+            $this->act->toChar("You stab @T in the back!", $living, null, $target);
+            $this->act->toVict('@a stabs you in the back!', false, $living, null, $target);
+            $this->act->toRoom('@a stabs @A in the back!', false, $living, null, $target, true);
+        }
+    }
+
     public function rescue(Living $living, Living $target): void
     {
         $this->act->toChar("You jump in to rescue @T.", $living, null, $target);
