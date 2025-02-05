@@ -138,6 +138,10 @@ class Stats extends BaseCommand
 
     public function canExecute(Player $player, ?string $subcmd): bool
     {
+        if ($subcmd == self::STATS) {
+            return true;
+        }
+
         return ($subcmd == self::COIN && Config::moneyType() == MoneyType::Coins) ||
             ($subcmd == self::CREDITS && Config::moneyType() == MoneyType::Credits);
     }
