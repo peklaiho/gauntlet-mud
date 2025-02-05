@@ -18,4 +18,6 @@ enum Skill: string
 
     // Warrior
     case Rescue = 'rescue';
+    case SecondAttack = 'second attack';
+    case ThirdAttack = 'third attack';
 }

@@ -23,7 +23,7 @@ class SkillMap
                 ],
 
                 PlayerClass::Rogue->value => [
-                    [8, Skill::Backstab],
+                    [5, Skill::Backstab],
                 ],
 
                 PlayerClass::Shaman->value => [
@@ -31,7 +31,9 @@ class SkillMap
                 ],
 
                 PlayerClass::Warrior->value => [
-                    [8, Skill::Rescue],
+                    [5, Skill::Rescue],
+                    [20, Skill::SecondAttack],
+                    [40, Skill::ThirdAttack],
                 ],
             ];
         }

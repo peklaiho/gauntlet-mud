@@ -627,7 +627,17 @@ class Player extends Living
     #[\Override]
     public function getNumAttacks(): int
     {
-        return 1;
+        $attacks = 1;
+
+        if ($this->hasSkill(Skill::SecondAttack)) {
+            $attacks++;
+        }
+
+        if ($this->hasSkill(Skill::ThirdAttack)) {
+            $attacks++;
+        }
+
+        return $attacks;
     }
 
     #[\Override]
