@@ -49,7 +49,7 @@ class GroupCmd extends BaseCommand
             $group = $this->groupHandler->create($player);
 
             $this->act->toChar("You have formed a new party. Invite others to join you!", $player);
-            $this->act->toRoom("@a has formed a new party.", true, $player);
+            $this->act->toRoom("@t has formed a new party.", true, $player);
         } elseif (str_starts_with_case('invite', $input->get(0))) {
             if (!$group || $group->getLeader() !== $player) {
                 $player->outln('You are not the leader of a party.');
@@ -87,8 +87,8 @@ class GroupCmd extends BaseCommand
 
             $group->getInvitees()->add($target->getName());
 
-            $this->act->toChar("You have been invited to join the party of @A.", $target, null, $player);
-            $this->act->toList("@a has been invited to join your party.", false, $group->getMembers(), $target);
+            $this->act->toChar("You have been invited to join the party of @T.", $target, null, $player);
+            $this->act->toList("@t has been invited to join your party.", false, $group->getMembers(), $target);
         } elseif (str_starts_with_case('join', $input->get(0))) {
             if ($group) {
                 $player->outln('You are already a member of a party.');
@@ -112,7 +112,7 @@ class GroupCmd extends BaseCommand
                 return;
             } elseif (!$group->getInvitees()->contains($player->getName())) {
                 $this->act->toChar("You have not been invited to join @S party.", $player, null, $target);
-                $this->act->toList("@a attempted to join your party but has not been invited.", false, $group->getMembers(), $player);
+                $this->act->toList("@t attempted to join your party but has not been invited.", false, $group->getMembers(), $player);
                 return;
             }
 
@@ -120,7 +120,7 @@ class GroupCmd extends BaseCommand
             $group->getInvitees()->remove($player->getName());
 
             $this->act->toChar("You have joined @S party.", $player, null, $target);
-            $this->act->toList("@a has joined the party.", false, $group->getMembers(), $player);
+            $this->act->toList("@t has joined the party.", false, $group->getMembers(), $player);
         } elseif (str_starts_with_case('leave', $input->get(0))) {
             if (!$group) {
                 $player->outln('You are not a member of a party.');
@@ -130,7 +130,7 @@ class GroupCmd extends BaseCommand
             $this->groupHandler->leave($player);
 
             $this->act->toChar("You have left the party.", $player);
-            $this->act->toList("@a has left the party.", false, $group->getMembers(), $player);
+            $this->act->toList("@t has left the party.", false, $group->getMembers(), $player);
         } elseif (str_starts_with_case('promote', $input->get(0))) {
             if (!$group || $group->getLeader() !== $player) {
                 $player->outln('You are not the leader of a party.');
@@ -153,7 +153,7 @@ class GroupCmd extends BaseCommand
             $player->getGroup()->setLeader($target);
 
             $this->act->toChar("You are now the leader of the party.", $target);
-            $this->act->toList("@a is now the leader of the party.", false, $group->getMembers(), $target);
+            $this->act->toList("@t is now the leader of the party.", false, $group->getMembers(), $target);
         } elseif (str_starts_with_case('revoke', $input->get(0))) {
             if (!$group || $group->getLeader() !== $player) {
                 $player->outln('You are not the leader of a party.');

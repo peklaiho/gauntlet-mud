@@ -75,8 +75,8 @@ class Backstab extends BaseCommand
         } else {
             $damage = 0;
             $this->act->toChar("Your backstab misses!", $player, null, $target);
-            $this->act->toVict('@a attempts to stab you in the back but misses!', false, $player, null, $target);
-            $this->act->toRoom('@a attempts to stab @A in the back but misses!', false, $player, null, $target, true);
+            $this->act->toVict('@t attempts to stab you in the back but misses!', false, $player, null, $target);
+            $this->act->toRoom('@t attempts to stab @T in the back but misses!', false, $player, null, $target, true);
         }
 
         $this->fight->specialAttack($player, $target, $damage);

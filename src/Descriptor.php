@@ -63,7 +63,7 @@ class Descriptor
 
         if ($this->player) {
             Log::info("Setting player {$this->player->getName()} linkless.");
-            $this->act->toRoom("@a has disconnected.", true, $this->player);
+            $this->act->toRoom("@t has disconnected.", true, $this->player);
             $this->player->setDescriptor(null);
         }
 

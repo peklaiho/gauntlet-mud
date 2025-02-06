@@ -109,7 +109,7 @@ class ShopCmd extends BaseCommand
                         // Show messages
                         $format = Currency::format($itemTemplate->getCost(), false);
                         $this->act->toChar("You buy @p for $format @+.", $player, $item, $moneyType->value);
-                        $this->act->toRoom("@a buys @o.", true, $player, $item);
+                        $this->act->toRoom("@t buys @o.", true, $player, $item);
 
                         // Log the transaction
                         Log::money($player->getName() . ' buys ' . $itemTemplate->getAName() . ' for ' .
@@ -137,7 +137,7 @@ class ShopCmd extends BaseCommand
                             // Show messages
                             $format = Currency::format($value, false);
                             $this->act->toChar("You sell @p for $format @+.", $player, $item, $moneyType->value);
-                            $this->act->toRoom("@a sells @o.", true, $player, $item);
+                            $this->act->toRoom("@t sells @o.", true, $player, $item);
 
                             // Extract item
                             $this->world->extractItem($item);

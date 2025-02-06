@@ -310,7 +310,7 @@ class Intro implements IModule
             // Store new player to repository
             $this->playerRepo->store($player);
 
-            $this->act->toRoom("New player @a has entered the realm.", true, $player);
+            $this->act->toRoom("New player @t has entered the realm.", true, $player);
 
             // Welcome message
             $player->outln();
@@ -321,12 +321,12 @@ class Intro implements IModule
             );
         } else {
             if ($reconnect) {
-                $this->act->toRoom("@a has reconnected.", true, $player);
+                $this->act->toRoom("@t has reconnected.", true, $player);
             } else {
                 // Load inventory and equipment.
                 $this->playerItems->loadItems($player);
 
-                $this->act->toRoom("@a has entered the realm.", true, $player);
+                $this->act->toRoom("@t has entered the realm.", true, $player);
             }
 
             // Show room

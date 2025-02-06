@@ -107,63 +107,63 @@ enum EqSlot: string
         return match($this) {
             EqSlot::Light => [
                 'You stop using @p as your lightsource.',
-                '@a stops using @o as @s lightsource.'
+                '@t stops using @o as @s lightsource.'
             ],
             EqSlot::Head => [
                 'You stop wearing @p on your head.',
-                '@a stops wearing @o on @s head.'
+                '@t stops wearing @o on @s head.'
             ],
             EqSlot::Neck1, EqSlot::Neck2 => [
                 'You stop wearing @p around your neck.',
-                '@a stops wearing @o around @s neck.'
+                '@t stops wearing @o around @s neck.'
             ],
             EqSlot::Back => [
                 'You stop wearing @p on your back.',
-                '@a stops wearing @o on @s back.'
+                '@t stops wearing @o on @s back.'
             ],
             EqSlot::Chest => [
                 'You stop wearing @p on your chest.',
-                '@a stops wearing @o on @s chest.'
+                '@t stops wearing @o on @s chest.'
             ],
             EqSlot::Shoulders => [
                 'You stop wearing @p on your shoulders.',
-                '@a stops wearing @o on @s shoulders.'
+                '@t stops wearing @o on @s shoulders.'
             ],
             EqSlot::Arms => [
                 'You stop wearing @p on your arms.',
-                '@a stops wearing @o on @s arms.'
+                '@t stops wearing @o on @s arms.'
             ],
             EqSlot::Wrist1, EqSlot::Wrist2 => [
                 'You stop wearing @p around your wrist',
-                '@a stops wearing @o around @s wrist.'
+                '@t stops wearing @o around @s wrist.'
             ],
             EqSlot::Hands => [
                 'You stop wearing @p on your hands.',
-                '@a stops wearing @o on @s hands.'
+                '@t stops wearing @o on @s hands.'
             ],
             EqSlot::Ring1, EqSlot::Ring2 => [
                 'You stop wearing @p on your finger.',
-                '@a stops wearing @o on @s finger.'
+                '@t stops wearing @o on @s finger.'
             ],
             EqSlot::Waist => [
                 'You stop wearing @p around your waist.',
-                '@a stops wearing @o around @s waist.'
+                '@t stops wearing @o around @s waist.'
             ],
             EqSlot::Legs => [
                 'You stop wearing @p on your legs.',
-                '@a stops wearing @o on @s legs.'
+                '@t stops wearing @o on @s legs.'
             ],
             EqSlot::Feet => [
                 'You stop wearing @p on your feet.',
-                '@a stops wearing @o on @s feet.'
+                '@t stops wearing @o on @s feet.'
             ],
             EqSlot::Shield => [
                 'You stop using @p as your shield.',
-                '@a stops using @o as @s shield.'
+                '@t stops using @o as @s shield.'
             ],
             EqSlot::Wield => [
                 'You unwield @p.',
-                '@a unwields @o.'
+                '@t unwields @s @i.'
             ]
         };
     }
@@ -173,63 +173,63 @@ enum EqSlot: string
         return match($this) {
             EqSlot::Light => [
                 'You light @p and start using it as lightsource.',
-                '@a lights @o and starts using it as @s lightsource.'
+                '@t lights @o and starts using it as @s lightsource.'
             ],
             EqSlot::Head => [
                 'You wear @p on your head.',
-                '@a wears @o on @s head.'
+                '@t wears @o on @s head.'
             ],
             EqSlot::Neck1, EqSlot::Neck2 => [
                 'You wear @p around your neck.',
-                '@a wears @o around @s neck.'
+                '@t wears @o around @s neck.'
             ],
             EqSlot::Back => [
                 'You wear @p on your back.',
-                '@a wears @o on @s back.'
+                '@t wears @o on @s back.'
             ],
             EqSlot::Chest => [
                 'You wear @p on your chest.',
-                '@a wears @o on @s chest.'
+                '@t wears @o on @s chest.'
             ],
             EqSlot::Shoulders => [
                 'You wear @p on your shoulders.',
-                '@a wears @o on @s shoulders.'
+                '@t wears @o on @s shoulders.'
             ],
             EqSlot::Arms => [
                 'You wear @p on your arms.',
-                '@a wears @o on @s arms.'
+                '@t wears @o on @s arms.'
             ],
             EqSlot::Wrist1, EqSlot::Wrist2 => [
                 'You wear @p around your wrist',
-                '@a wears @o around @s wrist.'
+                '@t wears @o around @s wrist.'
             ],
             EqSlot::Hands => [
                 'You wear @p on your hands.',
-                '@a wears @o on @s hands.'
+                '@t wears @o on @s hands.'
             ],
             EqSlot::Ring1, EqSlot::Ring2 => [
                 'You wear @p on your finger.',
-                '@a wears @o on @s finger.'
+                '@t wears @o on @s finger.'
             ],
             EqSlot::Waist => [
                 'You wear @p around your waist.',
-                '@a wears @o around @s waist.'
+                '@t wears @o around @s waist.'
             ],
             EqSlot::Legs => [
                 'You wear @p on your legs.',
-                '@a wears @o on @s legs.'
+                '@t wears @o on @s legs.'
             ],
             EqSlot::Feet => [
                 'You wear @p on your feet.',
-                '@a wears @o on @s feet.'
+                '@t wears @o on @s feet.'
             ],
             EqSlot::Shield => [
                 'You start to use @p as your shield.',
-                '@a starts to use @o as @s shield.'
+                '@t starts to use @o as @s shield.'
             ],
             EqSlot::Wield => [
                 'You wield @p.',
-                '@a wields @o.'
+                '@t wields @o.'
             ]
         };
     }

@@ -145,7 +145,7 @@ class Look extends BaseCommand
 
         // Inform target
         if ($player !== $living) {
-            $this->act->toVict("@a looks at you.", true, $player, null, $living);
+            $this->act->toVict("@t looks at you.", true, $player, null, $living);
         }
     }
 

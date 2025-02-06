@@ -54,8 +54,8 @@ class Drain extends BaseCommand
         Log::admin($player->getName() . ' drained ' . $health . ' health from ' . $target->getName() . '.');
 
         $this->act->toChar("You touch @T and drain @S health.", $player, null, $target);
-        $this->act->toVict("You feel your health draining away as @a touches you!", false, $player, null, $target);
-        $this->act->toRoom("The health of @A is drained as @a touches @M!", true, $player, null, $target, true);
+        $this->act->toVict("You feel your health draining away as @t touches you!", false, $player, null, $target);
+        $this->act->toRoom("The health of @T is drained as @t touches @M!", true, $player, null, $target, true);
 
         $this->fight->damage($target, $health, $player);
     }

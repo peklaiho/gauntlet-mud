@@ -210,7 +210,7 @@ class Mail extends BaseCommand
                     $player->addCoins(-self::FEE);
 
                     Log::info("{$player->getName()} sends mail to $target.");
-                    $this->act->toRoom('@a sends a letter in mail.', true, $player);
+                    $this->act->toRoom('@t sends a letter in mail.', true, $player);
 
                     $this->mailer->send($player->getName(), $target, $subject, $body);
                     return null;
@@ -218,7 +218,7 @@ class Mail extends BaseCommand
             ];
 
             $player->outln("Sending mail to %s with subject '%s'.", $target, $subject);
-            $this->act->toRoom('@a starts writing a letter.', true, $player);
+            $this->act->toRoom('@t starts writing a letter.', true, $player);
             $player->getDescriptor()->setModule($this->editor, $editorOptions);
         } elseif (str_starts_with('search', $input->get(0))) {
             $search = $input->getWholeArgSkip(1, true);

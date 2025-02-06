@@ -82,6 +82,7 @@ class Act
         if ($obj) {
             $txt = str_replace('@o', $to->canSeeItem($obj) ? $obj->getTemplate()->getAName() : 'something', $txt);
             $txt = str_replace('@p', $to->canSeeItem($obj) ? $obj->getTemplate()->getTheName() : 'something', $txt);
+            $txt = str_replace('@i', $to->canSeeItem($obj) ? $obj->getTemplate()->getName() : 'something', $txt); // no article
         }
 
         if ($victObj) {
@@ -96,6 +97,7 @@ class Act
             } elseif ($victObj instanceof Item) {
                 $txt = str_replace('@O', $to->canSeeItem($victObj) ? $victObj->getTemplate()->getAName() : 'something', $txt);
                 $txt = str_replace('@P', $to->canSeeItem($victObj) ? $victObj->getTemplate()->getTheName() : 'something', $txt);
+                $txt = str_replace('@I', $to->canSeeItem($victObj) ? $victObj->getTemplate()->getName() : 'something', $txt); // no article
             } elseif (is_string($victObj)) {
                 $txt = str_replace('@+', $victObj, $txt);
             }

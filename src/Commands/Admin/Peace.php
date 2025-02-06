@@ -30,7 +30,7 @@ class Peace extends BaseCommand
         }
 
         $this->act->toChar("You make a gesture and everyone feels peaceful.", $player);
-        $this->act->toRoom("@a makes a gesture and you feel peaceful.", true, $player);
+        $this->act->toRoom("@t makes a gesture and you feel peaceful.", true, $player);
     }
 
     public function getDescription(?string $subcmd): string

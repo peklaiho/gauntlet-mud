@@ -53,7 +53,7 @@ class Load extends BaseCommand
                     $this->act->toChar("You create @o.", $player, $item);
                 }
                 Log::admin($logMessage . '.');
-                $this->act->toRoom("@a gestures and @s pockets glow with a white light.", true, $player);
+                $this->act->toRoom("@t gestures and @s pockets glow with a white light.", true, $player);
             } else {
                 $player->outln('No item found by that id.');
             }
@@ -68,11 +68,11 @@ class Load extends BaseCommand
                     ') in room ' . $player->getRoom()->getTemplate()->getId();
                 if ($qty > 1) {
                     $this->act->toChar("You create $qty @X.", $player, null, $monster);
-                    $this->act->toRoom("@a gestures and $qty @X appear!", true, $player, null, $monster);
+                    $this->act->toRoom("@t gestures and $qty @X appear!", true, $player, null, $monster);
                     $logMessage .= " (x$qty)";
                 } else {
                     $this->act->toChar("You create @A.", $player, null, $monster);
-                    $this->act->toRoom("@a gestures and @A appears!", true, $player, null, $monster);
+                    $this->act->toRoom("@t gestures and @A appears!", true, $player, null, $monster);
                 }
                 Log::admin($logMessage . '.');
             } else {

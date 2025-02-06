@@ -33,7 +33,7 @@ class Quit extends BaseCommand
             return;
         }
 
-        $this->act->toRoom("@a has left the realm.", true, $player);
+        $this->act->toRoom("@t has left the realm.", true, $player);
 
         $this->repo->store($player);
 

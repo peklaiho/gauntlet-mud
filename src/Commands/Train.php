@@ -63,19 +63,19 @@ class Train extends BaseCommand
         if (str_starts_with('strength', $attrName)) {
             $player->trainAttribute(Attribute::Strength);
             $player->outln('You feel stronger.');
-            $this->act->toRoom('@a performs some strength training.', true, $player);
+            $this->act->toRoom('@t performs some strength training.', true, $player);
         } elseif (str_starts_with('dexterity', $attrName)) {
             $player->trainAttribute(Attribute::Dexterity);
             $player->outln('You feel more dexterous.');
-            $this->act->toRoom('@a performs some dexterity training.', true, $player);
+            $this->act->toRoom('@t performs some dexterity training.', true, $player);
         } elseif (str_starts_with('intelligence', $attrName)) {
             $player->trainAttribute(Attribute::Intelligence);
             $player->outln('You feel smarter.');
-            $this->act->toRoom('@a performs some intelligence training.', true, $player);
+            $this->act->toRoom('@t performs some intelligence training.', true, $player);
         } elseif (str_starts_with('constitution', $attrName)) {
             $player->trainAttribute(Attribute::Constitution);
             $player->outln('You feel vigorous.');
-            $this->act->toRoom('@a performs some constitution training.', true, $player);
+            $this->act->toRoom('@t performs some constitution training.', true, $player);
         } else {
             $player->outln('Which attribute do you wish to train?');
         }

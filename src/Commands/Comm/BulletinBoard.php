@@ -181,7 +181,7 @@ class BulletinBoard extends BaseCommand
                     $player->addCoins(-self::FEE);
 
                     Log::info("{$player->getName()} posts new message on bulletin board $boardId.");
-                    $this->act->toRoom('@a posts a message on the bulletin board.', true, $player);
+                    $this->act->toRoom('@t posts a message on the bulletin board.', true, $player);
 
                     $postId = bin2hex(random_bytes(4));
                     $time = time();
@@ -200,7 +200,7 @@ class BulletinBoard extends BaseCommand
             ];
 
             $player->outln("Writing a post with subject '%s'.", $subject);
-            $this->act->toRoom('@a starts writing a post for the bulletin board.', true, $player);
+            $this->act->toRoom('@t starts writing a post for the bulletin board.', true, $player);
             $player->getDescriptor()->setModule($this->editor, $editorOptions);
         } else {
             $player->outln('What do you wish to do with the bulletin board?');

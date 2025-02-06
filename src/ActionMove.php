@@ -61,7 +61,7 @@ class ActionMove
             return null;
         }
 
-        $this->act->toRoom("@a {$verb}s @+.", true, $living, null, $dir->name());
+        $this->act->toRoom("@t {$verb}s @+.", true, $living, null, $dir->name());
         $this->world->livingToRoom($living, $newRoom);
         $this->act->toRoom('@a arrives from @+.', true, $living, null, $dir->oppositeName());
 

@@ -88,7 +88,7 @@ class Bank extends BaseCommand
 
                         $format = Currency::format($amount, false);
                         $player->outln("You deposit $format $moneyType.");
-                        $this->act->toRoom('@a makes a deposit.', true, $player);
+                        $this->act->toRoom('@t makes a deposit.', true, $player);
 
                         Log::money($player->getName() . ' deposits ' . $amount . ' ' . $moneyType . '.');
                     }
@@ -109,7 +109,7 @@ class Bank extends BaseCommand
 
                         $format = Currency::format($amount, false);
                         $player->outln("You withdraw $format $moneyType.");
-                        $this->act->toRoom('@a makes a withdrawal.', true, $player);
+                        $this->act->toRoom('@t makes a withdrawal.', true, $player);
 
                         Log::money($player->getName() . ' withdraws ' . $amount . ' ' . $moneyType . '.');
                     }

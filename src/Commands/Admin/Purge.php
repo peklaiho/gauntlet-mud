@@ -31,7 +31,7 @@ class Purge extends BaseCommand
             Log::admin($player->getName() . ' purged all monsters in room ' . $player->getRoom()->getTemplate()->getId() . '.');
 
             $this->act->toChar("You make a gesture and cleanse the area of impurities.", $player);
-            $this->act->toRoom("@a makes a gesture and cleanses the area of impurities.", true, $player);
+            $this->act->toRoom("@t makes a gesture and cleanses the area of impurities.", true, $player);
 
             foreach ($player->getRoom()->getLiving()->getAll() as $living) {
                 if ($living->isMonster()) {
@@ -52,7 +52,7 @@ class Purge extends BaseCommand
             if ($target->isMonster()) {
                 Log::admin($player->getName() . ' purged ' . $target->getName() . ' in room ' . $player->getRoom()->getTemplate()->getId() . '.');
                 $this->act->toChar("You make a gesture and @T disintegrates into atoms.", $player, null, $target);
-                $this->act->toRoom("@a makes a gesture and @A disintegrates into atoms!", true, $player, null, $target);
+                $this->act->toRoom("@t makes a gesture and @T disintegrates into atoms!", true, $player, null, $target);
                 $this->world->extractLiving($target);
             } else {
                 $player->outln('Sorry, for now you cannot purge players.');

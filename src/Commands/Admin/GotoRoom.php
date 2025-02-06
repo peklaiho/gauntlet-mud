@@ -81,7 +81,7 @@ class GotoRoom extends BaseCommand
             }
         }
 
-        $this->act->toRoom("@a fades out of existence.", true, $player);
+        $this->act->toRoom("@t fades out of existence.", true, $player);
         $this->world->livingToRoom($player, $room);
         $this->act->toRoom("@a fades into existence.", true, $player);
         $this->renderer->renderRoom($player, $room);

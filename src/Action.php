@@ -29,15 +29,15 @@ class Action
     public function attack(Living $living, Living $target): void
     {
         $this->act->toChar("You attack @T.", $living, null, $target);
-        $this->act->toVict('@a attacks you!', false, $living, null, $target);
-        $this->act->toRoom('@a attacks @A!', false, $living, null, $target, true);
+        $this->act->toVict('@t attacks you!', false, $living, null, $target);
+        $this->act->toRoom('@t attacks @T!', false, $living, null, $target, true);
     }
 
     public function assist(Living $living, Living $target): void
     {
         $this->act->toChar("You rush to aid @T.", $living, null, $target);
-        $this->act->toVict('@a rushes to your aid!', false, $living, null, $target);
-        $this->act->toRoom('@a rushes to aid @A!', false, $living, null, $target, true);
+        $this->act->toVict('@t rushes to your aid!', false, $living, null, $target);
+        $this->act->toRoom('@t rushes to aid @T!', false, $living, null, $target, true);
     }
 
     public function backstab(Living $living, Living $target): void
@@ -45,21 +45,21 @@ class Action
         $weapon = $living->getWeapon();
 
         if ($weapon) {
-            $this->act->toChar("You stab @T in the back with your @p!", $living, $weapon, $target);
-            $this->act->toVict('@a stabs you in the back with @s @p!', false, $living, $weapon, $target);
-            $this->act->toRoom('@a stabs @A in the back with @s @p!', false, $living, $weapon, $target, true);
+            $this->act->toChar("You stab @T in the back with your @i!", $living, $weapon, $target);
+            $this->act->toVict('@t stabs you in the back with @s @i!', false, $living, $weapon, $target);
+            $this->act->toRoom('@t stabs @T in the back with @s @i!', false, $living, $weapon, $target, true);
         } else {
             $this->act->toChar("You stab @T in the back!", $living, null, $target);
-            $this->act->toVict('@a stabs you in the back!', false, $living, null, $target);
-            $this->act->toRoom('@a stabs @A in the back!', false, $living, null, $target, true);
+            $this->act->toVict('@t stabs you in the back!', false, $living, null, $target);
+            $this->act->toRoom('@t stabs @T in the back!', false, $living, null, $target, true);
         }
     }
 
     public function rescue(Living $living, Living $target): void
     {
         $this->act->toChar("You jump in to rescue @T.", $living, null, $target);
-        $this->act->toVict('@a jumps in and rescues you!', false, $living, null, $target);
-        $this->act->toRoom('@a jumps in to rescue @A!', false, $living, null, $target, true);
+        $this->act->toVict('@t jumps in and rescues you!', false, $living, null, $target);
+        $this->act->toRoom('@t jumps in to rescue @T!', false, $living, null, $target, true);
     }
 
     public function discard(Living $living, Item $item): void
@@ -67,7 +67,7 @@ class Action
         $encState = $this->getEncumberance($living);
 
         $this->act->toChar("You discard @p.", $living, $item);
-        $this->act->toRoom("@a discards @o.", true, $living, $item);
+        $this->act->toRoom("@t discards @o.", true, $living, $item);
         $this->world->extractItem($item);
 
         $this->reportEncumberance($living, $encState);
@@ -79,7 +79,7 @@ class Action
 
         $this->act->toChar("You drop @p.", $living, $item);
         $this->world->itemToRoom($item, $living->getRoom());
-        $this->act->toRoom("@a drops @o.", true, $living, $item);
+        $this->act->toRoom("@t drops @o.", true, $living, $item);
 
         $this->reportEncumberance($living, $encState);
     }
@@ -87,8 +87,8 @@ class Action
     public function emote(Living $living, string $message): void
     {
         // Display exactly same message to the actor
-        $this->act->toChar("@a $message", $living);
-        $this->act->toRoom("@a $message", false, $living);
+        $this->act->toChar("@t $message", $living);
+        $this->act->toRoom("@t $message", false, $living);
     }
 
     public function get(Living $living, Item $item): void
@@ -100,7 +100,7 @@ class Action
 
         $encState = $this->getEncumberance($living);
 
-        $this->act->toRoom("@a gets @o.", true, $living, $item);
+        $this->act->toRoom("@t gets @o.", true, $living, $item);
         $this->world->itemToInventory($item, $living);
         $this->act->toChar("You get @p.", $living, $item);
 
@@ -117,7 +117,7 @@ class Action
 
         $encState = $this->getEncumberance($living);
 
-        $this->act->toRoom("@a gets @o from @O.", true, $living, $item, $container);
+        $this->act->toRoom("@t gets @o from @O.", true, $living, $item, $container);
         $this->world->itemToInventory($item, $living);
         $this->act->toChar("You get @p from @P.", $living, $item, $container);
 
@@ -131,8 +131,8 @@ class Action
 
         $this->act->toChar('You give @p to @T.', $source, $item, $target);
         $this->world->itemToInventory($item, $target);
-        $this->act->toVict('@a gives you @o.', false, $source, $item, $target);
-        $this->act->toRoom('@a gives @o to @A.', true, $source, $item, $target, true);
+        $this->act->toVict('@t gives you @o.', false, $source, $item, $target);
+        $this->act->toRoom('@t gives @o to @T.', true, $source, $item, $target, true);
 
         $this->reportEncumberance($source, $encStateSource);
         $this->reportEncumberance($target, $encStateTarget);
@@ -147,12 +147,12 @@ class Action
 
         if (Config::moneyType() == MoneyType::Credits) {
             $this->act->toChar("You transfer $format credits to @T.", $source, null, $target);
-            $this->act->toVict("@a transfers you $format credits.", false, $source, null, $target);
-            $this->act->toRoom('@a transfers some credits to @A.', true, $source, null, $target, true);
+            $this->act->toVict("@t transfers you $format credits.", false, $source, null, $target);
+            $this->act->toRoom('@t transfers some credits to @T.', true, $source, null, $target, true);
         } else {
             $this->act->toChar("You give $format coins to @T.", $source, null, $target);
-            $this->act->toVict("@a gives you $format coins.", false, $source, null, $target);
-            $this->act->toRoom('@a gives some coins to @A.', true, $source, null, $target, true);
+            $this->act->toVict("@t gives you $format coins.", false, $source, null, $target);
+            $this->act->toRoom('@t gives some coins to @T.', true, $source, null, $target, true);
         }
     }
 
@@ -162,7 +162,7 @@ class Action
 
         $this->act->toChar('You put @p inside @P.', $living, $item, $container);
         $this->world->itemToContainer($item, $container);
-        $this->act->toRoom('@a puts @o inside @O.', true, $living, $item, $container);
+        $this->act->toRoom('@t puts @o inside @O.', true, $living, $item, $container);
 
         $this->reportEncumberance($living, $encState);
     }
@@ -201,7 +201,7 @@ class Action
         $str = sprintf("You %s, '%s'", $verb, $message);
         $this->act->toChar($str, $living);
 
-        $str = sprintf("@a %ss, '%s'", $verb, $message);
+        $str = sprintf("@t %ss, '%s'", $verb, $message);
         $this->act->toRoom($str, false, $living);
     }
 
@@ -260,7 +260,7 @@ class Action
             case 'open':
                 $exit->setClosed(false);
                 $this->act->toChar("You open the {$exit->getTemplate()->getDoorName()}.", $living);
-                $this->act->toRoom("@a opens the {$exit->getTemplate()->getDoorName()}.", false, $living);
+                $this->act->toRoom("@t opens the {$exit->getTemplate()->getDoorName()}.", false, $living);
                 if ($oppExit) {
                     $oppExit->setClosed(false);
                     $this->act->toList("The {$oppExit->getTemplate()->getDoorName()} is opened from the other side.", false, $oppRoom->getLiving(), $living);
@@ -270,7 +270,7 @@ class Action
             case 'close':
                 $exit->setClosed(true);
                 $this->act->toChar("You close the {$exit->getTemplate()->getDoorName()}.", $living);
-                $this->act->toRoom("@a closes the {$exit->getTemplate()->getDoorName()}.", false, $living);
+                $this->act->toRoom("@t closes the {$exit->getTemplate()->getDoorName()}.", false, $living);
                 if ($oppExit) {
                     $oppExit->setClosed(true);
                     $this->act->toList("The {$oppExit->getTemplate()->getDoorName()} is closed from the other side.", false, $oppRoom->getLiving(), $living);
@@ -280,7 +280,7 @@ class Action
             case 'lock':
                 $exit->setLocked(true);
                 $this->act->toChar("You lock the {$exit->getTemplate()->getDoorName()}.", $living);
-                $this->act->toRoom("@a locks the {$exit->getTemplate()->getDoorName()}.", false, $living);
+                $this->act->toRoom("@t locks the {$exit->getTemplate()->getDoorName()}.", false, $living);
                 if ($oppExit) {
                     $oppExit->setLocked(true);
                     $this->act->toList("The {$oppExit->getTemplate()->getDoorName()} is locked from the other side.", false, $oppRoom->getLiving(), $living);
@@ -290,7 +290,7 @@ class Action
             case 'unlock':
                 $exit->setLocked(false);
                 $this->act->toChar("You unlock the {$exit->getTemplate()->getDoorName()}.", $living);
-                $this->act->toRoom("@a unlocks the {$exit->getTemplate()->getDoorName()}.", false, $living);
+                $this->act->toRoom("@t unlocks the {$exit->getTemplate()->getDoorName()}.", false, $living);
                 if ($oppExit) {
                     $oppExit->setLocked(false);
                     $this->act->toList("The {$oppExit->getTemplate()->getDoorName()} is unlocked from the other side.", false, $oppRoom->getLiving(), $living);
