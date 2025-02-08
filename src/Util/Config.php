@@ -7,6 +7,7 @@
 
 namespace Gauntlet\Util;
 
+use Gauntlet\Enum\EqSlot;
 use Gauntlet\Enum\GameType;
 use Gauntlet\Enum\MoneyType;
 
@@ -29,6 +30,18 @@ class Config
     public static function gameName(): string
     {
         return 'Mistport';
+    }
+
+    public static function startingEquipment(): array
+    {
+        // Item number, equipment slot
+        // Load to inventory if eqslot is null
+
+        return [
+            [101, EqSlot::Wield], // knife
+            [205, EqSlot::Feet], // sandals
+            [231, EqSlot::Chest], // robe
+        ];
     }
 
     public static function startingRoomId(): int

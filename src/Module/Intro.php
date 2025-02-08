@@ -294,17 +294,22 @@ class Intro implements IModule
 
         if ($new) {
             // Give him some starting equipment
-            $template = $this->lists->getItemTemplates()->get(101); // knife
-            if ($template) {
-                $this->world->loadItemToEquipment($template, $player, EqSlot::Wield);
-            }
-            $template = $this->lists->getItemTemplates()->get(205); // sandals
-            if ($template) {
-                $this->world->loadItemToEquipment($template, $player, EqSlot::Feet);
-            }
-            $template = $this->lists->getItemTemplates()->get(231); // robe
-            if ($template) {
-                $this->world->loadItemToEquipment($template, $player, EqSlot::Chest);
+            foreach (Config::startingEquipment() as $eqInfo) {
+                $template = $this->lists->getItemTemplates()->get($eqInfo[0]);
+
+                if (!$template) {
+                    Log::error('Unable to load starting equipment, item not found: ' . $eqInfo[0]);
+                    continue;
+                }
+
+                // Load into equipment slot (if it is free)
+                if ($eqInfo[1] && !$player->getEqInSlot($eqInfo[1])) {
+                    $this->world->loadItemToEquipment($template, $player, $eqInfo[1]);
+                    continue;
+                }
+
+                // Load into inventory
+                $this->world->loadItemToInventory($template, $player);
             }
 
             // Store new player to repository
