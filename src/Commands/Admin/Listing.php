@@ -36,7 +36,7 @@ class Listing extends BaseCommand
                     return;
                 }
 
-                $filter = fn ($a) => $zone->getTemplate()->ownsRoomId($a->getTemplate()->getId());
+                $filter = fn ($a) => $zone->getTemplate()->ownsRoomId($a->getId());
             } else {
                 $filter = fn ($a) => $a->hasKeyword($input->get(1));
             }
@@ -52,7 +52,7 @@ class Listing extends BaseCommand
                     return;
                 }
 
-                $filter = fn ($a) => $zone->getTemplate()->ownsRoomId($a->getTemplate()->getId());
+                $filter = fn ($a) => $zone->getTemplate()->ownsRoomId($a->getId());
             } else {
                 $filter = fn ($a) => $a->hasKeyword($input->get(1));
             }
