@@ -23,7 +23,7 @@ class Sense extends BaseCommand
 
         $output = false;
 
-        foreach ($player->getRoom()->getFlags() as $flag) {
+        foreach ($player->getRoom()->getTemplate()->getFlags() as $flag) {
             if ($flag == RoomFlag::Peaceful) {
                 $player->outln('You have a very peaceful feeling here.');
                 $output = true;
