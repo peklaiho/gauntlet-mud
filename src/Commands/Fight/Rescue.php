@@ -8,7 +8,7 @@
 namespace Gauntlet\Commands\Fight;
 
 use Gauntlet\Act;
-use Gauntlet\Action;
+use Gauntlet\ActionFight;
 use Gauntlet\Fight;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
@@ -21,7 +21,7 @@ class Rescue extends BaseCommand
 {
     public function __construct(
         protected Act $act,
-        protected Action $action,
+        protected ActionFight $actionFight,
         protected Fight $fight
     ) {
 
@@ -81,7 +81,7 @@ class Rescue extends BaseCommand
                 Log::admin($player->getName() . ' rescued ' . $defender->getName() . ' in room ' . $player->getRoom()->getTemplate()->getId() . '.');
             }
 
-            $this->action->rescue($player, $defender);
+            $this->actionFight->rescue($player, $defender);
         } elseif ($hasAttackers) {
             $this->act->toChar('You are unable to rescue @M.', $player, null, $defender);
         } else {

@@ -7,7 +7,7 @@
 
 namespace Gauntlet\Commands\Fight;
 
-use Gauntlet\Action;
+use Gauntlet\ActionFight;
 use Gauntlet\Fight;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
@@ -18,7 +18,7 @@ use Gauntlet\Util\Log;
 class Attack extends BaseCommand
 {
     public function __construct(
-        protected Action $action,
+        protected ActionFight $actionFight,
         protected Fight $fight
     ) {
 
@@ -51,7 +51,7 @@ class Attack extends BaseCommand
             Log::admin($player->getName() . ' attacked ' . $target->getName() . ' in room ' . $player->getRoom()->getTemplate()->getId() . '.');
         }
 
-        $this->action->attack($player, $target);
+        $this->actionFight->attack($player, $target);
         $this->fight->attack($player, $target);
     }
 

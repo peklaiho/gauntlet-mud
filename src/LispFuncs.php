@@ -34,6 +34,7 @@ class LispFuncs implements ILib
     public function __construct(
         protected Act $act,
         protected Action $action,
+        protected ActionFight $actionFight,
         protected ActionMove $actionMove,
         protected Fight $fight,
         protected ZoneReset $zoneReset,
@@ -550,7 +551,7 @@ class LispFuncs implements ILib
         $env->set('attack', new CoreFunc('attack', 'Make the first living entity attack the second.', 2, 3,
             function (Living $living, Living $target, bool $showMessage = true) {
                 if ($showMessage) {
-                    $this->action->attack($living, $target);
+                    $this->actionFight->attack($living, $target);
                 }
                 $this->fight->attack($living, $target);
                 return null;
@@ -560,7 +561,7 @@ class LispFuncs implements ILib
         $env->set('assist', new CoreFunc('assist', 'Make the first living entity assist the second in combat.', 2, 3,
             function (Living $living, Living $defender, bool $showMessage = true) {
                 if ($showMessage) {
-                    $this->action->assist($living, $defender);
+                    $this->actionFight->assist($living, $defender);
                 }
                 $this->fight->attack($living, $defender->getTarget());
                 return null;

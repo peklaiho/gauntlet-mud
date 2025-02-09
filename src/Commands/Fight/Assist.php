@@ -8,7 +8,7 @@
 namespace Gauntlet\Commands\Fight;
 
 use Gauntlet\Act;
-use Gauntlet\Action;
+use Gauntlet\ActionFight;
 use Gauntlet\Fight;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
@@ -20,7 +20,7 @@ class Assist extends BaseCommand
 {
     public function __construct(
         protected Act $act,
-        protected Action $action,
+        protected ActionFight $actionFight,
         protected Fight $fight
     ) {
 
@@ -58,7 +58,7 @@ class Assist extends BaseCommand
             Log::admin($player->getName() . ' attacked ' . $attacker->getName() . ' in room ' . $player->getRoom()->getTemplate()->getId() . '.');
         }
 
-        $this->action->assist($player, $defender);
+        $this->actionFight->assist($player, $defender);
         $this->fight->attack($player, $attacker);
     }
 

@@ -8,7 +8,7 @@
 namespace Gauntlet\Commands\Fight;
 
 use Gauntlet\Act;
-use Gauntlet\Action;
+use Gauntlet\ActionFight;
 use Gauntlet\Fight;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
@@ -22,7 +22,7 @@ class Backstab extends BaseCommand
 {
     public function __construct(
         protected Act $act,
-        protected Action $action,
+        protected ActionFight $actionFight,
         protected Fight $fight
     ) {
 
@@ -71,7 +71,7 @@ class Backstab extends BaseCommand
             $damage = $this->fight->getAttackDamage($player, $target);
             // Damage multiplier based on player level
             $damage *= 3 + ($player->getLevel() / 10);
-            $this->action->backstab($player, $target);
+            $this->actionFight->backstab($player, $target);
         } else {
             $damage = 0;
             $this->act->toChar("Your backstab misses!", $player, null, $target);

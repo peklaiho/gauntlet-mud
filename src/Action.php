@@ -26,42 +26,6 @@ class Action
 
     }
 
-    public function attack(Living $living, Living $target): void
-    {
-        $this->act->toChar("You attack @T.", $living, null, $target);
-        $this->act->toVict('@t attacks you!', false, $living, null, $target);
-        $this->act->toRoom('@t attacks @T!', false, $living, null, $target, true);
-    }
-
-    public function assist(Living $living, Living $target): void
-    {
-        $this->act->toChar("You rush to aid @T.", $living, null, $target);
-        $this->act->toVict('@t rushes to your aid!', false, $living, null, $target);
-        $this->act->toRoom('@t rushes to aid @T!', false, $living, null, $target, true);
-    }
-
-    public function backstab(Living $living, Living $target): void
-    {
-        $weapon = $living->getWeapon();
-
-        if ($weapon) {
-            $this->act->toChar("You stab @T in the back with your @i!", $living, $weapon, $target);
-            $this->act->toVict('@t stabs you in the back with @s @i!', false, $living, $weapon, $target);
-            $this->act->toRoom('@t stabs @T in the back with @s @i!', false, $living, $weapon, $target, true);
-        } else {
-            $this->act->toChar("You stab @T in the back!", $living, null, $target);
-            $this->act->toVict('@t stabs you in the back!', false, $living, null, $target);
-            $this->act->toRoom('@t stabs @T in the back!', false, $living, null, $target, true);
-        }
-    }
-
-    public function rescue(Living $living, Living $target): void
-    {
-        $this->act->toChar("You jump in to rescue @T.", $living, null, $target);
-        $this->act->toVict('@t jumps in and rescues you!', false, $living, null, $target);
-        $this->act->toRoom('@t jumps in to rescue @T!', false, $living, null, $target, true);
-    }
-
     public function discard(Living $living, Item $item): void
     {
         $encState = $this->getEncumberance($living);
