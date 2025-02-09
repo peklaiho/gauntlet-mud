@@ -44,6 +44,17 @@ class ActionFight
         }
     }
 
+    public function disarm(Living $living, Living $target): void
+    {
+        $weapon = $target->getWeapon();
+
+        if ($weapon) {
+            $this->act->toChar("You disarm @T and @E lets go of @S @i!", $living, $weapon, $target);
+            $this->act->toVict('@t disarms you and you let go of your @i!', false, $living, $weapon, $target);
+            $this->act->toRoom('@t disarms @T and @E lets go of @S @i!', false, $living, $weapon, $target, true);
+        }
+    }
+
     public function rescue(Living $living, Living $target): void
     {
         $this->act->toChar("You jump in to rescue @T.", $living, null, $target);

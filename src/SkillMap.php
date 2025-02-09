@@ -32,6 +32,7 @@ class SkillMap
 
                 PlayerClass::Warrior->value => [
                     [5, Skill::Rescue],
+                    [15, Skill::Disarm],
                     [20, Skill::SecondAttack],
                     [40, Skill::ThirdAttack],
                 ],

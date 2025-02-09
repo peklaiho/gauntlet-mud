@@ -35,6 +35,7 @@ use Gauntlet\Commands\Comm\Tell;
 use Gauntlet\Commands\Fight\Assist;
 use Gauntlet\Commands\Fight\Attack;
 use Gauntlet\Commands\Fight\Backstab;
+use Gauntlet\Commands\Fight\Disarm;
 use Gauntlet\Commands\Fight\Flee;
 use Gauntlet\Commands\Fight\Rescue;
 use Gauntlet\Commands\Info\Commands;
@@ -110,6 +111,7 @@ class CommandMap
                 new CommandInfo('date', SERVICE_CONTAINER->get(Date::class)),
                 new CommandInfo('deposit', SERVICE_CONTAINER->get(Bank::class), Bank::DEPOSIT),
                 new CommandInfo('dictionary', SERVICE_CONTAINER->get(Dict::class), Dict::DICTIONARY),
+                new CommandInfo('disarm', SERVICE_CONTAINER->get(Disarm::class)),
                 new CommandInfo('discard', SERVICE_CONTAINER->get(Drop::class), Drop::DISCARD),
                 new CommandInfo('drop', SERVICE_CONTAINER->get(Drop::class), Drop::DROP),
                 new CommandInfo('equipment', SERVICE_CONTAINER->get(Equipment::class)),

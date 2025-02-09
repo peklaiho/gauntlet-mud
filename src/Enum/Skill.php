@@ -17,6 +17,7 @@ enum Skill: string
     // Shaman
 
     // Warrior
+    case Disarm = 'disarm';
     case Rescue = 'rescue';
     case SecondAttack = 'second attack';
     case ThirdAttack = 'third attack';
