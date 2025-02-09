@@ -507,14 +507,14 @@ class Player extends Living
 
         $fn = fn ($cur, $max, $div) => min($max / $div, $max - $cur);
 
-        // Health is full in 10 minutes
-        $inc = $fn($this->health, $this->getMaxHealth(), 600 / $multip);
+        // Health is full in 5 minutes
+        $inc = $fn($this->health, $this->getMaxHealth(), 300 / $multip);
         if ($inc > 0) {
             $this->health += $inc;
         }
 
-        // Mana is full in 15 minutes
-        $inc = $fn($this->mana, $this->getMaxMana(), 900 / $multip);
+        // Mana is full in 10 minutes
+        $inc = $fn($this->mana, $this->getMaxMana(), 600 / $multip);
         if ($inc > 0) {
             $this->mana += $inc;
         }
