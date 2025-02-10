@@ -177,7 +177,13 @@ class Monster extends Living
     #[\Override]
     public function regenerate(): void
     {
-        // TODO: implement something sensible here
+        $fn = fn ($cur, $max, $div) => min($max / $div, $max - $cur);
+
+        // Health is full in 15 minutes
+        $inc = $fn($this->health, $this->getMaxHealth(), 900);
+        if ($inc > 0) {
+            $this->health += $inc;
+        }
     }
 
     // Attacks and damage
