@@ -57,6 +57,7 @@ use Gauntlet\Commands\Interface\Alias;
 use Gauntlet\Commands\Interface\ColorPref;
 use Gauntlet\Commands\Interface\Preferences;
 use Gauntlet\Commands\Interface\Repeat;
+use Gauntlet\Commands\Items\Bury;
 use Gauntlet\Commands\Items\Drop;
 use Gauntlet\Commands\Items\Get;
 use Gauntlet\Commands\Items\Give;
@@ -101,6 +102,7 @@ class CommandMap
                 new CommandInfo('backstab', SERVICE_CONTAINER->get(Backstab::class)),
                 new CommandInfo('balance', SERVICE_CONTAINER->get(Bank::class), Bank::BALANCE),
                 new CommandInfo('board', SERVICE_CONTAINER->get(BulletinBoard::class)),
+                new CommandInfo('bury', SERVICE_CONTAINER->get(Bury::class)),
                 new CommandInfo('buy', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::BUY),
                 new CommandInfo('close', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::CLOSE),
                 new CommandInfo('coin', SERVICE_CONTAINER->get(Stats::class), Stats::COIN),
