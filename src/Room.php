@@ -10,6 +10,7 @@ namespace Gauntlet;
 use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\PartOfDay;
 use Gauntlet\Enum\RoomFlag;
+use Gauntlet\Enum\ScriptType;
 use Gauntlet\Enum\Terrain;
 use Gauntlet\Template\RoomTemplate;
 use Gauntlet\Trait\MagicNumber;
@@ -100,6 +101,20 @@ class Room extends BaseObject
         } else {
             $this->exits[$dir->value] = $val;
         }
+    }
+
+    // Override script getters: Read from template
+
+    #[\Override]
+    public function getScript(ScriptType $type): ?string
+    {
+        return $this->template->getScript($type);
+    }
+
+    #[\Override]
+    public function getScripts(): array
+    {
+        return $this->template->getScripts();
     }
 
     #[\Override]

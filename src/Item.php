@@ -175,11 +175,13 @@ class Item extends BaseObject
 
     // Override script getters: Read from template
 
+    #[\Override]
     public function getScript(ScriptType $type): ?string
     {
         return $this->template->getScript($type);
     }
 
+    #[\Override]
     public function getScripts(): array
     {
         return $this->template->getScripts();

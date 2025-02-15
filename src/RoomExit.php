@@ -9,6 +9,7 @@ namespace Gauntlet;
 
 use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\ExitFlag;
+use Gauntlet\Enum\ScriptType;
 use Gauntlet\Template\RoomExitTemplate;
 use Gauntlet\Trait\MagicNumber;
 
@@ -91,6 +92,20 @@ class RoomExit extends BaseObject
     public function setLocked(bool $val): void
     {
         $this->locked = $val;
+    }
+
+    // Override script getters: Read from template
+
+    #[\Override]
+    public function getScript(ScriptType $type): ?string
+    {
+        return $this->template->getScript($type);
+    }
+
+    #[\Override]
+    public function getScripts(): array
+    {
+        return $this->template->getScripts();
     }
 
     #[\Override]
