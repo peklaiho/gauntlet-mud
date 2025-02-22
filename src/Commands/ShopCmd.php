@@ -40,7 +40,7 @@ class ShopCmd extends BaseCommand
             return;
         }
 
-        $shop = $this->lists->getShops()->get($player->getRoom()->getId());
+        $shop = $this->lists->getShops()->get($player->getRoom()->getTemplate()->getId());
 
         if (!$shop) {
             $message = match($subcmd) {
