@@ -14,6 +14,7 @@ use Gauntlet\Living;
 use Gauntlet\Monster;
 use Gauntlet\Player;
 use Gauntlet\Room;
+use Gauntlet\RoomExit;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Enum\Modifier;
 use Gauntlet\Util\Input;
@@ -100,6 +101,17 @@ class Probe extends BaseCommand
         $this->showAmbientMessages($player, $room);
 
         $this->showScripts($player, $room);
+
+        $player->outln('Exits:');
+        foreach ($room->getExits() as $dir => $exit) {
+            $this->showExit($player, $dir, $exit);
+        }
+    }
+
+    private function showExit(Player $player, string $dir, RoomExit $exit): void
+    {
+        $player->outln('* %s: %d', $dir, $exit->getTo()->getTemplate()->getId());
+        $this->showScripts($player, $exit);
     }
 
     private function showItem(Player $player, Item $item): void
