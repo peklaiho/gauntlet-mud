@@ -18,16 +18,16 @@ class SkillMap
     {
         if (!self::$map) {
             self::$map = [
+                PlayerClass::Cleric->value => [
+
+                ],
+
                 PlayerClass::Mage->value => [
 
                 ],
 
                 PlayerClass::Rogue->value => [
                     [5, Skill::Backstab],
-                ],
-
-                PlayerClass::Shaman->value => [
-
                 ],
 
                 PlayerClass::Warrior->value => [

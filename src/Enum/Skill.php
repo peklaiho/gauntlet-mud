@@ -9,12 +9,12 @@ namespace Gauntlet\Enum;
 
 enum Skill: string
 {
+    // Cleric
+
     // Mage
 
     // Rogue
     case Backstab = 'backstab';
-
-    // Shaman
 
     // Warrior
     case Disarm = 'disarm';
