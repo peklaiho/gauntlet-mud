@@ -63,7 +63,7 @@ class Bury extends BaseCommand
 
             // Give some coins as reward
             $template = $this->lists->getMonsterTemplates()->get(-$corpse->getTemplate()->getId());
-            $player->addCoins($template->getLevel());
+            $player->addCoins($template->getLevel() * 2);
             $player->outln('The gods reward you with some coin.');
 
             Log::money($player->getName() . ' receives ' . $template->getLevel() . ' coins as burial reward.');
