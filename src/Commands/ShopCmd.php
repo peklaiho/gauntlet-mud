@@ -11,11 +11,13 @@ use Gauntlet\Act;
 use Gauntlet\Lists;
 use Gauntlet\Player;
 use Gauntlet\World;
+use Gauntlet\Template\WeaponTemplate;
 use Gauntlet\Util\Config;
 use Gauntlet\Util\Currency;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\ItemFinder;
 use Gauntlet\Util\Log;
+use Gauntlet\Util\NumberFormatter;
 use Gauntlet\Util\TableFormatter;
 
 class ShopCmd extends BaseCommand
@@ -62,14 +64,33 @@ class ShopCmd extends BaseCommand
 
                 foreach ($shop->getItemIds() as $index => $itemId) {
                     $itemTemplate = $this->lists->getItemTemplates()->get($itemId);
+
+                    $info = [];
+
+                    // Show damage and required strength for weapons
+                    if ($itemTemplate instanceof WeaponTemplate) {
+                        $info[] = sprintf('Dam: %d-%d, ReqStr: %d', $itemTemplate->getMinDamage(),
+                            $itemTemplate->getMaxDamage(), $itemTemplate->getRequiredStr());
+                    }
+
+                    // Show modifiers
+                    if ($itemTemplate->getMods()) {
+                        $infoMods = [];
+                        foreach ($itemTemplate->getMods() as $key => $val) {
+                            $infoMods[] = NumberFormatter::format($val, true) . ' ' . $key;
+                        }
+                        $info[] = 'Mods: ' . implode(', ', $infoMods);
+                    }
+
                     $rows[] = [
                         $index + 1,
                         $itemTemplate->getAName(),
-                        Currency::format($itemTemplate->getCost(), true)
+                        Currency::format($itemTemplate->getCost(), true),
+                        implode(', ', $info),
                     ];
                 }
 
-                $rows = TableFormatter::format($rows, ['#', 'Name', 'Cost'], [1]);
+                $rows = TableFormatter::format($rows, ['#', 'Name', 'Cost', 'Info'], [1, 3]);
 
                 foreach ($rows as $row) {
                     $player->outln($row);
