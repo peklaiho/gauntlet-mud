@@ -10,11 +10,13 @@ namespace Gauntlet\Commands\Admin;
 use Gauntlet\BaseObject;
 use Gauntlet\Experience;
 use Gauntlet\Item;
+use Gauntlet\Lists;
 use Gauntlet\Living;
 use Gauntlet\Monster;
 use Gauntlet\Player;
 use Gauntlet\Room;
 use Gauntlet\RoomExit;
+use Gauntlet\Shop;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Enum\Modifier;
 use Gauntlet\Util\Input;
@@ -26,7 +28,8 @@ use Gauntlet\Util\TimeFormatter;
 class Probe extends BaseCommand
 {
     public function __construct(
-        protected ItemFinder $itemFinder
+        protected ItemFinder $itemFinder,
+        protected Lists $lists
     ) {
 
     }
@@ -41,6 +44,17 @@ class Probe extends BaseCommand
         // Find room first
         if (strtolower($input->get(0)) == 'room') {
             $this->showRoom($player, $player->getRoom());
+            return;
+        }
+
+        // Find shop
+        if (strtolower($input->get(0)) == 'shop') {
+            $shop = $this->lists->getShops()->get($player->getRoom()->getTemplate()->getId());
+            if ($shop) {
+                $this->showShop($player, $shop);
+            } else {
+                $player->outln('There is no shop here.');
+            }
             return;
         }
 
@@ -74,7 +88,7 @@ class Probe extends BaseCommand
     public function getUsage(?string $subcmd): array
     {
         return [
-            "<'room' | player | item | npc>",
+            "<'room' | 'shop' | player | item | npc>",
         ];
     }
 
@@ -106,6 +120,13 @@ class Probe extends BaseCommand
         foreach ($room->getExits() as $dir => $exit) {
             $this->showExit($player, $dir, $exit);
         }
+    }
+
+    private function showShop(Player $player, Shop $shop): void
+    {
+        $player->outln('Sells items: ' . implode(', ', $shop->getItemIds()));
+        $player->outln('Buys types: ' . implode(', ', $shop->getBuyTypes()));
+        $player->outln('Buys items: ' . implode(', ', $shop->getBuyIds()));
     }
 
     private function showExit(Player $player, string $dir, RoomExit $exit): void

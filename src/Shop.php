@@ -15,6 +15,7 @@ class Shop extends BaseObject
     protected int $shopkeeperId;
     protected array $itemIds = [];
     protected array $buyTypes = [];
+    protected array $buyIds = [];
 
     // Return how much the shop pays for the item,
     // if the shop wants to buy it. Value <= 0 means
@@ -35,6 +36,10 @@ class Shop extends BaseObject
         if (($item->isWeapon() && in_array('weapon', $this->buyTypes)) ||
             ($item->isArmor() && in_array('armor', $this->buyTypes)) ||
             ($item->isContainer() && in_array('container', $this->buyTypes))) {
+            return $buyValue;
+        }
+
+        if (in_array($item->getTemplate()->getId(), $this->buyIds)) {
             return $buyValue;
         }
 
@@ -61,6 +66,11 @@ class Shop extends BaseObject
         return $this->buyTypes;
     }
 
+    public function getBuyIds(): array
+    {
+        return $this->buyIds;
+    }
+
     public function setRoomId(int $val): void
     {
         $this->roomId = $val;
@@ -79,6 +89,11 @@ class Shop extends BaseObject
     public function setBuyTypes(array $val): void
     {
         $this->buyTypes = $val;
+    }
+
+    public function setBuyIds(array $val): void
+    {
+        $this->buyIds = $val;
     }
 
     #[\Override]

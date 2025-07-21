@@ -48,7 +48,26 @@ class YamlShopRepository implements IShopRepository
         $shop->setRoomId($data['room']);
         $shop->setShopkeeperId($data['shopkeeper']);
         $shop->setItemIds($data['items'] ?? []);
-        $shop->setBuyTypes($data['buys'] ?? []);
+        $shop->setBuyTypes($data['buy_types'] ?? []);
+
+        if (array_key_exists('buy_ids', $data)) {
+            $buyIds = [];
+
+            foreach ($data['buy_ids'] as $id) {
+                $id = trim($id);
+
+                if (strpos($id, '-') !== false) {
+                    $idParts = explode('-', $id);
+                    for ($i = $idParts[0]; $i <= $idParts[1]; $i++) {
+                        $buyIds[] = $i;
+                    }
+                } else {
+                    $buyIds[] = $id;
+                }
+            }
+
+            $shop->setBuyIds($buyIds);
+        }
 
         return $shop;
     }
