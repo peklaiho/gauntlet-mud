@@ -59,6 +59,7 @@ use Gauntlet\Commands\Interface\Preferences;
 use Gauntlet\Commands\Interface\Repeat;
 use Gauntlet\Commands\Items\Bury;
 use Gauntlet\Commands\Items\Drop;
+use Gauntlet\Commands\Items\Eat;
 use Gauntlet\Commands\Items\Get;
 use Gauntlet\Commands\Items\Give;
 use Gauntlet\Commands\Items\Put;
@@ -117,6 +118,7 @@ class CommandMap
                 new CommandInfo('discard', SERVICE_CONTAINER->get(Drop::class), Drop::DISCARD),
                 new CommandInfo('drop', SERVICE_CONTAINER->get(Drop::class), Drop::DROP),
                 new CommandInfo('equipment', SERVICE_CONTAINER->get(Equipment::class)),
+                new CommandInfo('eat', SERVICE_CONTAINER->get(Eat::class)),
                 new CommandInfo('emote', SERVICE_CONTAINER->get(Emote::class)),
                 new CommandInfo('exits', SERVICE_CONTAINER->get(Exits::class)),
                 new CommandInfo('flee', SERVICE_CONTAINER->get(Flee::class)),

@@ -48,6 +48,17 @@ class Action
         $this->reportEncumberance($living, $encState);
     }
 
+    public function eat(Living $living, Item $item): void
+    {
+        $encState = $this->getEncumberance($living);
+
+        $this->act->toChar("You eat @p.", $living, $item);
+        $this->act->toRoom("@t eats @o.", true, $living, $item);
+        $this->world->extractItem($item);
+
+        $this->reportEncumberance($living, $encState);
+    }
+
     public function emote(Living $living, string $message): void
     {
         // Display exactly same message to the actor

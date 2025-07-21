@@ -20,6 +20,7 @@ use Gauntlet\Enum\ScriptType;
 use Gauntlet\Template\ArmorTemplate;
 use Gauntlet\Template\BulletinBoardTemplate;
 use Gauntlet\Template\ContainerTemplate;
+use Gauntlet\Template\FoodTemplate;
 use Gauntlet\Template\ItemTemplate;
 use Gauntlet\Template\WeaponTemplate;
 use Gauntlet\Util\Log;
@@ -85,6 +86,8 @@ class YamlItemTemplateRepository implements IItemTemplateRepository
             $item->setCapacity($data['capacity'] ?? 0);
         } elseif ($type == 'bulletin_board') {
             $item = new BulletinBoardTemplate();
+        } elseif ($type == 'food') {
+            $item = new FoodTemplate();
         } else {
             $item = new ItemTemplate();
         }
