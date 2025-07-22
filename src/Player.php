@@ -222,13 +222,11 @@ class Player extends Living
             return true;
         }
 
-        $skills = SkillMap::getSkills($this->getClass());
+        $availableSkills = SkillMap::getSkillsForPlayer($this);
 
-        foreach ($skills as $skillInfo) {
-            if ($this->getLevel() >= $skillInfo[0] && $skill == $skillInfo[1] &&
-                (!Config::useSkillPoints() || $this->getSkillLevel($skill) > 0)) {
-                return true;
-            }
+        if (in_array($skill, $availableSkills) &&
+            (!Config::useSkillPoints() || $this->getSkillLevel($skill) > 0)) {
+            return true;
         }
 
         return false;

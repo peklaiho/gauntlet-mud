@@ -26,7 +26,7 @@ class Skills extends BaseCommand
 
     public function execute(Player $player, Input $input, ?string $subcmd): void
     {
-        $skills = SkillMap::getSkills($player->getClass());
+        $skills = SkillMap::getSkillsForClass($player->getClass());
 
         $rows = [];
         foreach ($skills as $skillInfo) {

@@ -11,6 +11,12 @@ enum Spell: string
 {
     // Cleric
     case MinorProtection = 'minor protection';
+    case MajorProtection = 'major protection';
 
     // Mage
+    case MagicMissile = 'magic missile';
+    case FireBolt = 'firebolt';
+    case ChillBones = 'chill bones';
+    case FireBall = 'fireball';
+    case AlphaAndOmega = 'alpha and omega';
 }

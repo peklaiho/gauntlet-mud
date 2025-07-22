@@ -67,6 +67,7 @@ use Gauntlet\Commands\Items\Put;
 use Gauntlet\Commands\Items\Remove;
 use Gauntlet\Commands\Items\Wear;
 use Gauntlet\Commands\Bank;
+use Gauntlet\Commands\Cast;
 use Gauntlet\Commands\DoorCmd;
 use Gauntlet\Commands\GroupCmd;
 use Gauntlet\Commands\Move;
@@ -106,6 +107,7 @@ class CommandMap
                 new CommandInfo('board', SERVICE_CONTAINER->get(BulletinBoard::class)),
                 new CommandInfo('bury', SERVICE_CONTAINER->get(Bury::class)),
                 new CommandInfo('buy', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::BUY),
+                new CommandInfo('cast', SERVICE_CONTAINER->get(Cast::class)),
                 new CommandInfo('close', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::CLOSE),
                 new CommandInfo('coin', SERVICE_CONTAINER->get(Stats::class), Stats::COIN),
                 new CommandInfo('colorpref', SERVICE_CONTAINER->get(ColorPref::class)),
