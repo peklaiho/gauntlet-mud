@@ -8,6 +8,7 @@
 namespace Gauntlet;
 
 use Gauntlet\Enum\PlayerClass;
+use Gauntlet\Enum\Spell;
 use Gauntlet\Enum\Skill;
 
 class SkillMap
@@ -19,7 +20,7 @@ class SkillMap
         if (!self::$map) {
             self::$map = [
                 PlayerClass::Cleric->value => [
-
+                    [3, Spell::MinorProtection]
                 ],
 
                 PlayerClass::Mage->value => [

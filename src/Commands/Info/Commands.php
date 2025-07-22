@@ -12,7 +12,6 @@ use Gauntlet\Player;
 use Gauntlet\Socials;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Util\Input;
-use Gauntlet\Util\Preferences;
 
 class Commands extends BaseCommand
 {

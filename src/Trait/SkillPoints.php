@@ -7,6 +7,7 @@
 
 namespace Gauntlet\Trait;
 
+use Gauntlet\Enum\Spell;
 use Gauntlet\Enum\Skill;
 
 trait SkillPoints
@@ -18,7 +19,7 @@ trait SkillPoints
         return $this->skillPoints;
     }
 
-    public function getSkillLevel(Skill $skill): int
+    public function getSkillLevel(Skill|Spell $skill): int
     {
         return $this->skillPoints[$skill->value] ?? 0;
     }
@@ -28,12 +29,12 @@ trait SkillPoints
         return $this->getLevel() - array_sum($this->skillPoints);
     }
 
-    public function increaseSkillLevel(Skill $skill): void
+    public function increaseSkillLevel(Skill|Spell $skill): void
     {
         $this->setSkillLevel($skill, $this->getSkillPoints($skill) + 1);
     }
 
-    public function setSkillLevel(Skill $skill, int $val): void
+    public function setSkillLevel(Skill|Spell $skill, int $val): void
     {
         $this->skillPoints[$skill->value] = $val;
     }

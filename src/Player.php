@@ -17,6 +17,7 @@ use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\RoomFlag;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
+use Gauntlet\Enum\Spell;
 use Gauntlet\Enum\Skill;
 use Gauntlet\Module\Editor;
 use Gauntlet\Module\Pager;
@@ -214,7 +215,7 @@ class Player extends Living
         return false;
     }
 
-    public function hasSkill(Skill $skill): bool
+    public function hasSkill(Skill|Spell $skill): bool
     {
         // Immortals have all skills
         if ($this->getAdminLevel()) {

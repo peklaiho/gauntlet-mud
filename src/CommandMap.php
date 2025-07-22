@@ -50,6 +50,7 @@ use Gauntlet\Commands\Info\Info;
 use Gauntlet\Commands\Info\Inventory;
 use Gauntlet\Commands\Info\Look;
 use Gauntlet\Commands\Info\Sense;
+use Gauntlet\Commands\Info\Skills;
 use Gauntlet\Commands\Info\Stats;
 use Gauntlet\Commands\Info\Who;
 use Gauntlet\Commands\Info\Whoami;
@@ -147,7 +148,9 @@ class CommandMap
                 new CommandInfo('save', SERVICE_CONTAINER->get(Save::class)),
                 new CommandInfo('sense', SERVICE_CONTAINER->get(Sense::class)),
                 new CommandInfo('sell', SERVICE_CONTAINER->get(ShopCmd::class), ShopCmd::SELL),
+                new CommandInfo('skills', SERVICE_CONTAINER->get(Skills::class), Skills::SKILLS),
                 new CommandInfo('socials', SERVICE_CONTAINER->get(Commands::class), Commands::SOCIALS),
+                new CommandInfo('spells', SERVICE_CONTAINER->get(Skills::class), Skills::SPELLS),
                 new CommandInfo('stats', SERVICE_CONTAINER->get(Stats::class), Stats::STATS),
                 new CommandInfo('tell', SERVICE_CONTAINER->get(Tell::class)),
                 new CommandInfo('time', SERVICE_CONTAINER->get(Date::class)),
