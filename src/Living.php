@@ -32,6 +32,8 @@ abstract class Living extends BaseObject
         $this->equipment = new Collection();
     }
 
+    // Physical combat modifiers
+
     public function bonusToHit(): int
     {
         return $this->getMod(Modifier::Hit) + $this->getDex(false);
@@ -44,7 +46,24 @@ abstract class Living extends BaseObject
 
     public function getBonusDamage(): float
     {
-        return $this->getMod(Modifier::Damage) + ($this->getStr(false) * 0.2);
+        return $this->getMod(Modifier::Damage) + ($this->getStr(false) * 0.5);
+    }
+
+    // Magic combat modifiers
+
+    public function bonusToSpellHit(): int
+    {
+        return $this->getMod(Modifier::SpellHit) + $this->getInt(false);
+    }
+
+    public function bonusToSpellDodge(): int
+    {
+        return $this->getMod(Modifier::SpellDodge) + $this->getInt(false);
+    }
+
+    public function getBonusSpellDamage(): float
+    {
+        return $this->getMod(Modifier::SpellDamage) + ($this->getInt(false) * 2);
     }
 
     public function findCurrentSlot(Item $item): ?EqSlot

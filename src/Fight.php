@@ -207,6 +207,7 @@ class Fight
         return max($dmg, 1);
     }
 
+    // Return true if the victim died, otherwise false
     private function doAttack(Living $attacker, Living $victim): bool
     {
         if ($this->canHit($attacker, $victim)) {

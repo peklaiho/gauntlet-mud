@@ -283,12 +283,12 @@ class Player extends Living
     public function getMaxHealth(): float
     {
         // Base value
-        $value = 40;
+        $value = 45;
 
-        // Bonus from level: 10 - 500
-        $value += $this->getLevel() * 10;
+        // Bonus from level: 5 - 250
+        $value += $this->getLevel();
 
-        // Bonus from extra constitution
+        // Bonus from extra constitution: 0 - 1000
         $value += $this->getCon(false) * 20;
 
         // Bonus from equipment
@@ -301,12 +301,12 @@ class Player extends Living
     public function getMaxMana(): float
     {
         // Base value
-        $value = 40;
+        $value = 45;
 
-        // Bonus from level: 10 - 500
-        $value += $this->getLevel() * 10;
+        // Bonus from level: 5 - 250
+        $value += $this->getLevel() * 5;
 
-        // Bonus from intelligence
+        // Bonus from intelligence: 0 - 1000
         $value += $this->getInt(false) * 20;
 
         // Bonus from equipment
@@ -319,10 +319,13 @@ class Player extends Living
     public function getMaxMove(): float
     {
         // Base value
-        $value = 98;
+        $value = 99;
 
-        // Bonus from level: 2 - 100
-        $value += $this->getLevel() * 2;
+        // Bonus from level: 1 - 50
+        $value += $this->getLevel();
+
+        // Bonus from dexterity: 0 - 125
+        $value += $this->getDex(false) * 2.5;
 
         // Bonus from equipment
         $value += $this->getMod(Modifier::Move);
