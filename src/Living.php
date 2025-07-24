@@ -46,7 +46,7 @@ abstract class Living extends BaseObject
 
     public function getBonusDamage(): float
     {
-        return $this->getMod(Modifier::Damage) + ($this->getStr(false) * 0.5);
+        return $this->getMod(Modifier::Damage) + ($this->getStr(false) * 0.4);
     }
 
     // Magic combat modifiers

@@ -207,6 +207,20 @@ class Fight
         return max($dmg, 1);
     }
 
+    public function getBackstabMultiplier(Living $attacker): float
+    {
+        // Base
+        $multip = 3;
+
+        // Bonus from level: 0.04 - 2
+        $multip += $attacker->getLevel() / 25;
+
+        // Bonus from dexterity: 0 - 10
+        $multip += $attacker->getDex(false) * 0.2;
+
+        return $multip;
+    }
+
     // Return true if the victim died, otherwise false
     private function doAttack(Living $attacker, Living $victim): bool
     {

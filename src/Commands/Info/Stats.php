@@ -8,10 +8,12 @@
 namespace Gauntlet\Commands\Info;
 
 use Gauntlet\Experience;
+use Gauntlet\Fight;
 use Gauntlet\Player;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Enum\Modifier;
 use Gauntlet\Enum\MoneyType;
+use Gauntlet\Enum\Skill;
 use Gauntlet\Util\Config;
 use Gauntlet\Util\Currency;
 use Gauntlet\Util\Input;
@@ -21,6 +23,12 @@ class Stats extends BaseCommand
     public const STATS = 'stats';
     public const COIN = 'coin';
     public const CREDITS = 'credits';
+
+    public function __construct(
+        protected Fight $fight
+    ) {
+
+    }
 
     public function execute(Player $player, Input $input, ?string $subcmd): void
     {
@@ -91,6 +99,10 @@ class Stats extends BaseCommand
             $player->getMaxDamage() + $player->getBonusDamage(),
             $player->getDamageType()->value
         );
+
+        if ($player->hasSkill(Skill::Backstab)) {
+            $player->outln('Your backstab multiplier is %.2f.', $this->fight->getBackstabMultiplier($player));
+        }
 
         if ($player->getGroup()) {
             if ($player->getGroup()->getLeader() === $player) {

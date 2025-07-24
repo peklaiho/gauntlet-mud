@@ -69,8 +69,7 @@ class Backstab extends BaseCommand
 
         if ($this->fight->canHit($player, $target)) {
             $damage = $this->fight->getAttackDamage($player, $target);
-            // Damage multiplier based on player level
-            $damage *= 3 + ($player->getLevel() / 10);
+            $damage *= $this->fight->getBackstabMultiplier($player);
             $this->actionFight->backstab($player, $target);
         } else {
             $damage = 0;
