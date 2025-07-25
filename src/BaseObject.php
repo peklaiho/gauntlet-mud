@@ -10,11 +10,13 @@ namespace Gauntlet;
 use MadLisp\Env;
 
 use Gauntlet\Enum\ScriptType;
+use Gauntlet\Trait\Affections;
 use Gauntlet\Trait\Scripts;
 use Gauntlet\Util\Lisp;
 
 abstract class BaseObject
 {
+    use Affections;
     use Scripts;
 
     private bool $validObject = true;

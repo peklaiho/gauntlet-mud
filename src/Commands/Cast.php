@@ -7,9 +7,13 @@
 
 namespace Gauntlet\Commands;
 
+use Gauntlet\Affection;
 use Gauntlet\Magic;
 use Gauntlet\Player;
 use Gauntlet\SkillMap;
+use Gauntlet\Enum\AffectionType;
+use Gauntlet\Enum\Modifier;
+use Gauntlet\Enum\Spell;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\LivingFinder;
 use Gauntlet\Util\SpellParser;
@@ -37,24 +41,33 @@ class Cast extends BaseCommand
             return;
         }
 
+        list($spell, $targetName) = $info;
+
         // Damage spell requires a target
-        if (!$info[1]) {
+        if (!$targetName) {
             $player->outln('This spell requires a target.');
             return;
         }
 
         $lists = [$player->getRoom()->getLiving()];
         $target = (new LivingFinder($player, $lists))
-            ->excludeSelf()
-            ->find($info[1]);
+            ->find($targetName);
 
         if (!$target) {
             $player->outln(MESSAGE_NOONE);
             return;
         }
 
-        // All ok, lets do it
-        $this->magic->castDamageSpell($player, $target, $info[0]);
+        if ($spell == Spell::MinorProtection) {
+            $aff = new Affection(AffectionType::Spell, $spell, time() + 300);
+            $aff->setMod(Modifier::Armor, 10);
+            $target->addAffection($aff);
+            $player->outln('They are now protected.');
+            return;
+        }
+
+        // Damage spells
+        $this->magic->castDamageSpell($player, $target, $spell);
     }
 
     public function getDescription(?string $subcmd): string

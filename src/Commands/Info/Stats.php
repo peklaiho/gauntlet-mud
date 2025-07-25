@@ -17,9 +17,12 @@ use Gauntlet\Enum\Skill;
 use Gauntlet\Util\Config;
 use Gauntlet\Util\Currency;
 use Gauntlet\Util\Input;
+use Gauntlet\Util\NumberFormatter;
+use Gauntlet\Util\TableFormatter;
 
 class Stats extends BaseCommand
 {
+    public const AFFECTIONS = 'affections';
     public const STATS = 'stats';
     public const COIN = 'coin';
     public const CREDITS = 'credits';
@@ -34,6 +37,9 @@ class Stats extends BaseCommand
     {
         if ($subcmd == self::COIN || $subcmd == self::CREDITS) {
             $this->showCoins($player);
+            return;
+        } elseif ($subcmd == self::AFFECTIONS) {
+            $this->showAffections($player);
             return;
         }
 
@@ -104,6 +110,10 @@ class Stats extends BaseCommand
             $player->outln('Your backstab multiplier is %.2f.', $this->fight->getBackstabMultiplier($player));
         }
 
+        if ($player->getAffections()) {
+            $player->outln('You are affected by %d affections.', count($player->getAffections()));
+        }
+
         if ($player->getGroup()) {
             if ($player->getGroup()->getLeader() === $player) {
                 $player->outln('You are the leader of a party.');
@@ -115,7 +125,9 @@ class Stats extends BaseCommand
 
     public function getDescription(?string $subcmd): string
     {
-        if ($subcmd == self::STATS) {
+        if ($subcmd == self::AFFECTIONS) {
+            return 'Display affections that are currently affecting you.';
+        } elseif ($subcmd == self::STATS) {
             return 'Display information and statistics about your character.';
         } elseif ($subcmd == self::COIN) {
             return "Show how many coins you are carrying.";
@@ -150,12 +162,40 @@ class Stats extends BaseCommand
 
     public function canExecute(Player $player, ?string $subcmd): bool
     {
-        if ($subcmd == self::STATS) {
+        if ($subcmd == self::STATS || $subcmd == self::AFFECTIONS) {
             return true;
         }
 
         return ($subcmd == self::COIN && Config::moneyType() == MoneyType::Coins) ||
             ($subcmd == self::CREDITS && Config::moneyType() == MoneyType::Credits);
+    }
+
+    private function showAffections(Player $player): void
+    {
+        $rows = [];
+
+        foreach ($player->getAffections() as $aff) {
+            $rows[] = [
+                $aff->getSource()->value,
+                time() - $aff->getUntil(),
+            ];
+
+            foreach ($aff->getMods() as $key => $value) {
+                $rows[] = [
+                    '  ' . NumberFormatter::format($value, true) . ' ' . $key,
+                    '',
+                ];
+            }
+        }
+
+        if ($rows) {
+            $rows = TableFormatter::format($rows, ['Affection', 'Remaining'], [0]);
+            foreach ($rows as $row) {
+                $player->outln($row);
+            }
+        } else {
+            $player->outln('You have no affections.');
+        }
     }
 
     private function showCoins(Player $player): void

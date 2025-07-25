@@ -125,8 +125,19 @@ abstract class Living extends BaseObject
     {
         $sum = 0;
 
+        // Affections
+        foreach ($this->getAffections() as $aff) {
+            $sum += $aff->getMod($mod);
+        }
+
+        // Equipment
         foreach ($this->equipment->getAll() as $eq) {
             $sum += $eq->getTemplate()->getMod($mod);
+
+            // Affections on equipment
+            foreach ($eq->getAffections() as $aff) {
+                $sum += $aff->getMod($mod);
+            }
         }
 
         return $sum;

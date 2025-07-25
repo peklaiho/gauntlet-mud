@@ -100,6 +100,7 @@ class CommandMap
                 new CommandInfo('up', SERVICE_CONTAINER->get(Move::class), Direction::Up->value),
                 new CommandInfo('down', SERVICE_CONTAINER->get(Move::class), Direction::Down->value),
 
+                new CommandInfo('affections', SERVICE_CONTAINER->get(Stats::class), Stats::AFFECTIONS),
                 new CommandInfo('alias', SERVICE_CONTAINER->get(Alias::class), Alias::ALIAS),
                 new CommandInfo('assist', SERVICE_CONTAINER->get(Assist::class)),
                 new CommandInfo('backstab', SERVICE_CONTAINER->get(Backstab::class)),

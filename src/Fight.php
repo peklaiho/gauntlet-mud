@@ -255,6 +255,8 @@ class Fight
             $target->setMana(1);
             $target->setMove(1);
 
+            $target->clearAffections();
+
             // Players are resurrected at starting room
             $startRoom = $this->world->getStartingRoom($target);
             $this->world->livingToRoom($target, $startRoom);
