@@ -7,9 +7,9 @@
 
 namespace Gauntlet\Template;
 
-use Gauntlet\Enum\Modifier;
 use Gauntlet\Trait\Flags;
 use Gauntlet\Trait\Keywords;
+use Gauntlet\Trait\Modifiers;
 use Gauntlet\Trait\Scripts;
 
 abstract class BaseTemplate
@@ -20,11 +20,11 @@ abstract class BaseTemplate
     protected string $plural;
     protected ?string $sdesc = null;
     protected ?string $ldesc = null;
-    protected array $mods = [];
     protected int $count = 0;
 
     use Flags;
     use Keywords;
+    use Modifiers;
     use Scripts;
 
     public function getId(): int
@@ -83,16 +83,6 @@ abstract class BaseTemplate
         return $this->ldesc;
     }
 
-    public function getMod(Modifier $mod): float
-    {
-        return $this->mods[$mod->value] ?? 0;
-    }
-
-    public function getMods(): array
-    {
-        return $this->mods;
-    }
-
     public function getCount(): int
     {
         return $this->count;
@@ -136,10 +126,5 @@ abstract class BaseTemplate
     public function setLongDesc(?string $val): void
     {
         $this->ldesc = $val;
-    }
-
-    public function setMod(Modifier $mod, float $val): void
-    {
-        $this->mods[$mod->value] = $val;
     }
 }
