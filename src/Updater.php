@@ -57,6 +57,9 @@ class Updater
                 continue;
             }
 
+            // Update affections
+            $living->updateAffections();
+
             // Regenerate health
             $living->regenerate();
 
@@ -143,6 +146,9 @@ class Updater
             if (!$item->isValidObject()) {
                 continue;
             }
+
+            // Update affections
+            $item->updateAffections();
 
             $actionResult = null;
 

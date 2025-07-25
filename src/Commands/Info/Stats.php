@@ -18,6 +18,7 @@ use Gauntlet\Util\Config;
 use Gauntlet\Util\Currency;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\NumberFormatter;
+use Gauntlet\Util\TimeFormatter;
 use Gauntlet\Util\TableFormatter;
 
 class Stats extends BaseCommand
@@ -177,7 +178,7 @@ class Stats extends BaseCommand
         foreach ($player->getAffections() as $aff) {
             $rows[] = [
                 $aff->getSource()->value,
-                time() - $aff->getUntil(),
+                TimeFormatter::timeToShortString($aff->getUntil() - time(), true),
             ];
 
             foreach ($aff->getMods() as $key => $value) {

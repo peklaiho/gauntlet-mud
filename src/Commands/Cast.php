@@ -59,8 +59,13 @@ class Cast extends BaseCommand
         }
 
         if ($spell == Spell::MinorProtection) {
-            $aff = new Affection(AffectionType::Spell, $spell, time() + 300);
+            $aff = new Affection(AffectionType::Spell, $spell, time() + 30);
             $aff->setMod(Modifier::Armor, 10);
+            if ($target->isPlayer()) {
+                $aff->setCallback(function () use ($target) {
+                    $target->outln('You no longer feel protected.');
+                });
+            }
             $target->addAffection($aff);
             $player->outln('They are now protected.');
             return;

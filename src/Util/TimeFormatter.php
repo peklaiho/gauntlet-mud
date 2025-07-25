@@ -44,7 +44,7 @@ class TimeFormatter
         return implode(', ', $result);
     }
 
-    public static function timeToShortString(int $time): string
+    public static function timeToShortString(int $time, bool $separateBySpace = false): string
     {
         $parts = self::getParts($time);
         $types = ['d', 'h', 'm', 's'];
@@ -52,6 +52,9 @@ class TimeFormatter
 
         for ($i = 0; $i < 4; $i++) {
             if ($parts[$i] > 0) {
+                if ($separateBySpace && $result) {
+                    $result .= ' ';
+                }
                 $result .= $parts[$i] . $types[$i];
             }
         }

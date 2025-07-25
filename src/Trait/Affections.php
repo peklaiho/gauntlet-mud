@@ -41,12 +41,19 @@ trait Affections
         return $this->findAffection(AffectionType::Spell, $spell);
     }
 
-    public function removeAffection(Affection $aff): void
+    public function updateAffections(): void
     {
-        for ($i = 0; $i < count($this->affections); $i++) {
-            if ($this->affections[$i] === $aff) {
+        $now = time();
+
+        for ($i = 0; $i < count($this->affections); ) {
+            $aff = $this->affections[$i];
+            if ($now >= $aff->getUntil()) {
                 array_splice($this->affections, $i, 1);
-                return;
+                if ($aff->getCallback()) {
+                    ($aff->getCallback())();
+                }
+            } else {
+                $i++;
             }
         }
     }
