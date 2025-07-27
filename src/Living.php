@@ -63,7 +63,8 @@ abstract class Living extends BaseObject
 
     public function getBonusSpellDamage(): float
     {
-        return $this->getMod(Modifier::SpellDamage) + ($this->getInt(false) * 2);
+        // Damage bonus from intelligence is calculated separately for each spell
+        return $this->getMod(Modifier::SpellDamage);
     }
 
     public function findCurrentSlot(Item $item): ?EqSlot

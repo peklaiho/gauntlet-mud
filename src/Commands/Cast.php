@@ -7,21 +7,16 @@
 
 namespace Gauntlet\Commands;
 
-use Gauntlet\Affection;
-use Gauntlet\Magic;
 use Gauntlet\Player;
 use Gauntlet\SkillMap;
-use Gauntlet\Enum\AffectionType;
-use Gauntlet\Enum\Modifier;
-use Gauntlet\Enum\Spell;
+use Gauntlet\SpellMap;
 use Gauntlet\Util\Input;
-use Gauntlet\Util\LivingFinder;
 use Gauntlet\Util\SpellParser;
 
 class Cast extends BaseCommand
 {
     public function __construct(
-        protected Magic $magic
+
     ) {
 
     }
@@ -42,37 +37,27 @@ class Cast extends BaseCommand
         }
 
         list($spell, $targetName) = $info;
+        $spellInfo = SpellMap::get($spell);
+        $manaCost = $player->getAdminLevel() ? 0 : $spellInfo->manaCost();
 
-        // Damage spell requires a target
-        if (!$targetName) {
+        if ($player->getMana() < $manaCost) {
+            $player->outln('You do not have enough mana.');
+            return;
+        } elseif (!$targetName) {
             $player->outln('This spell requires a target.');
             return;
         }
 
-        $lists = [$player->getRoom()->getLiving()];
-        $target = (new LivingFinder($player, $lists))
-            ->find($targetName);
+        $target = $spellInfo->findTarget($player, $targetName);
 
         if (!$target) {
             $player->outln(MESSAGE_NOONE);
             return;
         }
 
-        if ($spell == Spell::MinorProtection) {
-            $aff = new Affection(AffectionType::Spell, $spell, time() + 30);
-            $aff->setMod(Modifier::Armor, 10);
-            if ($target->isPlayer()) {
-                $aff->setCallback(function () use ($target) {
-                    $target->outln('You no longer feel protected.');
-                });
-            }
-            $target->addAffection($aff);
-            $player->outln('They are now protected.');
-            return;
-        }
+        $player->setMana($player->getMana() - $manaCost);
 
-        // Damage spells
-        $this->magic->castDamageSpell($player, $target, $spell);
+        $spellInfo->cast($player, $target);
     }
 
     public function getDescription(?string $subcmd): string

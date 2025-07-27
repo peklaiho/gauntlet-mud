@@ -115,10 +115,32 @@ class Fight
         return min(max($toHit, MIN_TO_HIT), MAX_TO_HIT);
     }
 
+    public function chanceToHitMagic(Living $attacker, Living $victim): int
+    {
+        // Base chance to hit
+        $toHit = BASE_TO_HIT;
+
+        // Add hit bonus from attacker
+        $toHit += $attacker->bonusToSpellHit();
+
+        // Subtract dodge bonus from victim
+        $toHit -= $victim->bonusToSpellDodge();
+
+        // Make sure chance to hit is within bounds
+        return min(max($toHit, MIN_TO_HIT), MAX_TO_HIT);
+    }
+
     // True if attacker can successfully hit victim
     public function canHit(Living $attacker, Living $victim): bool
     {
         $toHit = $this->chanceToHit($attacker, $victim);
+
+        return Random::percent($toHit);
+    }
+
+    public function canHitMagic(Living $attacker, Living $victim): bool
+    {
+        $toHit = $this->chanceToHitMagic($attacker, $victim);
 
         return Random::percent($toHit);
     }
