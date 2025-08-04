@@ -41,9 +41,11 @@ class Eat extends BaseCommand
             return;
         }
 
-        // Gain health
         $nutrition = $item->getWeight() * 100;
+
+        // Gain health and movement
         $player->setHealth(min($player->getMaxHealth(), $player->getHealth() + $nutrition));
+        $player->setMove(min($player->getMaxMove(), $player->getMove() + $nutrition));
 
         $this->action->eat($player, $item);
     }
