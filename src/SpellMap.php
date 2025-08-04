@@ -23,10 +23,11 @@ class SpellMap
             // Cleric
             self::$map[Spell::MinorProtection->value] = new AffectionSpell(Spell::MinorProtection, 10, [
                 Modifier::Armor->value => 1.5
-            ], 300);
+            ], 600, 'You feel slightly more protected.', 'You no longer feel protected.');
+
             self::$map[Spell::MajorProtection->value] = new AffectionSpell(Spell::MajorProtection, 50, [
-                Modifier::Armor->value => 5
-            ], 300);
+                Modifier::Armor->value => 4
+            ], 600, 'You feel significantly more protected.', 'You no longer feel protected.');
 
             // Mage damage spells
             self::$map[Spell::MagicMissile->value] = new DamageSpell(Spell::MagicMissile, 10, 10, 2);

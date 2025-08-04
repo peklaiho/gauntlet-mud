@@ -14,5 +14,5 @@ abstract class BaseSpell
 {
     public abstract function manaCost(): float;
     public abstract function findTarget(Living $caster, string $targetName): Living|Item|null;
-    public abstract function cast(Living $caster, Living|Item|null $target): void;
+    public abstract function cast(Living $caster, Living|Item $target): void;
 }

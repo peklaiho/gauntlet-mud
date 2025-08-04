@@ -39,7 +39,7 @@ class DamageSpell extends BaseSpell
         return $target;
     }
 
-    public function cast(Living $caster, Living|Item|null $target): void
+    public function cast(Living $caster, Living|Item $target): void
     {
         $act = SERVICE_CONTAINER->get(Act::class);
         $fight = SERVICE_CONTAINER->get(Fight::class);

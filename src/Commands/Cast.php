@@ -7,6 +7,8 @@
 
 namespace Gauntlet\Commands;
 
+use Gauntlet\Act;
+use Gauntlet\Living;
 use Gauntlet\Player;
 use Gauntlet\SkillMap;
 use Gauntlet\SpellMap;
@@ -16,7 +18,7 @@ use Gauntlet\Util\SpellParser;
 class Cast extends BaseCommand
 {
     public function __construct(
-
+        protected Act $act
     ) {
 
     }
@@ -56,6 +58,22 @@ class Cast extends BaseCommand
         }
 
         $player->setMana($player->getMana() - $manaCost);
+
+        // Show message about spell being cast
+        $spellname = $spell->value;
+        if ($target instanceof Living) {
+            if ($player === $target) {
+                $this->act->toChar("You close your eyes and utter the words '$spellname'!", $player);
+                $this->act->toRoom("@t closes @s eyes and utters the words '$spellname'!", false, $player);
+            } else {
+                $this->act->toChar("You stare intently at @T and utter the words '$spellname'!", $player, null, $target);
+                $this->act->toVict("@t stares intently at you and utters the words '$spellname'!", false, $player, null, $target);
+                $this->act->toRoom("@t stares intently at @T and utters the words '$spellname'!", false, $player, null, $target, true);
+            }
+        } else {
+            $this->act->toChar("You stare intently at @p and utter the words '$spellname'!", $caster, $target);
+            $this->act->toRoom("@t stares intently at @o and utters the words '$spellname'!", false, $caster, $target);
+        }
 
         $spellInfo->cast($player, $target);
     }

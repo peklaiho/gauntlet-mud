@@ -21,11 +21,17 @@ class Affection
     protected ?Closure $callback = null;
 
     public function __construct(
+        protected Living|Item $owner,
         protected AffectionType $type,
         protected Skill|Spell $source,
         protected int $until
     ) {
 
+    }
+
+    public function getOwner(): Living|Item
+    {
+        return $this->owner;
     }
 
     public function getType(): AffectionType

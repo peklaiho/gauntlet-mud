@@ -21,7 +21,9 @@ class AffectionSpell extends BaseSpell
         protected Spell $spell,
         protected float $manaCost,
         protected array $mods,
-        protected int $duration
+        protected int $duration,
+        protected string $startMessage,
+        protected string $endMessage
     ) {
 
     }
@@ -39,12 +41,25 @@ class AffectionSpell extends BaseSpell
         return $target;
     }
 
-    public function cast(Living $caster, Living|Item|null $target): void
+    public function cast(Living $caster, Living|Item $target): void
     {
-        $aff = new Affection(AffectionType::Spell, $this->spell, time() + $this->duration);
+        if ($target instanceof Living && $target->isPlayer()) {
+            $target->outln($this->startMessage);
+        }
+
+        $aff = new Affection($target, AffectionType::Spell, $this->spell, time() + $this->duration);
+
         foreach ($this->mods as $modName => $value) {
             $aff->setMod(Modifier::from($modName), $value);
         }
+
+        if ($target instanceof Living && $target->isPlayer()) {
+            $endMessage = $this->endMessage;
+            $aff->setCallback(function () use ($target, $endMessage) {
+                $target->outln($endMessage);
+            });
+        }
+
         $target->addAffection($aff);
     }
 }

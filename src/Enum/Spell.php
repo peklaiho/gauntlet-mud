@@ -10,13 +10,13 @@ namespace Gauntlet\Enum;
 enum Spell: string
 {
     // Cleric
-    case MinorProtection = 'minor protection';
-    case MajorProtection = 'major protection';
+    case MinorProtection = 'Minor Protection';
+    case MajorProtection = 'Major Protection';
 
     // Mage
-    case MagicMissile = 'magic missile';
-    case FireBolt = 'firebolt';
-    case ChillBones = 'chill bones';
-    case FireBall = 'fireball';
-    case AlphaAndOmega = 'alpha and omega';
+    case MagicMissile = 'Magic Missile';
+    case FireBolt = 'Firebolt';
+    case ChillBones = 'Chill Bones';
+    case FireBall = 'Fireball';
+    case AlphaAndOmega = 'Alpha and Omega';
 }
