@@ -217,19 +217,8 @@ class Player extends Living
 
     public function hasSkill(Skill|Spell $skill): bool
     {
-        // Immortals have all skills
-        if ($this->getAdminLevel()) {
-            return true;
-        }
-
-        $availableSkills = SkillMap::getSkillsForPlayer($this);
-
-        if (in_array($skill, $availableSkills) &&
-            (!Config::useSkillPoints() || $this->getSkillLevel($skill) > 0)) {
-            return true;
-        }
-
-        return false;
+        $availableSkills = SkillMap::getAvailableSkillsForPlayer($this, false);
+        return in_array($skill, $availableSkills);
     }
 
     #[\Override]

@@ -30,7 +30,7 @@ class Cast extends BaseCommand
             return;
         }
 
-        $spells = SkillMap::getSkillsForPlayer($player);
+        $spells = SkillMap::getAvailableSkillsForPlayer($player, true);
         $info = SpellParser::parse($input, $spells);
 
         if (!$info) {
@@ -77,7 +77,7 @@ class Cast extends BaseCommand
 
     public function canExecute(Player $player, ?string $subcmd): bool
     {
-        return $player->getClass()->spellSkill() == 'spell';
+        return $player->getAdminLevel() || $player->getClass()->spellSkill() == 'spell';
     }
 
     public function getSeeAlso(?string $subcmd): array
