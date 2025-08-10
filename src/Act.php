@@ -43,29 +43,7 @@ class Act
         }
     }
 
-    private function getLivingName(Living $living, bool $the): string
-    {
-        if ($living->isPlayer()) {
-            return $living->getName();
-        }
-
-        if ($the) {
-            return $living->getTemplate()->getTheName();
-        } else {
-            return $living->getTemplate()->getAName();
-        }
-    }
-
-    private function getPluralName(Living $living): string
-    {
-        if ($living->isPlayer()) {
-            return $living->getName();
-        }
-
-        return $living->getTemplate()->getPlural();
-    }
-
-    private function performAct(string $txt, Living $ch, ?Item $obj, null|string|Item|Living $victObj, Living $to): void
+    public function performAct(string $txt, Living $ch, ?Item $obj, null|string|Item|Living $victObj, Living $to): void
     {
         if ($to->isMonster()) {
             return;
@@ -104,5 +82,27 @@ class Act
         }
 
         $to->outln(ucfirst($txt));
+    }
+
+    private function getLivingName(Living $living, bool $the): string
+    {
+        if ($living->isPlayer()) {
+            return $living->getName();
+        }
+
+        if ($the) {
+            return $living->getTemplate()->getTheName();
+        } else {
+            return $living->getTemplate()->getAName();
+        }
+    }
+
+    private function getPluralName(Living $living): string
+    {
+        if ($living->isPlayer()) {
+            return $living->getName();
+        }
+
+        return $living->getTemplate()->getPlural();
     }
 }

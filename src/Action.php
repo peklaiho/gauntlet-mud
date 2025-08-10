@@ -13,9 +13,11 @@ use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\EqSlot;
 use Gauntlet\Enum\ItemFlag;
 use Gauntlet\Enum\MoneyType;
+use Gauntlet\Enum\Spell;
 use Gauntlet\Util\Config;
 use Gauntlet\Util\Currency;
 use Gauntlet\Util\Log;
+use Gauntlet\Util\SpellObfuscator;
 
 class Action
 {
@@ -24,6 +26,43 @@ class Action
         protected Act $act
     ) {
 
+    }
+
+    public function cast(Living $living, Living|Item $target, Spell $spell)
+    {
+        $spellname = $spell->value;
+
+        if ($target instanceof Living) {
+            if ($living === $target) {
+                $this->act->toChar("You close your eyes and utter the words '$spellname'!", $living);
+                $this->performCastRoom($living, $target, $spell, "@t closes @s eyes and utters the words '{0}'!");
+            } else {
+                $this->act->toChar("You stare intently at @T and utter the words '$spellname'!", $living, null, $target);
+                $this->performCastRoom($living, $target, $spell, "@t stares intently at @T and utters the words '{0}'!");
+            }
+        } else {
+            $this->act->toChar("You stare intently at @P and utter the words '$spellname'!", $caster, null, $target);
+            $this->performCastRoom($living, $target, $spell, "@t stares intently at @O and utters the words '{0}'!");
+        }
+    }
+
+    private function performCastRoom(Living $living, Living|Item $target, Spell $spell, string $message): void
+    {
+        foreach ($living->getRoom()->getLiving()->getAll() as $other) {
+            if ($other === $living) {
+                continue;
+            } elseif ($other === $target) {
+                $message = str_replace('at @T', 'at you', $message);
+            }
+
+            // Use spell name, or obfuscated spell name, depending
+            // on whether the recipient knows the spell.
+            $spellName = ($other->isPlayer() && $other->hasSkill($spell)) ?
+                $spell->value : SpellObfuscator::obfuscate($spell->value);
+            $message = str_replace('{0}', $spellName, $message);
+
+            $this->act->performAct($message, $living, null, $target, $other);
+        }
     }
 
     public function discard(Living $living, Item $item): void
