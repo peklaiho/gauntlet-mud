@@ -46,25 +46,6 @@ class Action
         }
     }
 
-    private function performCastRoom(Living $living, Living|Item $target, Spell $spell, string $message): void
-    {
-        foreach ($living->getRoom()->getLiving()->getAll() as $other) {
-            if ($other === $living) {
-                continue;
-            } elseif ($other === $target) {
-                $message = str_replace('at @T', 'at you', $message);
-            }
-
-            // Use spell name, or obfuscated spell name, depending
-            // on whether the recipient knows the spell.
-            $spellName = ($other->isPlayer() && $other->hasSkill($spell)) ?
-                $spell->value : SpellObfuscator::obfuscate($spell->value);
-            $message = str_replace('{0}', $spellName, $message);
-
-            $this->act->performAct($message, $living, null, $target, $other);
-        }
-    }
-
     public function discard(Living $living, Item $item): void
     {
         $encState = $this->getEncumberance($living);
@@ -241,6 +222,29 @@ class Action
         $this->world->itemToEquipment($item, $living, $slot);
         $this->act->toChar($messages[0], $living, $item);
         $this->act->toRoom($messages[1], true, $living, $item);
+    }
+
+    private function performCastRoom(Living $living, Living|Item $target, Spell $spell, string $template): void
+    {
+        foreach ($living->getRoom()->getLiving()->getAll() as $other) {
+            if ($other === $living) {
+                continue;
+            }
+
+            $message = $template;
+
+            if ($other === $target) {
+                $message = str_replace('at @T', 'at you', $message);
+            }
+
+            // Use spell name, or obfuscated spell name, depending
+            // on whether the recipient knows the spell.
+            $spellName = ($other->isPlayer() && $other->hasSkill($spell)) ?
+                $spell->value : SpellObfuscator::obfuscate($spell->value);
+            $message = str_replace('{0}', $spellName, $message);
+
+            $this->act->performAct($message, $living, null, $target, $other);
+        }
     }
 
     private function getEncumberance(Living $living): bool
