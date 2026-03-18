@@ -66,7 +66,7 @@ class Server extends BaseCommand
         $player->outln('CPU: %.2f %%', $this->sleeper->getWorkload() * 100);
         $player->outln('GC: %d / %d refs, %d freed in %d runs', $gc['roots'], $gc['threshold'], $gc['collected'], $gc['runs']);
         $player->outln();
-        $player->outln('%d commands and %d socials.', count($this->commands->getList(AdminLevel::Implementor)), count($this->socials->list()));
+        $player->outln('%d commands and %d socials.', count($this->commands->getList($player)), count($this->socials->list()));
         $player->outln('%d zones from %d templates.', $this->lists->getZones()->count(), $this->lists->getZoneTemplates()->count());
         $player->outln('%d rooms from %d templates.', $this->lists->getRooms()->count(), $this->lists->getRoomTemplates()->count());
         $player->outln('%d shops selling %d items.', $this->lists->getShops()->count(), $shopItemCount);
