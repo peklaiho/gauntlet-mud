@@ -43,7 +43,7 @@ class Mail extends BaseCommand
         if (!$player->canSeeRoom()) {
             $player->outln(MESSAGE_DARK);
             return;
-        } elseif (!$player->getRoom()->hasFlag(RoomFlag::Mail)) {
+        } elseif (!$player->getRoom()->getTemplate()->hasFlag(RoomFlag::Mail)) {
             $player->outln('You must be in a post office to use mail services.');
             return;
         }
