@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Info command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -25,6 +25,18 @@ class Info extends BaseCommand
 
     public function execute(Player $player, Input $input, ?string $subcmd): void
     {
+        // Special check for accepting the rules
+        if ($input->count() >= 2 && strtolower($input->get(0)) == 'rules') {
+            if (strtolower($input->get(1)) == 'accept') {
+                $player->setAcceptedRules(true);
+                $player->outln("Thank you for accepting the rules. Please enjoy the game!");
+                Log::info($player->getName() . " has accepted the rules.");
+            } else {
+                $player->outln("Please type 'accept' as the second argument to accept the rules.");
+            }
+            return;
+        }
+
         $topics = $this->helpFiles->getInfoTopics();
         $search = $input->getWholeArgument(true);
 
@@ -49,19 +61,8 @@ class Info extends BaseCommand
             return;
         }
 
-        // One match
-        if (key($matches) == 'Rules' && $input->count() > 1) {
-            // Accept rules
-            if (strtolower($input->get(1)) == 'accept') {
-                $player->setAcceptedRules(true);
-                $player->outln("Thank you for accepting the rules. Please enjoy the game!");
-                Log::info($player->getName() . " has accepted the rules.");
-            } else {
-                $player->outln("Please type 'accept' as the second argument to accept the rules.");
-            }
-        } else {
-            $player->outpr($player->highlight(current($matches)), true);
-        }
+        // One match, show the info
+        $player->outpr($player->highlight(current($matches)), true);
     }
 
     public function getDescription(?string $subcmd): string

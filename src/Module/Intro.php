@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Intro module
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -349,7 +349,7 @@ class Intro implements IModule
             }
 
             // Ask player to accept rules
-            if ($player->getLevel() > 1 && !$player->getAcceptedRules()) {
+            if ($player->getLevel() >= 5 && !$player->getAcceptedRules()) {
                 $player->outln();
                 $player->outpr("Please take a moment to read the rules of the game by typing 'info rules' " .
                     "and then accept them by typing 'info rules accept'. Thanks for playing with us!");
