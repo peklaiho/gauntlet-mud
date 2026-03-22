@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Group command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -94,26 +94,42 @@ class GroupCmd extends BaseCommand
                 $player->outln('You are already a member of a party.');
                 return;
             } elseif ($input->count() < 2) {
-                $player->outln('Join who?');
-                return;
-            }
+                $choices = [];
 
-            $target = $finder->find($input->get(1));
+                foreach ($this->lists->getGroups()->getAll() as $someGroup) {
+                    if ($someGroup->getInvitees()->contains($player->getName())) {
+                        $choices[] = $someGroup;
+                    }
+                }
 
-            if (!$target) {
-                $player->outln(MESSAGE_NOONE);
-                return;
-            }
+                if (empty($choices)) {
+                    $player->outln('You have not been invited to any party.');
+                    return;
+                } elseif (count($choices) > 1) {
+                    $player->outln('You have been invited to multiple parties. Give the name of the party leader as argument.');
+                    return;
+                }
 
-            $group = $target->getGroup();
+                $group = $choices[0];
+                $target = $group->getLeader();
+            } else {
+                $target = $finder->find($input->get(1));
 
-            if (!$group) {
-                $this->act->toChar("@E is not a member of a party.", $player, null, $target);
-                return;
-            } elseif (!$group->getInvitees()->contains($player->getName())) {
-                $this->act->toChar("You have not been invited to join @S party.", $player, null, $target);
-                $this->act->toList("@t attempted to join your party but has not been invited.", false, $group->getMembers(), $player);
-                return;
+                if (!$target) {
+                    $player->outln(MESSAGE_NOONE);
+                    return;
+                }
+
+                $group = $target->getGroup();
+
+                if (!$group) {
+                    $this->act->toChar("@E is not a member of a party.", $player, null, $target);
+                    return;
+                } elseif (!$group->getInvitees()->contains($player->getName())) {
+                    $this->act->toChar("You have not been invited to join @S party.", $player, null, $target);
+                    $this->act->toList("@t attempted to join your party but has not been invited.", false, $group->getMembers(), $player);
+                    return;
+                }
             }
 
             $this->groupHandler->join($player, $group);
@@ -189,7 +205,7 @@ class GroupCmd extends BaseCommand
             '',
             "<'create'>",
             "<'invite'> [player]",
-            "<'join'> <player>",
+            "<'join'> [player]",
             "<'leave'>",
             "<'promote'> <player>",
             "<'revoke'> <player>",
