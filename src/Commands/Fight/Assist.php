@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Assist command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -31,18 +31,41 @@ class Assist extends BaseCommand
         if (!$player->checkInitiateViolence(true)) {
             return;
         } elseif ($input->empty()) {
-            $player->outln("Who do you wish to assist?");
-            return;
-        }
+            if (!$player->getGroup()) {
+                $player->outln("Who do you wish to assist?");
+                return;
+            }
 
-        $lists = [$player->getRoom()->getLiving()];
-        $defender = (new LivingFinder($player, $lists))
-            ->excludeSelf()
-            ->find($input->get(0));
+            // Find party members who need help
+            $choices = [];
 
-        if (!$defender) {
-            $player->outln(MESSAGE_NOONE);
-            return;
+            foreach ($player->getRoom()->getLiving()->getAll() as $other) {
+                if ($player === $other) {
+                    continue;
+                }
+
+                if ($player->getGroup() === $other->getGroup() && $other->getTarget()) {
+                    $choices[] = $other;
+                }
+            }
+
+            if (empty($choices)) {
+                $player->outln('None of your party members seem to need help at this time.');
+                return;
+            }
+
+            // Just choose the first one for now
+            $defender = $choices[0];
+        } else {
+            $lists = [$player->getRoom()->getLiving()];
+            $defender = (new LivingFinder($player, $lists))
+                ->excludeSelf()
+                ->find($input->get(0));
+
+            if (!$defender) {
+                $player->outln(MESSAGE_NOONE);
+                return;
+            }
         }
 
         $attacker = $defender->getTarget();
@@ -64,12 +87,12 @@ class Assist extends BaseCommand
 
     public function getDescription(?string $subcmd): string
     {
-        return 'Assist your target (NPC or player) by fighting against their aggressor.';
+        return 'Assist your target (NPC or player) by fighting against their aggressor. Assist a party member if no target is given.';
     }
 
     public function getUsage(?string $subcmd): array
     {
-        return ['<monster | player>'];
+        return ['[monster | player]'];
     }
 
     public function getSeeAlso(?string $subcmd): array
