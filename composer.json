@@ -13,10 +13,10 @@
     ],
     "require" : {
         "peklaiho/madlisp": "^1.0",
-        "symfony/yaml": "^7.0"
+        "symfony/yaml": "^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^12.0"
+        "phpunit/phpunit": "^13.0"
     },
     "autoload": {
         "psr-4": {
