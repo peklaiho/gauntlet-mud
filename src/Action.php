@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Common actions
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -148,6 +148,17 @@ class Action
             $this->act->toChar("You give $format coins to @T.", $source, null, $target);
             $this->act->toVict("@t gives you $format coins.", false, $source, null, $target);
             $this->act->toRoom('@t gives some coins to @T.', true, $source, null, $target, true);
+        }
+    }
+
+    public function light(Living $living, Item $item, bool $on): void
+    {
+        if ($on) {
+            $this->act->toChar("You light @p.", $living, $item);
+            $this->act->toRoom("@t lights @s @i.", false, $living, $item);
+        } else {
+            $this->act->toChar("You extinguish @p.", $living, $item);
+            $this->act->toRoom("@t extinguishes @s @i.", false, $living, $item);
         }
     }
 

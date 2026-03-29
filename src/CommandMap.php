@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Map of commands
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -65,6 +65,7 @@ use Gauntlet\Commands\Items\Get;
 use Gauntlet\Commands\Items\Give;
 use Gauntlet\Commands\Items\Put;
 use Gauntlet\Commands\Items\Remove;
+use Gauntlet\Commands\Items\UseCmd;
 use Gauntlet\Commands\Items\Wear;
 use Gauntlet\Commands\Bank;
 use Gauntlet\Commands\Cast;
@@ -161,6 +162,7 @@ class CommandMap
                 new CommandInfo('train', SERVICE_CONTAINER->get(Train::class)),
                 new CommandInfo('transfer', SERVICE_CONTAINER->get(Transfer::class)),
                 // new CommandInfo('thesaurus', SERVICE_CONTAINER->get(Dict::class), Dict::THESAURUS),
+                new CommandInfo('use', SERVICE_CONTAINER->get(UseCmd::class)),
                 new CommandInfo('unlock', SERVICE_CONTAINER->get(DoorCmd::class), DoorCmd::UNLOCK),
                 new CommandInfo('unalias', SERVICE_CONTAINER->get(Alias::class), Alias::UNALIAS),
                 new CommandInfo('wear', SERVICE_CONTAINER->get(Wear::class), Wear::WEAR),
