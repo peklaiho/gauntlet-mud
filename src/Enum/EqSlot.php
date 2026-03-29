@@ -106,8 +106,8 @@ enum EqSlot: string
     {
         return match($this) {
             EqSlot::Light => [
-                'You stop using @p as your lightsource.',
-                '@t stops using @o as @s lightsource.'
+                'You stop using @p as your light source.',
+                '@t stops using @o as @s light source.'
             ],
             EqSlot::Head => [
                 'You stop wearing @p on your head.',
@@ -172,8 +172,8 @@ enum EqSlot: string
     {
         return match($this) {
             EqSlot::Light => [
-                'You light @p and start using it as lightsource.',
-                '@t lights @o and starts using it as @s lightsource.'
+                'You start using @p as your light source.',
+                '@t starts using @o as @s light source.'
             ],
             EqSlot::Head => [
                 'You wear @p on your head.',
