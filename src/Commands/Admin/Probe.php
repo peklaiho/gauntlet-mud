@@ -159,6 +159,11 @@ class Probe extends BaseCommand
             TimeFormatter::timeToShortString(time() - $item->getCreationTime())
         );
         $player->outln('Keywords: %s', implode(', ', $template->getKeywords()));
+
+        $player->outln('Worn on: %s', implode(', ', array_map(function ($slot) {
+            return $slot->value;
+        }, $template->getSlots())));
+
         $player->outln('Flags: %s', $template->renderFlags());
 
         $this->showScripts($player, $item);
