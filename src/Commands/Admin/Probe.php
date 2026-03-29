@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Probe command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -187,6 +187,10 @@ class Probe extends BaseCommand
             $player->outln('Contains: %d items', $item->getContents()->count());
         } elseif ($item->isBulletinBoard()) {
             $player->outln('Bulletin board messages: %d', $template->getMessages()->count());
+        } elseif ($item->isLightSource()) {
+            $player->outln('Light source status: %s', $item->getLightEnabled() ? 'On' : 'Off');
+            $player->outln('Light source fuel: %s', $template->hasUnlimitedFuel() ? 'Unlimited' : $template->getFuel());
+            $player->outln('Light source spent fuel: %d', $item->getLightSpentFuel());
         }
 
         if ($template->getMods()) {

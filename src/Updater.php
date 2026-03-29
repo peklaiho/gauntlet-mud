@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Periodic updates to rooms, items, monsters and fights
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -156,6 +156,11 @@ class Updater
             $script = $item->getScript(ScriptType::Update);
             if ($script) {
                 $actionResult = Lisp::eval($item, $script);
+            }
+
+            // Dynamic state
+            if (!$actionResult) {
+                $actionResult = $this->updateItemDynamicState($item);
             }
 
             // Decay corpses
@@ -320,5 +325,25 @@ class Updater
         }
 
         return null;
+    }
+
+    private function updateItemDynamicState(Item $item): bool
+    {
+        // Update light source
+        if ($item->isLightSource() && $item->getLightEnabled() && !$item->getTemplate()->hasUnlimitedFuel()) {
+            // Spend fuel
+            $item->setLightSpentFuel($item->getLightSpentFuel() + 1);
+
+            // Turn off if fuel finished
+            if ($item->getLightSpentFuel() >= $item->getTemplate()->getFuel()) {
+                $item->setLightEnabled(false);
+
+                // TODO: Show message to owner and room
+
+
+            }
+        }
+
+        return false;
     }
 }

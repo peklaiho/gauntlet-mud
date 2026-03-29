@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Base class for players and monsters
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -172,6 +172,26 @@ abstract class Living extends BaseObject
             }
         }
 
+        return false;
+    }
+
+    public function hasLight(): bool
+    {
+        // Items in inventory
+        foreach ($this->getInventory()->getAll() as $item) {
+            if ($item->isLightSource() && $item->getLightEnabled()) {
+                return true;
+            }
+        }
+
+        // Worn items
+        foreach ($this->getEquipment()->getAll() as $item) {
+            if ($item->isLightSource() && $item->getLightEnabled()) {
+                return true;
+            }
+        }
+
+        // No light
         return false;
     }
 

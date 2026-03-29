@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Room instance
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -37,6 +37,13 @@ class Room extends BaseObject
 
     public function isDark(): bool
     {
+        // Check if any item in room is an active light source
+        foreach ($this->getItems()->getAll() as $item) {
+            if ($item->isLightSource() && $item->getLightEnabled()) {
+                return false;
+            }
+        }
+
         // Flagged rooms permanently dark or lighted
         if ($this->template->hasFlag(RoomFlag::Light)) {
             return false;

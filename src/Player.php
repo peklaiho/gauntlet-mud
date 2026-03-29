@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Player instance
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -188,8 +188,8 @@ class Player extends Living
             return true;
         }
 
-        // Otherwise we can only see items carried or worn by us
-        return $item->getCarrier() === $this || $item->getWearer() === $this;
+        // Otherwise we can only see items owned by us
+        return $item->getOwner() === $this;
     }
 
     #[\Override]
@@ -199,6 +199,7 @@ class Player extends Living
         return !$this->getRoom()->isDark() || $this->hasLight();
     }
 
+    #[\Override]
     public function hasLight(): bool
     {
         // Admins have permanent light in preferences
@@ -206,13 +207,7 @@ class Player extends Living
             return true;
         }
 
-        // For now just wearing any item in light slot is enough
-        if ($this->getEqInSlot(EqSlot::Light)) {
-            return true;
-        }
-
-        // No light
-        return false;
+        return parent::hasLight();
     }
 
     public function hasSkill(Skill|Spell $skill): bool

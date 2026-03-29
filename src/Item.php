@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Item instance
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -13,9 +13,12 @@ use Gauntlet\Enum\ScriptType;
 use Gauntlet\Template\ArmorTemplate;
 use Gauntlet\Template\BulletinBoardTemplate;
 use Gauntlet\Template\ContainerTemplate;
+use Gauntlet\Template\FoodTemplate;
 use Gauntlet\Template\ItemTemplate;
+use Gauntlet\Template\LightSourceTemplate;
 use Gauntlet\Template\WeaponTemplate;
 use Gauntlet\Trait\CreationTime;
+use Gauntlet\Trait\ItemDynamicState;
 use Gauntlet\Trait\MagicNumber;
 
 class Item extends BaseObject
@@ -28,6 +31,7 @@ class Item extends BaseObject
     protected Collection $contents;
 
     use CreationTime;
+    use ItemDynamicState;
     use MagicNumber;
 
     public function __construct(
@@ -81,6 +85,22 @@ class Item extends BaseObject
         return 'unknown';
     }
 
+    // Same as getCarrier and getWearer, but works also
+    // for items inside containers (in which case return
+    // the carrier/wearer of the container).
+    public function getOwner(): ?Living
+    {
+        if ($this->getCarrier()) {
+            return $this->getCarrier();
+        } elseif ($this->getWearer()) {
+            return $this->getWearer();
+        } elseif ($this->getContainer()) {
+            return $this->getContainer()->getOwner();
+        }
+
+        return null;
+    }
+
     public function getRoom(): ?Room
     {
         return $this->room;
@@ -126,6 +146,16 @@ class Item extends BaseObject
     public function isContainer(): bool
     {
         return get_class($this->template) == ContainerTemplate::class;
+    }
+
+    public function isFood(): bool
+    {
+        return get_class($this->template) == FoodTemplate::class;
+    }
+
+    public function isLightSource(): bool
+    {
+        return get_class($this->template) == LightSourceTemplate::class;
     }
 
     public function isWeapon(): bool

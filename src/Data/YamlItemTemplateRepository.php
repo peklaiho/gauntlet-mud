@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - YAML repository for items
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -22,6 +22,7 @@ use Gauntlet\Template\BulletinBoardTemplate;
 use Gauntlet\Template\ContainerTemplate;
 use Gauntlet\Template\FoodTemplate;
 use Gauntlet\Template\ItemTemplate;
+use Gauntlet\Template\LightSourceTemplate;
 use Gauntlet\Template\WeaponTemplate;
 use Gauntlet\Util\Log;
 
@@ -88,6 +89,12 @@ class YamlItemTemplateRepository implements IItemTemplateRepository
             $item = new BulletinBoardTemplate();
         } elseif ($type == 'food') {
             $item = new FoodTemplate();
+        } elseif ($type == 'light') {
+            $item = new LightSourceTemplate();
+
+            if (array_key_exists('fuel', $data)) {
+                $item->setFuel($data['fuel']);
+            }
         } else {
             $item = new ItemTemplate();
         }
