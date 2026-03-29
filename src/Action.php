@@ -162,6 +162,22 @@ class Action
         }
     }
 
+    public function lightDies(Item $item): void
+    {
+        $temp = null;
+
+        if ($item->getCarrier()) {
+            $temp = [$item->getCarrier(), 'carried'];
+        } elseif ($item->getWearer()) {
+            $temp = [$item->getWearer(), 'used'];
+        }
+
+        if ($temp) {
+            $this->act->toChar("@p @+ by you extinguishes.", $temp[0], $item, $temp[1]);
+            $this->act->toRoom("@o @+ by @t extinguishes.", false, $temp[0], $item, $temp[1]);
+        }
+    }
+
     public function putInContainer(Living $living, Item $item, Item $container): void
     {
         $encState = $this->getEncumberance($living);

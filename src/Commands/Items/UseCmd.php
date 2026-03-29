@@ -37,8 +37,16 @@ class UseCmd extends BaseCommand
         }
 
         if ($item->isLightSource()) {
-            $item->setLightEnabled(!$item->getLightEnabled());
-            $this->action->light($player, $item, $item->getLightEnabled());
+            if ($item->getLightEnabled()) {
+                $item->setLightEnabled(false);
+                $this->action->light($player, $item, false);
+            } elseif ($item->getTemplate()->hasUnlimitedFuel() ||
+                $item->getLightSpentFuel() < $item->getTemplate()->getFuel()) {
+                $item->setLightEnabled(true);
+                $this->action->light($player, $item, true);
+            } else {
+                $player->outln('It has burned out.');
+            }
             return;
         }
 

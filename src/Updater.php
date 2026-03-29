@@ -29,6 +29,7 @@ class Updater
         protected Renderer $render,
         protected AmbientHandler $ambientHandler,
         protected Act $act,
+        protected Action $action,
         protected ActionMove $actionMove,
         protected Lists $lists
     ) {
@@ -337,10 +338,8 @@ class Updater
             // Turn off if fuel finished
             if ($item->getLightSpentFuel() >= $item->getTemplate()->getFuel()) {
                 $item->setLightEnabled(false);
-
-                // TODO: Show message to owner and room
-
-
+                $this->action->lightDies($item);
+                return true;
             }
         }
 
