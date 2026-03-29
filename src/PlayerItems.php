@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Handler for player items
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -32,7 +32,7 @@ class PlayerItems
         $this->doLoadItems($player, $player->getSavedEquipment(), 'equipment');
     }
 
-    private function doLoadItems(Player $player, array $items, $target): void
+    private function doLoadItems(Player $player, array $items, string|Item $target): void
     {
         foreach ($items as $key => $info) {
             $template = $this->lists->getItemTemplates()->get($info['id']);
@@ -50,6 +50,8 @@ class PlayerItems
                 } else {
                     $item = $this->world->loadItemToContainer($template, $target);
                 }
+
+                $item->setDynamicState($info['state'] ?? []);
 
                 $this->doLoadItems($player, $info['contents'] ?? [], $item);
             } else {
@@ -72,7 +74,8 @@ class PlayerItems
             }
 
             $data = [
-                'id' => $item->getTemplate()->getId()
+                'id' => $item->getTemplate()->getId(),
+                'state' => $item->getDynamicState(),
             ];
 
             if (!$item->getContents()->empty()) {
