@@ -25,11 +25,13 @@ enum Attack: string
     case Pummel = 'pummel';
     case Punch = 'punch';
     case Rend = 'rend';
+    case Roll = 'roll';
     case Shoot = 'shoot';
     case Skewer = 'skewer';
     case Slap = 'slap';
     case Slash = 'slash';
     case Smite = 'smite';
+    case Squeeze = 'squeeze';
     case Stab = 'stab';
     case Sting = 'sting';
     case Stomp = 'stomp';
@@ -60,11 +62,13 @@ enum Attack: string
             Attack::Pummel =>   [ 'pummel',     'pummel',     'pummels' ],
             Attack::Punch =>    [ 'punch',      'punch',      'punches' ],
             Attack::Rend =>     [ 'rend',       'rend',       'rends' ],
+            Attack::Roll =>     [ 'roll',       'roll into',  'rolls into' ],
             Attack::Shoot =>    [ 'shot',       'shoot',      'shoots' ],
             Attack::Skewer =>   [ 'skewer',     'skewer',     'skewers' ],
             Attack::Slap =>     [ 'slap',       'slap',       'slaps' ],
             Attack::Slash =>    [ 'slash',      'slash',      'slashes' ],
             Attack::Smite =>    [ 'smite',      'smite',      'smites' ],
+            Attack::Squeeze =>  [ 'squeeze',    'squeeze',    'squeezes' ],
             Attack::Stab =>     [ 'stab',       'stab',       'stabs' ],
             Attack::Sting =>    [ 'sting',      'sting',      'stings' ],
             Attack::Stomp =>    [ 'stomp',      'stomp on',   'stomps on'],
