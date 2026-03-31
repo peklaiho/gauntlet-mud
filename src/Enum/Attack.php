@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Attack types
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -11,6 +11,7 @@ enum Attack: string
 {
     case Bite = 'bite';
     case Bludgeon = 'bludgeon';
+    case Breathe = 'breathe';
     case Chop = 'chop';
     case Claw = 'claw';
     case Cleave = 'cleave';
@@ -31,11 +32,13 @@ enum Attack: string
     case Slap = 'slap';
     case Slash = 'slash';
     case Smite = 'smite';
+    case Spray = 'spray';
     case Squeeze = 'squeeze';
     case Stab = 'stab';
     case Sting = 'sting';
     case Stomp = 'stomp';
     case Swing = 'swing';
+    case Swoop = 'swoop';
     case Thrash = 'thrash';
     case Thrust = 'thrust';
     case Trample = 'trample';
@@ -46,39 +49,42 @@ enum Attack: string
     public function fightMessage(): array
     {
         return match($this) {
-            Attack::Bite =>     [ 'bite',       'bite',       'bites' ],
-            Attack::Bludgeon => [ 'budgeon',    'bludgeon',   'bludgeons' ],
-            Attack::Chop =>     [ 'chop',       'chop',       'chops' ],
-            Attack::Claw =>     [ 'claw',       'claw',       'claws' ],
-            Attack::Cleave =>   [ 'cleave',     'cleave',     'cleaves' ],
-            Attack::Gore =>     [ 'gore',       'gore',       'gores' ],
-            Attack::Hammer =>   [ 'hammer',     'hammer',     'hammers' ],
-            Attack::Hit =>      [ 'hit',        'hit',        'hits' ],
-            Attack::Kick =>     [ 'kick',       'kick',       'kicks' ],
-            Attack::Maul =>     [ 'maul',       'maul',       'mauls' ],
-            Attack::Peck =>     [ 'peck',       'peck',       'pecks' ],
-            Attack::Pierce =>   [ 'pierce',     'pierce',     'pierces' ],
-            Attack::Pound =>    [ 'pound',      'pound',      'pounds' ],
-            Attack::Pummel =>   [ 'pummel',     'pummel',     'pummels' ],
-            Attack::Punch =>    [ 'punch',      'punch',      'punches' ],
-            Attack::Rend =>     [ 'rend',       'rend',       'rends' ],
-            Attack::Roll =>     [ 'roll',       'roll into',  'rolls into' ],
-            Attack::Shoot =>    [ 'shot',       'shoot',      'shoots' ],
-            Attack::Skewer =>   [ 'skewer',     'skewer',     'skewers' ],
-            Attack::Slap =>     [ 'slap',       'slap',       'slaps' ],
-            Attack::Slash =>    [ 'slash',      'slash',      'slashes' ],
-            Attack::Smite =>    [ 'smite',      'smite',      'smites' ],
-            Attack::Squeeze =>  [ 'squeeze',    'squeeze',    'squeezes' ],
-            Attack::Stab =>     [ 'stab',       'stab',       'stabs' ],
-            Attack::Sting =>    [ 'sting',      'sting',      'stings' ],
-            Attack::Stomp =>    [ 'stomp',      'stomp on',   'stomps on'],
-            Attack::Swing =>    [ 'swing',      'swing at',   'swings at' ],
-            Attack::Thrash =>   [ 'thrash',     'thrash',     'thrashes' ],
-            Attack::Thrust =>   [ 'thrust',     'thrust at',  'thrusts at' ],
-            Attack::Trample =>  [ 'trample',    'trample',    'tramples'],
-            Attack::Whack =>    [ 'whack',      'whack',      'whacks' ],
-            Attack::Whip =>     [ 'whip',       'whip',       'whips' ],
-            Attack::Zap =>      [ 'zap',        'zap',        'zaps' ],
+            Attack::Bite =>     [ 'bite',       'bite',           'bites' ],
+            Attack::Bludgeon => [ 'budgeon',    'bludgeon',       'bludgeons' ],
+            Attack::Breathe =>  [ 'breath',     'breathe on',     'breathes on' ],
+            Attack::Chop =>     [ 'chop',       'chop',           'chops' ],
+            Attack::Claw =>     [ 'claw',       'claw',           'claws' ],
+            Attack::Cleave =>   [ 'cleave',     'cleave',         'cleaves' ],
+            Attack::Gore =>     [ 'gore',       'gore',           'gores' ],
+            Attack::Hammer =>   [ 'hammer',     'hammer',         'hammers' ],
+            Attack::Hit =>      [ 'hit',        'hit',            'hits' ],
+            Attack::Kick =>     [ 'kick',       'kick',           'kicks' ],
+            Attack::Maul =>     [ 'maul',       'maul',           'mauls' ],
+            Attack::Peck =>     [ 'peck',       'peck',           'pecks' ],
+            Attack::Pierce =>   [ 'pierce',     'pierce',         'pierces' ],
+            Attack::Pound =>    [ 'pound',      'pound',          'pounds' ],
+            Attack::Pummel =>   [ 'pummel',     'pummel',         'pummels' ],
+            Attack::Punch =>    [ 'punch',      'punch',          'punches' ],
+            Attack::Rend =>     [ 'rend',       'rend',           'rends' ],
+            Attack::Roll =>     [ 'roll',       'roll into',      'rolls into' ],
+            Attack::Shoot =>    [ 'shot',       'shoot',          'shoots' ],
+            Attack::Skewer =>   [ 'skewer',     'skewer',         'skewers' ],
+            Attack::Slap =>     [ 'slap',       'slap',           'slaps' ],
+            Attack::Slash =>    [ 'slash',      'slash',          'slashes' ],
+            Attack::Smite =>    [ 'smite',      'smite',          'smites' ],
+            Attack::Spray =>    [ 'spray',      'spray',          'sprays' ],
+            Attack::Squeeze =>  [ 'squeeze',    'squeeze',        'squeezes' ],
+            Attack::Stab =>     [ 'stab',       'stab',           'stabs' ],
+            Attack::Sting =>    [ 'sting',      'sting',          'stings' ],
+            Attack::Stomp =>    [ 'stomp',      'stomp on',       'stomps on'],
+            Attack::Swoop =>    [ 'swoop',      'swoop down on',  'swoops down on'],
+            Attack::Swing =>    [ 'swing',      'swing at',       'swings at' ],
+            Attack::Thrash =>   [ 'thrash',     'thrash',         'thrashes' ],
+            Attack::Thrust =>   [ 'thrust',     'thrust at',      'thrusts at' ],
+            Attack::Trample =>  [ 'trample',    'trample',        'tramples'],
+            Attack::Whack =>    [ 'whack',      'whack',          'whacks' ],
+            Attack::Whip =>     [ 'whip',       'whip',           'whips' ],
+            Attack::Zap =>      [ 'zap',        'zap',            'zaps' ],
         };
     }
 }
