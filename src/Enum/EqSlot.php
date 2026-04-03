@@ -24,6 +24,8 @@ enum EqSlot: string
     case Ring2     = 'ring2';
     case Waist     = 'waist';
     case Legs      = 'legs';
+    case Ankle1    = 'ankle1';
+    case Ankle2    = 'ankle2';
     case Feet      = 'feet';
     case Shield    = 'shield';
     case Wield     = 'wield';
@@ -46,6 +48,8 @@ enum EqSlot: string
             EqSlot::Ring2,
             EqSlot::Waist,
             EqSlot::Legs,
+            EqSlot::Ankle1,
+            EqSlot::Ankle2,
             EqSlot::Feet,
             EqSlot::Shield,
             EqSlot::Wield
@@ -72,6 +76,8 @@ enum EqSlot: string
             EqSlot::Ring2 =>     '<worn on finger>   ',
             EqSlot::Waist =>     '<worn around waist>',
             EqSlot::Legs =>      '<worn on legs>     ',
+            EqSlot::Ankle1 =>    '<worn around ankle>',
+            EqSlot::Ankle2 =>    '<worn around ankle>',
             EqSlot::Feet =>      '<worn on feet>     ',
             EqSlot::Shield =>    '<worn as shield>   ',
             EqSlot::Wield =>     '<wielded>          ',
@@ -96,6 +102,8 @@ enum EqSlot: string
             EqSlot::Ring2 =>     "worn on $filler finger",
             EqSlot::Waist =>     "worn around $filler waist",
             EqSlot::Legs =>      "worn on $filler legs",
+            EqSlot::Ankle1 =>    "worn around $filler ankle",
+            EqSlot::Ankle2 =>    "worn around $filler ankle",
             EqSlot::Feet =>      "worn on $filler feet",
             EqSlot::Shield =>    "worn as $filler shield",
             EqSlot::Wield =>     "wielded as $filler weapon",
@@ -152,6 +160,10 @@ enum EqSlot: string
             EqSlot::Legs => [
                 'You stop wearing @p on your legs.',
                 '@t stops wearing @o on @s legs.'
+            ],
+            EqSlot::Ankle1, EqSlot::Ankle2 => [
+                'You stop wearing @p around your ankle.',
+                '@t stops wearing @o around @s ankle.'
             ],
             EqSlot::Feet => [
                 'You stop wearing @p on your feet.',
@@ -218,6 +230,10 @@ enum EqSlot: string
             EqSlot::Legs => [
                 'You wear @p on your legs.',
                 '@t wears @o on @s legs.'
+            ],
+            EqSlot::Ankle1, EqSlot::Ankle2 => [
+                'You wear @p around your ankle.',
+                '@t wears @o around @s ankle.'
             ],
             EqSlot::Feet => [
                 'You wear @p on your feet.',
