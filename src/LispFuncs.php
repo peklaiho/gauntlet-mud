@@ -863,8 +863,9 @@ class LispFuncs implements ILib
                 }
 
                 foreach ($living->getRoom()->getLiving()->getAll() as $other) {
-                    // Skip self and invisible
-                    if ($living === $other || !$living->canSee($other)) {
+                    // Skip self, invisible and admins
+                    if ($living === $other || !$living->canSee($other) ||
+                        ($other->isPlayer() && $other->getAdminLevel())) {
                         continue;
                     }
 
