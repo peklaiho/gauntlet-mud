@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - EvalLisp command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -75,7 +75,8 @@ class EvalLisp extends BaseCommand
             return;
         }
 
-        $value = Lisp::eval($object, $code);
+        $script = Lisp::compile($code);
+        $value = Lisp::exec($object, $script);
         $result = Lisp::toString($value, true);
         $player->outln('Result: ' . $result);
     }

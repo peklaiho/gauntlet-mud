@@ -74,7 +74,7 @@ class Updater
             // Try script first if it exists
             $script = $living->getScript(ScriptType::Update);
             if ($script) {
-                $actionResult = Lisp::eval($living, $script);
+                $actionResult = Lisp::exec($living, $script);
             }
 
             // Try movement next
@@ -109,7 +109,7 @@ class Updater
                 // Try script if it exists
                 $script = $living->getScript(ScriptType::Fight);
                 if ($script) {
-                    $actionResult = Lisp::eval($living, $script);
+                    $actionResult = Lisp::exec($living, $script);
                 }
             }
 
@@ -156,7 +156,7 @@ class Updater
             // Try script first if it exists
             $script = $item->getScript(ScriptType::Update);
             if ($script) {
-                $actionResult = Lisp::eval($item, $script);
+                $actionResult = Lisp::exec($item, $script);
             }
 
             // Dynamic state
@@ -188,7 +188,7 @@ class Updater
             // Try script first
             $script = $room->getScript(ScriptType::Update);
             if ($script) {
-                $actionResult = Lisp::eval($room, $script);
+                $actionResult = Lisp::exec($room, $script);
             }
 
             // Handle ambient messages
@@ -200,7 +200,7 @@ class Updater
             foreach ($room->getExits() as $exit) {
                 $script = $exit->getScript(ScriptType::Update);
                 if ($script) {
-                    Lisp::eval($exit, $script);
+                    Lisp::exec($exit, $script);
                 }
             }
         }
@@ -218,7 +218,7 @@ class Updater
             // Try script first
             $script = $zone->getScript(ScriptType::Update);
             if ($script) {
-                $actionResult = Lisp::eval($zone, $script);
+                $actionResult = Lisp::exec($zone, $script);
             }
 
             // Reset zone if required

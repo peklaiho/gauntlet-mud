@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Base class for all instances
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -52,7 +52,7 @@ abstract class BaseObject
         $script = $this->getScript(ScriptType::Init);
 
         if ($script) {
-            Lisp::eval($this, $script);
+            Lisp::exec($this, $script);
             return true;
         }
 

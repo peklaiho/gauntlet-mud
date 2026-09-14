@@ -1,11 +1,13 @@
 <?php
 /**
  * Gauntlet MUD - Game module
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
 namespace Gauntlet\Module;
+
+use MadLisp\PhpCompiledProgram;
 
 use Gauntlet\CommandParser;
 use Gauntlet\Descriptor;
@@ -140,12 +142,12 @@ class Game implements IModule
             'arguments' => $input->getAll(),
         ];
 
-        $result = Lisp::evalWithData($player, $script, $data);
+        $result = Lisp::execWithData($player, $script, $data);
 
         return boolval($result);
     }
 
-    private function findScriptCommand(Player $player): ?string
+    private function findScriptCommand(Player $player): ?PhpCompiledProgram
     {
         // Room monsters
         foreach ($player->getRoom()->getLiving()->getAll() as $obj) {

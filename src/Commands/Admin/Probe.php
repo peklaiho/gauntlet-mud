@@ -305,7 +305,7 @@ class Probe extends BaseCommand
         if ($scripts) {
             $player->outln("Scripts:");
             foreach ($scripts as $key => $val) {
-                $player->outln('  %6s: %s', $key, $val);
+                $player->outln('  %6s: %s', $key, 'todo');
             }
         }
     }

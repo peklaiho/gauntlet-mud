@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Fight handler
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -162,7 +162,7 @@ class Fight
         if ($victim->isMonster()) {
             $script = $victim->getScript(ScriptType::Death);
             if ($script) {
-                $scriptResult = Lisp::eval($victim, $script);
+                $scriptResult = Lisp::exec($victim, $script);
                 // Truthy value means the death is cancelled
                 if ($scriptResult) {
                     // Log warning if the script did not reset health

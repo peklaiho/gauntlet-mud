@@ -1,11 +1,13 @@
 <?php
 /**
  * Gauntlet MUD - Room exit instance
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
 namespace Gauntlet;
+
+use MadLisp\PhpCompiledProgram;
 
 use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\ExitFlag;
@@ -97,7 +99,7 @@ class RoomExit extends BaseObject
     // Override script getters: Read from template
 
     #[\Override]
-    public function getScript(ScriptType $type): ?string
+    public function getScript(ScriptType $type): ?PhpCompiledProgram
     {
         return $this->template->getScript($type);
     }

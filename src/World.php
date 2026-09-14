@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Functions to create instances of zones, rooms, items and monsters
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -232,7 +232,7 @@ class World
             $data = [
                 'living' => $living
             ];
-            Lisp::evalWithData($room, $script, $data);
+            Lisp::execWithData($room, $script, $data);
         }
     }
 

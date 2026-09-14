@@ -7,6 +7,8 @@
 
 namespace Gauntlet;
 
+use MadLisp\PhpCompiledProgram;
+
 use Gauntlet\Collection;
 use Gauntlet\Enum\ItemFlag;
 use Gauntlet\Enum\ScriptType;
@@ -206,7 +208,7 @@ class Item extends BaseObject
     // Override script getters: Read from template
 
     #[\Override]
-    public function getScript(ScriptType $type): ?string
+    public function getScript(ScriptType $type): ?PhpCompiledProgram
     {
         return $this->template->getScript($type);
     }

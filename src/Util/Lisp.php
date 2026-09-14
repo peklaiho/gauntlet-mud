@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Lisp functions
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -11,6 +11,8 @@ use MadLisp\Env;
 use MadLisp\Hash;
 use MadLisp\Lisp as RealLisp;
 use MadLisp\LispFactory;
+use MadLisp\Options;
+use MadLisp\PhpCompiledProgram;
 use MadLisp\Vector;
 
 use Gauntlet\BaseObject;
@@ -24,8 +26,11 @@ class Lisp
 
     public static function initialize(LispFuncs $funcs): void
     {
+        $options = new Options();
+        $options->safemode = true;
+
         $factory = new LispFactory();
-        self::$lisp = $factory->make(true);
+        self::$lisp = $factory->make($options);
 
         $funcs->register(self::$lisp->getEnv());
 
@@ -34,17 +39,26 @@ class Lisp
         ], glob(DATA_DIR . 'lisp/*.lisp'));
 
         foreach ($files as $file) {
-            self::evalFile($file);
+            Log::info("Eval file: $file");
+            $code = file_get_contents($file);
+            self::$lisp->readEvalCompiled("(do $code)");
         }
     }
 
-    public static function eval(BaseObject $source, string $code)
+    public static function compile(string $code): PhpCompiledProgram
     {
-        $env = $source->createLispEnv(self::$lisp->getEnv());
-        return self::evalWithEnv($source, $code, $env);
+        $ast = self::$lisp->read($code);
+
+        return self::$lisp->compile($ast);
     }
 
-    public static function evalWithData(BaseObject $source, string $code, array $data)
+    public static function exec(BaseObject $source, PhpCompiledProgram $script)
+    {
+        $env = $source->createLispEnv(self::$lisp->getEnv());
+        return self::execWithEnv($source, $script, $env);
+    }
+
+    public static function execWithData(BaseObject $source, PhpCompiledProgram $script, array $data)
     {
         $parent = $source->createLispEnv(self::$lisp->getEnv());
         $env = new Env('temp', $parent);
@@ -62,14 +76,7 @@ class Lisp
             $env->set($key, $val);
         }
 
-        return self::evalWithEnv($source, $code, $env);
-    }
-
-    public static function evalFile(string $file): void
-    {
-        Log::info("Eval file: $file");
-        $code = file_get_contents($file);
-        self::$lisp->readEval("(do $code)");
+        return self::execWithEnv($source, $script, $env);
     }
 
     public static function toString($value, bool $readable): string
@@ -77,14 +84,14 @@ class Lisp
         return self::$lisp->pstr($value, $readable);
     }
 
-    private static function evalWithEnv(BaseObject $source, string $code, Env $env)
+    private static function execWithEnv(BaseObject $source, PhpCompiledProgram $script, Env $env)
     {
         try {
-            return self::$lisp->readEval($code, $env);
+            return $script->execute($env);
         } catch (\Throwable $ex) {
             $context = [
                 'entity' => $source->getTechnicalName(),
-                'code' => $code,
+                'code' => $script->getSource(),
             ];
 
             if ($source instanceof Living || $source instanceof Item) {

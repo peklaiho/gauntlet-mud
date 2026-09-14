@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Movement actions
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -46,7 +46,7 @@ class ActionMove
             $data = [
                 'living' => $living
             ];
-            $lispResult = Lisp::evalWithData($exit, $script, $data);
+            $lispResult = Lisp::execWithData($exit, $script, $data);
             if ($lispResult) {
                 // Truthy value means entry is denied!
                 return null;
