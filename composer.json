@@ -11,8 +11,8 @@
             "homepage": "https://laihoconsulting.com/"
         }
     ],
-    "require" : {
-        "peklaiho/madlisp": "^1.0",
+    "require": {
+        "peklaiho/madlisp": "dev-master",
         "symfony/yaml": "^8.0"
     },
     "require-dev": {
