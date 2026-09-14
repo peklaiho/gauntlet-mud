@@ -10,6 +10,7 @@ namespace Gauntlet\Commands\Admin;
 use Gauntlet\BaseObject;
 use Gauntlet\Lists;
 use Gauntlet\Player;
+use Gauntlet\Script;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Enum\Direction;
 use Gauntlet\Util\Input;
@@ -75,7 +76,13 @@ class EvalLisp extends BaseCommand
             return;
         }
 
-        $script = Lisp::compile($code);
+        try {
+            $script = new Script($code);
+        } catch (\Throwable $ex) {
+            $player->outln('Compiler error: ' . $ex->getMessage());
+            return;
+        }
+
         $value = Lisp::exec($object, $script);
         $result = Lisp::toString($value, true);
         $player->outln('Result: ' . $result);

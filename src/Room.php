@@ -7,8 +7,6 @@
 
 namespace Gauntlet;
 
-use MadLisp\PhpCompiledProgram;
-
 use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\PartOfDay;
 use Gauntlet\Enum\RoomFlag;
@@ -115,7 +113,7 @@ class Room extends BaseObject
     // Override script getters: Read from template
 
     #[\Override]
-    public function getScript(ScriptType $type): ?PhpCompiledProgram
+    public function getScript(ScriptType $type): ?Script
     {
         return $this->template->getScript($type);
     }

@@ -7,8 +7,6 @@
 
 namespace Gauntlet;
 
-use MadLisp\PhpCompiledProgram;
-
 use Gauntlet\Enum\Attack;
 use Gauntlet\Enum\Damage;
 use Gauntlet\Enum\Fondness;
@@ -259,7 +257,7 @@ class Monster extends Living
     // Override script getters: Read from template
 
     #[\Override]
-    public function getScript(ScriptType $type): ?PhpCompiledProgram
+    public function getScript(ScriptType $type): ?Script
     {
         return $this->template->getScript($type);
     }

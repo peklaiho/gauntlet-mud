@@ -19,6 +19,7 @@ use Gauntlet\BaseObject;
 use Gauntlet\Item;
 use Gauntlet\LispFuncs;
 use Gauntlet\Living;
+use Gauntlet\Script;
 
 class Lisp
 {
@@ -52,13 +53,13 @@ class Lisp
         return self::$lisp->compile($ast);
     }
 
-    public static function exec(BaseObject $source, PhpCompiledProgram $script)
+    public static function exec(BaseObject $source, Script $script)
     {
         $env = $source->createLispEnv(self::$lisp->getEnv());
         return self::execWithEnv($source, $script, $env);
     }
 
-    public static function execWithData(BaseObject $source, PhpCompiledProgram $script, array $data)
+    public static function execWithData(BaseObject $source, Script $script, array $data)
     {
         $parent = $source->createLispEnv(self::$lisp->getEnv());
         $env = new Env('temp', $parent);
@@ -84,14 +85,14 @@ class Lisp
         return self::$lisp->pstr($value, $readable);
     }
 
-    private static function execWithEnv(BaseObject $source, PhpCompiledProgram $script, Env $env)
+    private static function execWithEnv(BaseObject $source, Script $script, Env $env)
     {
         try {
-            return $script->execute($env);
+            return $script->getProgram()->execute($env);
         } catch (\Throwable $ex) {
             $context = [
                 'entity' => $source->getTechnicalName(),
-                'code' => $script->getSource(),
+                'code' => $script->getCode(),
             ];
 
             if ($source instanceof Living || $source instanceof Item) {

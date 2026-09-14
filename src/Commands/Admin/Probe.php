@@ -304,8 +304,8 @@ class Probe extends BaseCommand
         $scripts = $object->getScripts();
         if ($scripts) {
             $player->outln("Scripts:");
-            foreach ($scripts as $key => $val) {
-                $player->outln('  %6s: %s', $key, 'todo');
+            foreach ($scripts as $key => $script) {
+                $player->outln('  %6s: %s', $key, $script->getCode());
             }
         }
     }

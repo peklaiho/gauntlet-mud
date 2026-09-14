@@ -7,11 +7,10 @@
 
 namespace Gauntlet\Module;
 
-use MadLisp\PhpCompiledProgram;
-
 use Gauntlet\CommandParser;
 use Gauntlet\Descriptor;
 use Gauntlet\Player;
+use Gauntlet\Script;
 use Gauntlet\Socials;
 use Gauntlet\Enum\ScriptType;
 use Gauntlet\Util\Input;
@@ -147,7 +146,7 @@ class Game implements IModule
         return boolval($result);
     }
 
-    private function findScriptCommand(Player $player): ?PhpCompiledProgram
+    private function findScriptCommand(Player $player): ?Script
     {
         // Room monsters
         foreach ($player->getRoom()->getLiving()->getAll() as $obj) {

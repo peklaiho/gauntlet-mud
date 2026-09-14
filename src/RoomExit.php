@@ -7,8 +7,6 @@
 
 namespace Gauntlet;
 
-use MadLisp\PhpCompiledProgram;
-
 use Gauntlet\Enum\Direction;
 use Gauntlet\Enum\ExitFlag;
 use Gauntlet\Enum\ScriptType;
@@ -99,7 +97,7 @@ class RoomExit extends BaseObject
     // Override script getters: Read from template
 
     #[\Override]
-    public function getScript(ScriptType $type): ?PhpCompiledProgram
+    public function getScript(ScriptType $type): ?Script
     {
         return $this->template->getScript($type);
     }

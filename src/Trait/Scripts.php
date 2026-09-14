@@ -7,16 +7,14 @@
 
 namespace Gauntlet\Trait;
 
-use MadLisp\PhpCompiledProgram;
-
+use Gauntlet\Script;
 use Gauntlet\Enum\ScriptType;
-use Gauntlet\Util\Lisp;
 
 trait Scripts
 {
     protected array $scripts = [];
 
-    public function getScript(ScriptType $type): ?PhpCompiledProgram
+    public function getScript(ScriptType $type): ?Script
     {
         return $this->scripts[$type->value] ?? null;
     }
@@ -28,8 +26,6 @@ trait Scripts
 
     public function setScript(ScriptType $type, string $code): void
     {
-        $script = Lisp::compile($code);
-
-        $this->scripts[$type->value] = $script;
+        $this->scripts[$type->value] = new Script($code);
     }
 }
