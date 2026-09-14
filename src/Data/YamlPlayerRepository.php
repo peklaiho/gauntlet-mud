@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - YAML repository for players
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -18,7 +18,6 @@ use Gauntlet\Enum\PlayerClass;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
 use Gauntlet\Enum\Skill;
-use Gauntlet\Util\Lisp;
 use Gauntlet\Util\Log;
 
 class YamlPlayerRepository implements IPlayerRepository
@@ -47,17 +46,7 @@ class YamlPlayerRepository implements IPlayerRepository
 
             try {
                 $data = Yaml::parseFile($filename);
-                $player = $this->deserialize($data);
-
-                // Evaluate custom script file for player if it exists
-                $scriptFile = $this->dir . $name . '.lisp';
-                if (is_readable($scriptFile)) {
-                    Log::debug("Evaluating player script file $scriptFile.");
-                    $code = file_get_contents($scriptFile);
-                    Lisp::eval($player, "(do $code)");
-                }
-
-                return $player;
+                return $this->deserialize($data);
             } catch (ParseException $ex) {
                 Log::error("Unable to read player file $filename: " . $ex->getMessage());
             }
