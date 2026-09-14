@@ -175,6 +175,7 @@ class CommandMap
                 new CommandInfo('admin', SERVICE_CONTAINER->get(Comm::class), Comm::ADMIN, AdminLevel::Immortal),
                 new CommandInfo('ban', SERVICE_CONTAINER->get(Ban::class), null, AdminLevel::GreaterGod),
                 new CommandInfo('conns', SERVICE_CONTAINER->get(Connections::class), null, AdminLevel::GreaterGod),
+                new CommandInfo('compile', SERVICE_CONTAINER->get(EvalLisp::class), EvalLisp::COMPILE, AdminLevel::God),
                 new CommandInfo('debug', SERVICE_CONTAINER->get(Debug::class), null, AdminLevel::Implementor),
                 new CommandInfo('discon', SERVICE_CONTAINER->get(Disconnect::class), null, AdminLevel::GreaterGod),
                 new CommandInfo('drain', SERVICE_CONTAINER->get(Drain::class), null, AdminLevel::DemiGod),

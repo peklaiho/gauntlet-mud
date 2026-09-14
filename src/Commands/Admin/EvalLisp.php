@@ -22,6 +22,7 @@ class EvalLisp extends BaseCommand
 {
     public const EVAL = 'eval';
     public const EVALAS = 'evalas';
+    public const COMPILE = 'compile';
 
     public function __construct(
         protected ItemFinder $itemFinder,
@@ -32,7 +33,7 @@ class EvalLisp extends BaseCommand
 
     public function execute(Player $player, Input $input, ?string $subcmd): void
     {
-        if ($subcmd == self::EVAL) {
+        if ($subcmd == self::EVAL || $subcmd == self::COMPILE) {
             $object = $player;
             $code = $input->getWholeArgument(true);
         } else {
@@ -72,7 +73,7 @@ class EvalLisp extends BaseCommand
         }
 
         if (!$code) {
-            $player->outln('Eval what?');
+            $player->outln('%s what?', ($subcmd == self::COMPILE) ? 'Compile' : 'Eval');
             return;
         }
 
@@ -83,6 +84,11 @@ class EvalLisp extends BaseCommand
             return;
         }
 
+        if ($subcmd == self::COMPILE) {
+            $player->outpr($script->getProgram()->getSource(), true);
+            return;
+        }
+
         $value = Lisp::exec($object, $script);
         $result = Lisp::toString($value, true);
         $player->outln('Result: ' . $result);
@@ -90,7 +96,9 @@ class EvalLisp extends BaseCommand
 
     public function getDescription(?string $subcmd): string
     {
-        if ($subcmd == self::EVAL) {
+        if ($subcmd == self::COMPILE) {
+            return 'Compile Lisp code into PHP code.';
+        } elseif ($subcmd == self::EVAL) {
             return 'Evaluate Lisp code.';
         } else {
             return 'Evaluate Lisp code as another object (room, zone, shop, exit, item, monster or player).';
@@ -99,7 +107,7 @@ class EvalLisp extends BaseCommand
 
     public function getUsage(?string $subcmd): array
     {
-        if ($subcmd == self::EVAL) {
+        if ($subcmd == self::EVAL || $subcmd == self::COMPILE) {
             return [
                 '<code>',
             ];
