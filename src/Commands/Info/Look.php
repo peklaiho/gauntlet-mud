@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Look command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -71,6 +71,18 @@ class Look extends BaseCommand
             $player->outpr($player->highlight($item->getTemplate()->getLongDesc()));
         } else {
             $player->outln("You see nothing special about it.");
+        }
+
+        if ($item->isLightSource()) {
+            if ($item->getTemplate()->hasUnlimitedFuel()) {
+                $fuel = 'unlimited fuel';
+            } else {
+                $remaining = $item->getTemplate()->getFuel() - $item->getLightSpentFuel();
+                $fuel = intdiv($remaining * 100, $item->getTemplate()->getFuel()) . '% fuel remaining';
+            }
+
+            $player->outln("It is currently %s and has %s.",
+                $item->getLightEnabled() ? 'lit' : 'not lit', $fuel);
         }
     }
 
