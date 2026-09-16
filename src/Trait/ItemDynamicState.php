@@ -25,6 +25,16 @@ trait ItemDynamicState
         }
     }
 
+    // Dynamic state as string that is shown after item name
+    public function getDynamicStateString(): ?string
+    {
+        if ($this->isLightSource() && $this->getLightEnabled()) {
+            return 'lit';
+        }
+
+        return null;
+    }
+
     public function setDynamicState(array $val): void
     {
         $this->dynamicState = $val;

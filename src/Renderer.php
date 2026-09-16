@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Render rooms, items and monsters
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -43,7 +43,7 @@ class Renderer
                 if ($eq) {
                     $line .= '   ';
                     if ($player->canSeeItem($eq)) {
-                        $line .= $eq->getTemplate()->getAName();
+                        $line .= $this->renderItemName($eq);
                     } else {
                         $line .= 'something';
                     }
@@ -65,7 +65,7 @@ class Renderer
 
         foreach ($groups as $objs) {
             $template = $objs[0]->getTemplate();
-            $player->out($template->getAName(count($objs)));
+            $player->out($this->renderItemName($objs[0], count($objs)));
 
             if (count($objs) == 1) {
                 $contentCount = count($this->getVisibleItems($objs[0]->getContents(), $player));
@@ -180,7 +180,7 @@ class Renderer
             if (count($items) == 1 && $template->getShortDesc()) {
                 $output[] = $template->getShortDesc();
             } else {
-                $generic[] = $template->getAName(count($items));
+                $generic[] = $this->renderItemName($items[0], count($items));
                 $genericCount += count($items);
 
                 // Always treat as plural if flagged as such
@@ -271,9 +271,9 @@ class Renderer
     {
         $groups = [];
 
-        foreach ($list as $obj) {
-            $id = $obj->getTemplate()->getId();
-            $groups[$id][] = $obj;
+        foreach ($list as $item) {
+            $key = $this->keyForItemGroup($item);
+            $groups[$key][] = $item;
         }
 
         return $groups;
@@ -284,14 +284,26 @@ class Renderer
         $groups = [];
 
         foreach ($list as $living) {
-            $key = $this->keyForGroup($living);
+            $key = $this->keyForLivingGroup($living);
             $groups[$key][] = $living;
         }
 
         return $groups;
     }
 
-    private function keyForGroup(Living $living): string
+    private function keyForItemGroup(Item $item): string
+    {
+        $key = $item->getTemplate()->getId();
+
+        $dynamicState = $item->getDynamicStateString();
+        if ($dynamicState) {
+            $key .= '/' . $dynamicState;
+        }
+
+        return $key;
+    }
+
+    private function keyForLivingGroup(Living $living): string
     {
         if ($living->isPlayer()) {
             if ($living->getTarget()) {
@@ -309,6 +321,18 @@ class Renderer
 
             return "$id/$target";
         }
+    }
+
+    private function renderItemName(Item $item, int $count = 1): string
+    {
+        $name = $item->getTemplate()->getAName($count);
+
+        $dynamicState = $item->getDynamicStateString();
+        if ($dynamicState) {
+            $name .= " ($dynamicState)";
+        }
+
+        return $name;
     }
 
     private function fightDesc(array $attackers, Player $player): string
