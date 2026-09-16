@@ -78,7 +78,12 @@ class Look extends BaseCommand
                 $fuel = 'unlimited fuel';
             } else {
                 $remaining = $item->getTemplate()->getFuel() - $item->getLightSpentFuel();
-                $fuel = intdiv($remaining * 100, $item->getTemplate()->getFuel()) . '% fuel remaining';
+                $percentage = intdiv($remaining * 100, $item->getTemplate()->getFuel());
+                if ($percentage > 0) {
+                    $fuel = "$percentage% fuel remaining";
+                } else {
+                    $fuel = 'no fuel remaining';
+                }
             }
 
             $player->outln("It is currently %s and has %s.",

@@ -28,8 +28,13 @@ trait ItemDynamicState
     // Dynamic state as string that is shown after item name
     public function getDynamicStateString(): ?string
     {
-        if ($this->isLightSource() && $this->getLightEnabled()) {
-            return 'lit';
+        if ($this->isLightSource()) {
+            if ($this->getLightEnabled()) {
+                return 'lit';
+            } elseif (!$this->getTemplate()->hasUnlimitedFuel() &&
+                $this->getLightSpentFuel() >= $this->getTemplate()->getFuel()) {
+                return 'burned-out';
+            }
         }
 
         return null;
