@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Preferences command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -135,6 +135,9 @@ class Preferences extends BaseCommand
     public function getContextHelp(?string $subcmd): ?array
     {
         return [
+            Prefs::AUTO_ASSIST => "Automatically assist your party members if they are under attack when this setting is enabled.",
+            Prefs::AUTO_BURY => "Automatically bury NPC corpses after killing them when this setting is enabled. You will receive a small coin reward for keeping the world tidy.",
+            Prefs::AUTO_LOOT => "Automatically loot items from the corpses of your NPC victims when this setting is enabled.",
             Prefs::BRIEF => "The room description is not shown automatically while moving when Brief mode is enabled. You can still read the room description by using the 'look' command.",
             Prefs::COLOR => "The Color setting controls whether ANSI color sequences are sent by the game to show various elements in specific colors. You can also customize your colors by using the 'colorpref' command.",
             Prefs::COMPACT => "When Compact mode is enabled, the game does not send extra linebreak before prompt. This makes the text more compact.",

@@ -28,6 +28,7 @@ class Fight
 
     public function __construct(
         protected World $world,
+        protected Action $action,
         protected ActionMove $actionMove,
         protected Renderer $render,
         protected Act $act
@@ -262,7 +263,7 @@ class Fight
         $this->act->toChar('You are dead!', $target);
         $this->act->toRoom('@t is dead!', true, $target);
 
-        $this->makeCorpse($target);
+        $corpse = $this->makeCorpse($target);
 
         if ($target->isPlayer()) {
             if ($attacker) {
@@ -298,6 +299,23 @@ class Fight
 
             // Monsters are removed from game
             $this->world->extractLiving($target);
+
+            // Automatic actions for players
+            if ($attacker && $attacker->isPlayer()) {
+                // Auto-loot
+                if ($attacker->getPreference(Preferences::AUTO_LOOT)) {
+                    foreach ($corpse->getContents()->getAll() as $item) {
+                        if ($attacker->canSeeItem($item) && $attacker->canCarry($item, false)) {
+                            $this->action->getFromContainer($attacker, $item, $corpse);
+                        }
+                    }
+                }
+
+                // Auto-bury
+                if ($attacker->getPreference(Preferences::AUTO_BURY) && $corpse->getContents()->empty()) {
+                    $this->action->bury($attacker, $corpse);
+                }
+            }
         }
     }
 

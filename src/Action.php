@@ -23,12 +23,44 @@ class Action
 {
     public function __construct(
         protected World $world,
-        protected Act $act
+        protected Act $act,
+        protected Lists $lists
     ) {
 
     }
 
-    public function cast(Living $living, Living|Item $target, Spell $spell)
+    public function bury(Living $living, Item $corpse): void
+    {
+        // Drop items to ground
+        while (!$corpse->getContents()->empty()) {
+            $item = $corpse->getContents()->first();
+            if ($item->getTemplate()->hasFlag(ItemFlag::Trash)) {
+                // Trash we can just delete
+                $this->world->extractItem($item);
+            } else {
+                $this->act->toChar('@o drops from @P.', $living, $item, $corpse);
+                $this->act->toRoom('@o drops from @P.', false, $living, $item, $corpse);
+                $this->world->itemToRoom($item, $living->getRoom());
+            }
+        }
+
+        $this->act->toChar('You bury @p.', $living, $corpse);
+        $this->act->toRoom('@t buries @o.', false, $living, $corpse);
+
+        $this->world->extractItem($corpse);
+
+        // Give some coins as reward
+        if ($living->isPlayer()) {
+            $template = $this->lists->getMonsterTemplates()->get(-$corpse->getTemplate()->getId());
+            $reward = $template->getLevel() * 2;
+            $living->addCoins($reward);
+            $living->outln('The gods reward you with some coin.');
+
+            Log::money($living->getName() . ' receives ' . $reward . ' coins as burial reward.');
+        }
+    }
+
+    public function cast(Living $living, Living|Item $target, Spell $spell): void
     {
         $spellname = $spell->value;
 

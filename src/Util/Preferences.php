@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Player preferences
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -11,6 +11,9 @@ use Gauntlet\Enum\AdminLevel;
 
 class Preferences
 {
+    const AUTO_ASSIST = 'auto-assist';
+    const AUTO_BURY = 'auto-bury';
+    const AUTO_LOOT = 'auto-loot';
     const BRIEF = 'brief';
     const COLOR = 'color';
     const COMPACT = 'compact';
@@ -27,6 +30,21 @@ class Preferences
     protected array $values = [];
 
     private static array $list = [
+        [
+            'key' => self::AUTO_ASSIST,
+            'name' => 'Auto assist',
+            'type' => 'bool'
+        ],
+        [
+            'key' => self::AUTO_BURY,
+            'name' => 'Auto bury',
+            'type' => 'bool'
+        ],
+        [
+            'key' => self::AUTO_LOOT,
+            'name' => 'Auto loot',
+            'type' => 'bool'
+        ],
         [
             'key' => self::BRIEF,
             'name' => 'Brief mode',
