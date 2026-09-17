@@ -16,6 +16,7 @@ use Gauntlet\Enum\Terrain;
 use Gauntlet\Util\GameTime;
 use Gauntlet\Util\Lisp;
 use Gauntlet\Util\Log;
+use Gauntlet\Util\Preferences;
 use Gauntlet\Util\Random;
 
 class Updater
@@ -30,6 +31,7 @@ class Updater
         protected AmbientHandler $ambientHandler,
         protected Act $act,
         protected Action $action,
+        protected ActionFight $actionFight,
         protected ActionMove $actionMove,
         protected Lists $lists
     ) {
@@ -95,11 +97,20 @@ class Updater
             return;
         }
 
-        $showConditions = [];
+        $players = [];
 
         foreach ($this->lists->getLiving()->getAll() as $living) {
-            // Skip invalid and non-fighters
-            if (!$living->isValidObject() || !$living->getTarget()) {
+            // Skip invalid
+            if (!$living->isValidObject()) {
+                continue;
+            }
+
+            if ($living->isPlayer()) {
+                $players[$living->getName()] = [$living, false];
+            }
+
+            // Skip non-fighters
+            if (!$living->getTarget()) {
                 continue;
             }
 
@@ -118,22 +129,45 @@ class Updater
                 if ($living->canSee($living->getTarget())) {
                     $this->fight->attack($living, $living->getTarget());
                     if ($living->isPlayer()) {
-                        $showConditions[] = $living;
+                        $players[$living->getName()][1] = true;
                     }
                 } else {
                     if ($living->isPlayer()) {
-                        $living->outln('You try to attack but are unable to see your target.');
+                        $living->outln('You try to attack but are unable to see your target!');
                     }
                 }
             }
         }
 
-        // Show condition of targets to players during fights
-        foreach ($showConditions as $living) {
-            $target = $living->getTarget();
+        // Post-round actions for players
+        foreach ($players as $playerInfo) {
+            $player = $playerInfo[0];
+            $showCondition = $playerInfo[1];
+
+            $target = $player->getTarget();
+
             if ($target) {
-                $condition = $this->render->renderCondition($living, $target);
-                $this->act->toChar("@T " . $condition, $living, null, $target);
+                // Player is fighting
+
+                // Show condition of the target
+                if ($showCondition) {
+                    $condition = $this->render->renderCondition($player, $target);
+                    $this->act->toChar("@T " . $condition, $player, null, $target);
+                }
+            } else {
+                // Player is not fighting
+
+                // Auto-assist
+                if ($player->getPreference(Preferences::AUTO_ASSIST)) {
+                    $partyMembers = $player->getFightingPartyMembers();
+
+                    if (!empty($partyMembers)) {
+                        $defender = $partyMembers[0];
+
+                        $this->actionFight->assist($player, $defender);
+                        $this->fight->attack($player, $defender->getTarget());
+                    }
+                }
             }
         }
     }

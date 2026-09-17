@@ -37,17 +37,7 @@ class Assist extends BaseCommand
             }
 
             // Find party members who need help
-            $choices = [];
-
-            foreach ($player->getRoom()->getLiving()->getAll() as $other) {
-                if ($player === $other) {
-                    continue;
-                }
-
-                if ($player->getGroup() === $other->getGroup() && $other->getTarget()) {
-                    $choices[] = $other;
-                }
-            }
+            $choices = $player->getFightingPartyMembers();
 
             if (empty($choices)) {
                 $player->outln('None of your party members seem to need help at this time.');

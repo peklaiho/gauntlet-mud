@@ -263,6 +263,24 @@ class Player extends Living
         return $this->experience;
     }
 
+    // Get party members who are fighting and might need help
+    public function getFightingPartyMembers(): array
+    {
+        $partyMembers = [];
+
+        foreach ($this->getRoom()->getLiving()->getAll() as $other) {
+            if ($this === $other) {
+                continue;
+            }
+
+            if ($this->getGroup() === $other->getGroup() && $other->getTarget()) {
+                $partyMembers[] = $other;
+            }
+        }
+
+        return $partyMembers;
+    }
+
     #[\Override]
     public function getMaxHealth(): float
     {
