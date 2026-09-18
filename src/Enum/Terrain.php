@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Terrain types
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -30,10 +30,10 @@ enum Terrain: string
             Terrain::Road => 1.5,
             Terrain::Plains => 2,
             Terrain::Forest => 3,
-            Terrain::Swamp => 3,
+            Terrain::Swamp => 4,
             Terrain::Hills => 4,
             Terrain::Mountain => 5,
-            Terrain::Water => 6,
+            Terrain::Water => 5,
             Terrain::Underground => 3
         };
     }

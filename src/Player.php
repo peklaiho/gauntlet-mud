@@ -337,7 +337,7 @@ class Player extends Living
     public function getMaxMove(): float
     {
         // Base value
-        $value = 99;
+        $value = 149;
 
         // Bonus from level: 1 - 50
         $value += $this->getLevel();
