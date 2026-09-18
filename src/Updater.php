@@ -158,14 +158,19 @@ class Updater
                 // Player is not fighting
 
                 // Auto-assist
-                if ($player->getPreference(Preferences::AUTO_ASSIST)) {
+                if ($player->getPreference(Preferences::AUTO_ASSIST) &&
+                    $player->checkInitiateViolence(false) && !$player->hasWimpyHealth()) {
+
                     $partyMembers = $player->getFightingPartyMembers();
 
                     if (!empty($partyMembers)) {
-                        $defender = $partyMembers[0];
+                        $friend = $partyMembers[0];
+                        $target = $friend->getTarget();
 
-                        $this->actionFight->assist($player, $defender);
-                        $this->fight->attack($player, $defender->getTarget());
+                        if ($player->checkInitiateViolenceAgainst($target, false)) {
+                            $this->actionFight->assist($player, $friend);
+                            $this->fight->attack($player, $target);
+                        }
                     }
                 }
             }

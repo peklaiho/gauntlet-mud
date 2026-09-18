@@ -63,20 +63,14 @@ class Fight
         // Attack multiple times
         for ($i = 0; $i < $attacker->getNumAttacks(); $i++) {
             if ($this->doAttack($attacker, $victim)) {
-                // Stop if the victim died
+                // Return if the victim died
                 return;
             }
         }
 
         // Handle wimpy
-        if ($victim->isPlayer()) {
-            $wimpy = $victim->getPreference(Preferences::WIMPY, 0);
-            if ($wimpy > 0) {
-                $healthPercent = ($victim->getHealth() * 100) / $victim->getMaxHealth();
-                if ($healthPercent <= $wimpy) {
-                    $this->flee($victim);
-                }
-            }
+        if ($victim->isPlayer() && $victim->hasWimpyHealth()) {
+            $this->flee($victim);
         }
     }
 
@@ -86,18 +80,15 @@ class Fight
         $this->setTargets($attacker, $victim);
 
         if ($damage > 0) {
-            $this->damage($victim, $damage, $attacker);
+            if ($this->damage($victim, $damage, $attacker)) {
+                // Return if the victim died
+                return;
+            }
         }
 
         // Handle wimpy
-        if ($victim->isPlayer()) {
-            $wimpy = $victim->getPreference(Preferences::WIMPY, 0);
-            if ($wimpy > 0) {
-                $healthPercent = ($victim->getHealth() * 100) / $victim->getMaxHealth();
-                if ($healthPercent <= $wimpy) {
-                    $this->flee($victim);
-                }
-            }
+        if ($victim->isPlayer() && $victim->hasWimpyHealth()) {
+            $this->flee($victim);
         }
     }
 
@@ -201,6 +192,11 @@ class Fight
 
                 if ($this->actionMove->flee($living, $dir)) {
                     $this->act->toChar("You flee " . $dir->name() . "!", $living);
+
+                    if ($living->isPlayer()) {
+                        $this->render->renderRoom($living, $living->getRoom(), true);
+                    }
+
                     return $dir;
                 } else {
                     return null;

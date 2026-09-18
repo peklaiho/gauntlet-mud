@@ -32,17 +32,17 @@ class Preferences
     private static array $list = [
         [
             'key' => self::AUTO_ASSIST,
-            'name' => 'Auto assist',
+            'name' => 'Auto assist party members',
             'type' => 'bool'
         ],
         [
             'key' => self::AUTO_BURY,
-            'name' => 'Auto bury',
+            'name' => 'Auto bury corpses',
             'type' => 'bool'
         ],
         [
             'key' => self::AUTO_LOOT,
-            'name' => 'Auto loot',
+            'name' => 'Auto loot corpses',
             'type' => 'bool'
         ],
         [
@@ -96,7 +96,7 @@ class Preferences
             'name' => 'Wimpy (auto flee) percent',
             'type' => 'integer',
             'min' => 0,
-            'max' => 100
+            'max' => 50
         ],
 
         // Admin preferences

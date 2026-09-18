@@ -216,6 +216,22 @@ class Player extends Living
         return in_array($skill, $availableSkills);
     }
 
+    // Check if wimpy is enabled and health is under wimpy limit
+    public function hasWimpyHealth(): bool
+    {
+        $wimpy = $this->getPreference(Preferences::WIMPY, 0);
+
+        if ($wimpy > 0) {
+            $healthPercent = ($this->getHealth() * 100) / $this->getMaxHealth();
+
+            if ($healthPercent <= $wimpy) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     #[\Override]
     public function shouldFollow(Living $other): bool
     {
