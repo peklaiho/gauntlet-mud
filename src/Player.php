@@ -27,6 +27,7 @@ use Gauntlet\Trait\Level;
 use Gauntlet\Trait\SexAndSize;
 use Gauntlet\Trait\SkillPoints;
 use Gauntlet\Trait\TemporaryPlayerItems;
+use Gauntlet\Trait\TemporaryPlayerRoom;
 use Gauntlet\Trait\Training;
 use Gauntlet\Util\Color;
 use Gauntlet\Util\ColorPref;
@@ -60,6 +61,7 @@ class Player extends Living
     use SexAndSize;
     use SkillPoints;
     use TemporaryPlayerItems;
+    use TemporaryPlayerRoom;
     use Training;
 
     public function __construct()

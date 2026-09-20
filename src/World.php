@@ -106,47 +106,30 @@ class World
 
     public function getStartingRoom(Player $player): Room
     {
-        $startZoneId = Config::startingZoneId();
-        $startRoomId = Config::startingRoomId();
-
         $startRoom = null;
 
-        $zoneTemplate = $this->lists->getZoneTemplates()->get($startZoneId);
-        if (!$zoneTemplate) {
-            throw new \RuntimeException("Unable to find starting zone $startZoneId.");
+        // Try saved starting room first
+        if ($player->getStartingZoneId() !== null && $player->getStartingRoomId() !== null) {
+            $startZoneId = $player->getStartingZoneId();
+            $startRoomId = $player->getStartingRoomId();
+
+            $startRoom = $this->findStartingRoom($player, $startZoneId, $startRoomId);
+
+            if (!$startRoom) {
+                Log::warn("Unable to find saved starting room (zone $startZoneId, room $startRoomId) for player {$player->getName()}.");
+            }
         }
 
-        if ($zoneTemplate->getType() == ZoneType::Static) {
-            // Static zone, should exist already
-            foreach ($this->lists->getZones()->getAll() as $zone) {
-                if ($zone->getTemplate()->getId() == $startZoneId) {
-                    $startRoom = $zone->getRooms()->get($startRoomId);
-                    break;
-                }
-            }
-        } else {
-            // Dynamic zone
-            $startZone = null;
-
-            // Find existing zone first
-            foreach ($this->lists->getZones()->getAll() as $zone) {
-                if ($zone->getTemplate()->getId() == $startZoneId &&
-                    $zone->getOwner() == $player->getTechnicalName()) {
-                    $startZone = $zone;
-                    break;
-                }
-            }
-
-            // Not found, create new
-            if (!$startZone) {
-                $startZone = $this->loadZone($zoneTemplate, $player->getTechnicalName());
-            }
-
-            $startRoom = $startZone->getRooms()->get($startRoomId);
-        }
-
+        // Then try default starting room
         if (!$startRoom) {
-            throw new \RuntimeException("Unable to find starting room $startRoomId in zone $startZoneId.");
+            $startZoneId = Config::startingZoneId();
+            $startRoomId = Config::startingRoomId();
+
+            $startRoom = $this->findStartingRoom($player, $startZoneId, $startRoomId);
+
+            if (!$startRoom) {
+                throw new \RuntimeException("Unable to find default starting room (zone $startZoneId, room $startRoomId) for player {$player->getName()}.");
+            }
         }
 
         return $startRoom;
@@ -415,6 +398,44 @@ class World
             $item->getWearer()->getEquipment()->remove($item);
             $item->setWearer(null);
         }
+    }
+
+    private function findStartingRoom(Player $player, int $startZoneId, int $startRoomId): ?Room
+    {
+        $zoneTemplate = $this->lists->getZoneTemplates()->get($startZoneId);
+        if (!$zoneTemplate) {
+            return null;
+        }
+
+        if ($zoneTemplate->getType() == ZoneType::Static) {
+            // Static zone, should exist already
+            foreach ($this->lists->getZones()->getAll() as $zone) {
+                if ($zone->getTemplate()->getId() == $startZoneId) {
+                    return $zone->getRooms()->get($startRoomId);
+                }
+            }
+
+            return null;
+        }
+
+        // Dynamic zone
+        $startZone = null;
+
+        // Find existing zone first
+        foreach ($this->lists->getZones()->getAll() as $zone) {
+            if ($zone->getTemplate()->getId() == $startZoneId &&
+                $zone->getOwner() == $player->getTechnicalName()) {
+                $startZone = $zone;
+                break;
+            }
+        }
+
+        // Not found, create new
+        if (!$startZone) {
+            $startZone = $this->loadZone($zoneTemplate, $player->getTechnicalName());
+        }
+
+        return $startZone->getRooms()->get($startRoomId);
     }
 
     private function loadItem(ItemTemplate $template): Item
