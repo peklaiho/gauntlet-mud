@@ -1,13 +1,11 @@
 <?php
 /**
  * Gauntlet MUD - Class for affections
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
 namespace Gauntlet;
-
-use Closure;
 
 use Gauntlet\Enum\AffectionType;
 use Gauntlet\Enum\Skill;
@@ -18,13 +16,14 @@ class Affection
 {
     use Modifiers;
 
-    protected ?Closure $callback = null;
+    protected int $elapsedTicks = 0;
 
     public function __construct(
         protected Living|Item $owner,
         protected AffectionType $type,
         protected Skill|Spell $source,
-        protected int $until
+        protected int $totalTicks,
+        protected ?string $endMessage = null
     ) {
 
     }
@@ -44,18 +43,26 @@ class Affection
         return $this->source;
     }
 
-    public function getUntil(): int
+    public function getTotalTicks(): int
     {
-        return $this->until;
+        return $this->totalTicks;
     }
 
-    public function getCallback(): ?Closure
+    public function getEndMessage(): ?string
     {
-        return $this->callback;
+        return $this->endMessage;
     }
 
-    public function setCallback(?Closure $callback): void
+    public function getElapsedTicks(): int
     {
-        $this->callback = $callback;
+        return $this->elapsedTicks;
+    }
+
+    // Return true if this affection finishes
+    public function tick(): bool
+    {
+        $this->elapsedTicks++;
+
+        return $this->elapsedTicks >= $this->totalTicks;
     }
 }

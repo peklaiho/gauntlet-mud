@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Stats command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -176,9 +176,12 @@ class Stats extends BaseCommand
         $rows = [];
 
         foreach ($player->getAffections() as $aff) {
+            $secondsPerTick = (UPDATE_LIVING * TIME_TICK) / 1000;
+            $remainingTime = ($aff->getTotalTicks() - $aff->getElapsedTicks()) * $secondsPerTick;
+
             $rows[] = [
                 $aff->getSource()->value,
-                TimeFormatter::timeToShortString($aff->getUntil() - time(), true),
+                TimeFormatter::timeToShortString($remainingTime, true),
             ];
 
             foreach ($aff->getMods() as $key => $value) {

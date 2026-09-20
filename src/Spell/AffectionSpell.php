@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Spells that create affections
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -47,17 +47,10 @@ class AffectionSpell extends BaseSpell
             $target->outln($this->startMessage);
         }
 
-        $aff = new Affection($target, AffectionType::Spell, $this->spell, time() + $this->duration);
+        $aff = new Affection($target, AffectionType::Spell, $this->spell, $this->duration, $this->endMessage);
 
         foreach ($this->mods as $modName => $value) {
             $aff->setMod(Modifier::from($modName), $value);
-        }
-
-        if ($target instanceof Living && $target->isPlayer()) {
-            $endMessage = $this->endMessage;
-            $aff->setCallback(function () use ($target, $endMessage) {
-                $target->outln($endMessage);
-            });
         }
 
         $target->addAffection($aff);

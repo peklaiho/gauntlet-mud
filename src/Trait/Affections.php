@@ -1,13 +1,14 @@
 <?php
 /**
  * Gauntlet MUD - Trait for affections
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
 namespace Gauntlet\Trait;
 
 use Gauntlet\Affection;
+use Gauntlet\Living;
 use Gauntlet\Enum\AffectionType;
 use Gauntlet\Enum\Skill;
 use Gauntlet\Enum\Spell;
@@ -43,14 +44,12 @@ trait Affections
 
     public function updateAffections(): void
     {
-        $now = time();
-
         for ($i = 0; $i < count($this->affections); ) {
             $aff = $this->affections[$i];
-            if ($now >= $aff->getUntil()) {
+            if ($aff->tick()) {
                 array_splice($this->affections, $i, 1);
-                if ($aff->getCallback()) {
-                    ($aff->getCallback())();
+                if (($aff->getOwner() instanceof Living) && $aff->getOwner()->isPlayer() && $aff->getEndMessage()) {
+                    $aff->getOwner()->outln($aff->getEndMessage());
                 }
             } else {
                 $i++;

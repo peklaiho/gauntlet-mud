@@ -55,13 +55,18 @@ class Updater
             if (($i % UPDATE_LIVING) != ($living->isPlayer() ? 0 : ($living->getMagicNumber() % UPDATE_LIVING))) {
                 continue;
             }
-            // Skip invalid and fighters
-            if (!$living->isValidObject() || $living->getTarget()) {
+            // Skip invalid
+            if (!$living->isValidObject()) {
                 continue;
             }
 
-            // Update affections
+            // Update affections (also for fighters)
             $living->updateAffections();
+
+            // Skip fighters
+            if ($living->getTarget()) {
+                continue;
+            }
 
             // Regenerate health
             $living->regenerate();
