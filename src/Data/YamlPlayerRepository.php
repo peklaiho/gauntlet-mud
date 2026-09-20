@@ -122,6 +122,7 @@ class YamlPlayerRepository implements IPlayerRepository
         $player->setSavedEquipment($data['equipment'] ?? []);
         $player->setStartingZoneId($data['zone'] ?? null);
         $player->setStartingRoomId($data['room'] ?? null);
+        $player->unserializeAffections($player, $data['affections'] ?? []);
         $player->setAliases($data['aliases'] ?? []);
         $player->setAcceptedRules($data['acceptedRules'] ?? false);
 
@@ -156,6 +157,7 @@ class YamlPlayerRepository implements IPlayerRepository
             'equipment' => $player->getSavedEquipment(),
             'zone' => $player->getRoom()->getZone()->getTemplate()->getId(),
             'room' => $player->getRoom()->getTemplate()->getId(),
+            'affections' => $player->serializeAffections(),
             'aliases' => $player->getAliases(),
             'acceptedRules' => $player->getAcceptedRules(),
         ];

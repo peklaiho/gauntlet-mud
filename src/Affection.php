@@ -58,6 +58,11 @@ class Affection
         return $this->elapsedTicks;
     }
 
+    public function setElapsedTicks(int $value): void
+    {
+        $this->elapsedTicks = $value;
+    }
+
     // Return true if this affection finishes
     public function tick(): bool
     {
