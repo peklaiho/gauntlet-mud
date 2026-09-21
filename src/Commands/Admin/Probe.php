@@ -196,6 +196,8 @@ class Probe extends BaseCommand
             $player->outln('Light source status: %s', $item->getLightEnabled() ? 'On' : 'Off');
             $player->outln('Light source fuel: %s', $template->hasUnlimitedFuel() ? 'Unlimited' : $template->getFuel());
             $player->outln('Light source spent fuel: %d', $item->getLightSpentFuel());
+        } elseif ($item->isScroll()) {
+            $player->outln('Spell: %s', $template->getSpell()->value);
         }
 
         if ($template->getMods()) {

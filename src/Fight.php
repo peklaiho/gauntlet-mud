@@ -277,7 +277,7 @@ class Fight
             $target->clearAffections();
 
             // Players are resurrected at starting room
-            $startRoom = $this->world->getStartingRoom($target);
+            $startRoom = $this->world->getStartingRoom($target, false);
             $this->world->livingToRoom($target, $startRoom);
 
             $this->act->toRoom('@a appears in a flash of bright light.', true, $target);

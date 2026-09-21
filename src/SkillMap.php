@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Map of skills
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -67,7 +67,9 @@ class SkillMap
             self::$map = [
                 PlayerClass::Cleric->value => [
                     [3, Spell::MinorProtection],
+                    [10, Spell::WordOfRecall],
                     [15, Spell::MajorProtection],
+                    [20, Spell::Regeneration],
                 ],
 
                 PlayerClass::Mage->value => [

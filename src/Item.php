@@ -16,6 +16,7 @@ use Gauntlet\Template\ContainerTemplate;
 use Gauntlet\Template\FoodTemplate;
 use Gauntlet\Template\ItemTemplate;
 use Gauntlet\Template\LightSourceTemplate;
+use Gauntlet\Template\ScrollTemplate;
 use Gauntlet\Template\WeaponTemplate;
 use Gauntlet\Trait\CreationTime;
 use Gauntlet\Trait\ItemDynamicState;
@@ -156,6 +157,11 @@ class Item extends BaseObject
     public function isLightSource(): bool
     {
         return get_class($this->template) == LightSourceTemplate::class;
+    }
+
+    public function isScroll(): bool
+    {
+        return get_class($this->template) == ScrollTemplate::class;
     }
 
     public function isWeapon(): bool

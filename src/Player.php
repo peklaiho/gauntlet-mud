@@ -522,6 +522,11 @@ class Player extends Living
             $multip += 0.5;
         }
 
+        // Faster regen if affected by regeneration spell
+        if ($this->getSpellAffection(Spell::Regeneration)) {
+            $multip += 0.5;
+        }
+
         // Slower regen if encumbered
         if ($this->isEncumbered()) {
             $multip -= 0.5;

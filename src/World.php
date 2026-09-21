@@ -104,12 +104,13 @@ class World
         $zone->getTemplate()->decCount();
     }
 
-    public function getStartingRoom(Player $player): Room
+    public function getStartingRoom(Player $player, bool $useSavedRoom): Room
     {
         $startRoom = null;
 
         // Try saved starting room first
-        if ($player->getStartingZoneId() !== null && $player->getStartingRoomId() !== null) {
+        if ($useSavedRoom && $player->getStartingZoneId() !== null &&
+            $player->getStartingRoomId() !== null) {
             $startZoneId = $player->getStartingZoneId();
             $startRoomId = $player->getStartingRoomId();
 

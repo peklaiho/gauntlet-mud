@@ -283,7 +283,7 @@ class Intro implements IModule
 
         // Enter room
         if (!$player->getRoom()) {
-            $startRoom = $this->world->getStartingRoom($player);
+            $startRoom = $this->world->getStartingRoom($player, true);
             $this->world->livingToRoom($player, $startRoom);
         }
 

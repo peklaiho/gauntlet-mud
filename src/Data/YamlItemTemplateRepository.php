@@ -17,12 +17,14 @@ use Gauntlet\Enum\EqSlot;
 use Gauntlet\Enum\ItemFlag;
 use Gauntlet\Enum\Modifier;
 use Gauntlet\Enum\ScriptType;
+use Gauntlet\Enum\Spell;
 use Gauntlet\Template\ArmorTemplate;
 use Gauntlet\Template\BulletinBoardTemplate;
 use Gauntlet\Template\ContainerTemplate;
 use Gauntlet\Template\FoodTemplate;
 use Gauntlet\Template\ItemTemplate;
 use Gauntlet\Template\LightSourceTemplate;
+use Gauntlet\Template\ScrollTemplate;
 use Gauntlet\Template\WeaponTemplate;
 use Gauntlet\Util\Log;
 
@@ -94,6 +96,15 @@ class YamlItemTemplateRepository implements IItemTemplateRepository
 
             if (array_key_exists('fuel', $data)) {
                 $item->setFuel($data['fuel']);
+            }
+        } elseif ($type == 'scroll') {
+            $item = new ScrollTemplate();
+
+            $spell = Spell::tryFrom($data['spell']);
+            if ($spell) {
+                $item->setSpell($spell);
+            } else {
+                Log::error('Scroll ' . $data['id'] . ' has invalid spell: ' . $data['spell']);
             }
         } else {
             $item = new ItemTemplate();

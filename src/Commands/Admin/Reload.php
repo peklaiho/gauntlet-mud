@@ -77,7 +77,7 @@ class Reload extends BaseCommand
         // Move players back into their starting rooms
         foreach ($players as $plr) {
             $plr->outln('The winds of change blow through the realm...');
-            $startRoom = $this->world->getStartingRoom($plr);
+            $startRoom = $this->world->getStartingRoom($plr, true);
             $this->world->livingToRoom($plr, $startRoom);
 
             // Also restore their items
