@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Cast command
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -45,15 +45,16 @@ class Cast extends BaseCommand
         if ($player->getMana() < $manaCost) {
             $player->outln('You do not have enough mana.');
             return;
-        } elseif (!$targetName) {
-            $player->outln('This spell requires a target.');
-            return;
         }
 
         $target = $spellInfo->findTarget($player, $targetName);
 
         if (!$target) {
-            $player->outln(MESSAGE_NOONE);
+            if ($targetName) {
+                $player->outln(MESSAGE_NOONE);
+            } else {
+                $player->outln('This spell requires a target.');
+            }
             return;
         }
 

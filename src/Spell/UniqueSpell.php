@@ -28,7 +28,7 @@ class UniqueSpell extends BaseSpell
         return $this->manaCost;
     }
 
-    public function findTarget(Living $caster, string $targetName): Living|Item|null
+    public function findTarget(Living $caster, ?string $targetName): Living|Item|null
     {
         if ($this->spell == Spell::WordOfRecall) {
             return $caster;

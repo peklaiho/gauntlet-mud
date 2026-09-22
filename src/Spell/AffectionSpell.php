@@ -33,8 +33,13 @@ class AffectionSpell extends BaseSpell
         return $this->manaCost;
     }
 
-    public function findTarget(Living $caster, string $targetName): Living|Item|null
+    public function findTarget(Living $caster, ?string $targetName): Living|Item|null
     {
+        // No target given, default to caster
+        if (!$targetName) {
+            return $caster;
+        }
+
         $lists = [$caster->getRoom()->getLiving()];
         $target = (new LivingFinder($caster, $lists))
             ->find($targetName);

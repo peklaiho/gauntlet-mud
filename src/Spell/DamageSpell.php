@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Single-target damage spells
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -30,8 +30,12 @@ class DamageSpell extends BaseSpell
         return $this->manaCost;
     }
 
-    public function findTarget(Living $caster, string $targetName): Living|Item|null
+    public function findTarget(Living $caster, ?string $targetName): Living|Item|null
     {
+        if (!$targetName) {
+            return null;
+        }
+
         $lists = [$caster->getRoom()->getLiving()];
         $target = (new LivingFinder($caster, $lists))
             ->excludeSelf()
