@@ -26,10 +26,12 @@ class SpellMap
             self::$map[Spell::MinorProtection->value] = new AffectionSpell(Spell::MinorProtection, 30, [
                 Modifier::Armor->value => 1
             ], 180, 'You feel slightly more protected.', 'You no longer feel protected.');
+            self::$map[Spell::MinorProtection->value]->setHigherTierSpell(Spell::MajorProtection);
 
             self::$map[Spell::MajorProtection->value] = new AffectionSpell(Spell::MajorProtection, 60, [
                 Modifier::Armor->value => 3
             ], 180, 'You feel significantly more protected.', 'You no longer feel protected.');
+            self::$map[Spell::MajorProtection->value]->setLowerTierSpell(Spell::MinorProtection);
 
             self::$map[Spell::Regeneration->value] = new AffectionSpell(Spell::Regeneration, 90, [],
                 180, 'Your regenerative processes speed up.', 'Your regenerative processes slow down.');

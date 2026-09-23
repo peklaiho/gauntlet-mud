@@ -17,6 +17,9 @@ use Gauntlet\Util\LivingFinder;
 
 class AffectionSpell extends BaseSpell
 {
+    protected ?Spell $lowerTierSpell = null;
+    protected ?Spell $higherTierSpell = null;
+
     public function __construct(
         protected Spell $spell,
         protected float $manaCost,
@@ -52,6 +55,12 @@ class AffectionSpell extends BaseSpell
             $target->outln($this->startMessage);
         }
 
+        // Remove old affections of this spell or a lower-level version
+        $target->removeSpellAffection($this->spell);
+        if ($this->lowerTierSpell) {
+            $target->removeSpellAffection($this->lowerTierSpell);
+        }
+
         $aff = new Affection($target, AffectionType::Spell, $this->spell, $this->duration, $this->endMessage);
 
         foreach ($this->mods as $modName => $value) {
@@ -59,5 +68,25 @@ class AffectionSpell extends BaseSpell
         }
 
         $target->addAffection($aff);
+    }
+
+    public function getLowerTierSpell(): ?Spell
+    {
+        return $this->lowerTierSpell;
+    }
+
+    public function getHigherTierSpell(): ?Spell
+    {
+        return $this->higherTierSpell;
+    }
+
+    public function setLowerTierSpell(Spell $spell): void
+    {
+        $this->lowerTierSpell = $spell;
+    }
+
+    public function setHigherTierSpell(Spell $spell): void
+    {
+        $this->higherTierSpell = $spell;
     }
 }

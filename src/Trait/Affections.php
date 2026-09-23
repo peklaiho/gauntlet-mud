@@ -45,6 +45,16 @@ trait Affections
         return $this->findAffection(AffectionType::Spell, $spell);
     }
 
+    public function removeSkillAffection(Skill $skill): void
+    {
+        $this->removeAffection(AffectionType::Skill, $skill);
+    }
+
+    public function removeSpellAffection(Spell $spell): void
+    {
+        $this->removeAffection(AffectionType::Spell, $spell);
+    }
+
     public function updateAffections(): void
     {
         for ($i = 0; $i < count($this->affections); ) {
@@ -125,5 +135,17 @@ trait Affections
         }
 
         return null;
+    }
+
+    private function removeAffection(AffectionType $type, Spell|Skill $source)
+    {
+        for ($i = 0; $i < count($this->affections); ) {
+            $aff = $this->affections[$i];
+            if ($aff->getType() == $type && $aff->getSource() == $source) {
+                array_splice($this->affections, $i, 1);
+            } else {
+                $i++;
+            }
+        }
     }
 }
