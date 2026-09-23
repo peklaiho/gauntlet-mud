@@ -23,6 +23,7 @@ use Gauntlet\Util\Input;
 use Gauntlet\Util\ItemFinder;
 use Gauntlet\Util\Lisp;
 use Gauntlet\Util\LivingFinder;
+use Gauntlet\Util\NumberFormatter;
 use Gauntlet\Util\TimeFormatter;
 
 class Probe extends BaseCommand
@@ -275,6 +276,15 @@ class Probe extends BaseCommand
         $player->outln("Chance to hit bonus: %d %%" , $target->bonusToHit());
         $player->outln("Chance to dodge bonus: %d %%", $target->bonusToDodge());
         $player->outln("Damage reduction: %.1f", $target->getMod(Modifier::Armor));
+
+        $player->outln('Affections:');
+        foreach ($target->getAffections() as $aff) {
+            $player->outln('  %s (%s remaining)', $aff->getSource()->value,
+                TimeFormatter::timeToShortString($aff->getRemainingRealTime(), true));
+            foreach ($aff->getMods() as $key => $value) {
+                $player->outln('    %s %s', NumberFormatter::format($value, true), $key);
+            }
+        }
     }
 
     private function showAmbientMessages(Player $player, Room|Monster $target): void

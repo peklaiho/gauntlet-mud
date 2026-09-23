@@ -70,4 +70,11 @@ class Affection
 
         return $this->elapsedTicks >= $this->totalTicks;
     }
+
+    // Time remaining in real-life seconds
+    public function getRemainingRealTime(): int
+    {
+        $secondsPerTick = (UPDATE_LIVING * TIME_TICK) / 1000;
+        return ($this->totalTicks - $this->elapsedTicks) * $secondsPerTick;
+    }
 }

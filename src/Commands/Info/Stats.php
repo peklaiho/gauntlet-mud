@@ -176,12 +176,9 @@ class Stats extends BaseCommand
         $rows = [];
 
         foreach ($player->getAffections() as $aff) {
-            $secondsPerTick = (UPDATE_LIVING * TIME_TICK) / 1000;
-            $remainingTime = ($aff->getTotalTicks() - $aff->getElapsedTicks()) * $secondsPerTick;
-
             $rows[] = [
                 $aff->getSource()->value,
-                TimeFormatter::timeToShortString($remainingTime, true),
+                TimeFormatter::timeToShortString($aff->getRemainingRealTime(), true),
             ];
 
             foreach ($aff->getMods() as $key => $value) {
