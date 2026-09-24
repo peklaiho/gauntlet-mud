@@ -62,38 +62,39 @@ class Action
 
     public function cast(Living $living, Living|Item $target, Spell $spell): void
     {
-        $spellname = $spell->value;
+        $spellname = SpellObfuscator::obfuscate($spell->value);
 
         if ($target instanceof Living) {
             if ($living === $target) {
                 $this->act->toChar("You close your eyes and utter the words '$spellname'!", $living);
-                $this->performCastRoom($living, $target, $spell, "@t closes @s eyes and utters the words '{0}'!");
+                $this->act->toRoom("@t closes @s eyes and utters the words '$spellname'!", false, $living);
             } else {
                 $this->act->toChar("You stare intently at @T and utter the words '$spellname'!", $living, null, $target);
-                $this->performCastRoom($living, $target, $spell, "@t stares intently at @T and utters the words '{0}'!");
+                $this->act->toVict("@t stares intently at you and utters the words '$spellname'!", false, $living, null, $target);
+                $this->act->toRoom("@t stares intently at @T and utters the words '$spellname'!", false, $living, null, $target, true);
             }
         } else {
-            $this->act->toChar("You stare intently at @P and utter the words '$spellname'!", $caster, null, $target);
-            $this->performCastRoom($living, $target, $spell, "@t stares intently at @O and utters the words '{0}'!");
+            $this->act->toChar("You stare intently at @P and utter the words '$spellname'!", $living, null, $target);
+            $this->act->toRoom("@t stares intently at @O and utters the words '$spellname'!", false, $living, null, $target);
         }
     }
 
     public function castScroll(Living $living, Living|Item $target, Item $scroll): void
     {
-        $spell = $scroll->getTemplate()->getSpell();
-        $spellname = $spell->value;
+        $spellname = SpellObfuscator::obfuscate($scroll->getTemplate()->getSpell()->value);
 
         if ($target instanceof Living) {
             if ($living === $target) {
                 $this->act->toChar("You focus inward and read the words '$spellname' from @p!", $living, $scroll);
-                $this->performCastRoom($living, $target, $spell, "@t focuses inward and reads the words '{0}' from @o!", $scroll);
+                $this->act->toRoom("@t focuses inward and reads the words '$spellname' from @o!", false, $living, $scroll, $target);
             } else {
                 $this->act->toChar("You stare intently at @T and read the words '$spellname' from @p!", $living, $scroll, $target);
-                $this->performCastRoom($living, $target, $spell, "@t stares intently at @T and reads the words '{0}' from @o!", $scroll);
+                $this->act->toVict("@t stares intently at you and reads the words '$spellname' from @o!", false, $living, $scroll, $target);
+                $this->act->toRoom("@t stares intently at @T and reads the words '$spellname' from @o!", false, $living, $scroll, $target, true);
             }
         } else {
-            $this->act->toChar("You stare intently at @P and read the words '$spellname' from @p!", $caster, $scroll, $target);
-            $this->performCastRoom($living, $target, $spell, "@t stares intently at @O and reads the words '{0}' from @o!", $scroll);
+            $this->act->toChar("You stare intently at @P and read the words '$spellname' from @p!", $living, $scroll, $target);
+            $this->act->toRoom("@t stares intently at @O and reads the words '$spellname' from @o!", false, $living, $scroll, $target);
         }
     }
 
@@ -300,29 +301,6 @@ class Action
         $this->world->itemToEquipment($item, $living, $slot);
         $this->act->toChar($messages[0], $living, $item);
         $this->act->toRoom($messages[1], true, $living, $item);
-    }
-
-    private function performCastRoom(Living $living, Living|Item $target, Spell $spell, string $template, ?Item $spellObject = null): void
-    {
-        foreach ($living->getRoom()->getLiving()->getAll() as $other) {
-            if ($other === $living) {
-                continue;
-            }
-
-            $message = $template;
-
-            if ($other === $target) {
-                $message = str_replace('at @T', 'at you', $message);
-            }
-
-            // Use spell name, or obfuscated spell name, depending
-            // on whether the recipient knows the spell.
-            $spellName = ($other->isPlayer() && $other->hasSkill($spell)) ?
-                $spell->value : SpellObfuscator::obfuscate($spell->value);
-            $message = str_replace('{0}', $spellName, $message);
-
-            $this->act->performAct($message, $living, $spellObject, $target, $other);
-        }
     }
 
     private function getEncumberance(Living $living): bool
