@@ -23,6 +23,10 @@ class SpellMap
         if (!self::$map) {
             // Beneficial affection spells
 
+            self::$map[Spell::LightFeet->value] = new AffectionSpell(Spell::LightFeet, 50, [
+                Modifier::MoveCost->value => -1
+            ], 180, 'Your feet feel light.', 'Your feet no longer feel light.');
+
             self::$map[Spell::MinorProtection->value] = new AffectionSpell(Spell::MinorProtection, 30, [
                 Modifier::Armor->value => 1
             ], 180, 'You feel slightly more protected.', 'You no longer feel protected.');
@@ -33,8 +37,9 @@ class SpellMap
             ], 180, 'You feel significantly more protected.', 'You no longer feel protected.');
             self::$map[Spell::MajorProtection->value]->setLowerTierSpell(Spell::MinorProtection);
 
-            self::$map[Spell::Regeneration->value] = new AffectionSpell(Spell::Regeneration, 90, [],
-                180, 'Your regenerative processes speed up.', 'Your regenerative processes slow down.');
+            self::$map[Spell::Regeneration->value] = new AffectionSpell(Spell::Regeneration, 90, [
+                Modifier::Regen->value => 50
+            ], 180, 'Your regenerative processes speed up.', 'Your regenerative processes slow down.');
 
             // Unique spells
 

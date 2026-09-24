@@ -9,13 +9,16 @@ namespace Gauntlet\Enum;
 
 enum Spell: string
 {
-    // Cleric
+    // Affection spells
+    case LightFeet = 'Light Feet';
     case MajorProtection = 'Major Protection';
     case MinorProtection = 'Minor Protection';
     case Regeneration = 'Regeneration';
+
+    // Misc spells
     case WordOfRecall = 'Word of Recall';
 
-    // Mage
+    // Damage spells
     case MagicMissile = 'Magic Missile';
     case FireBolt = 'Firebolt';
     case ChillBones = 'Chill Bones';

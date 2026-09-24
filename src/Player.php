@@ -561,13 +561,11 @@ class Player extends Living
 
         $multip = 1;
 
+        // Modifiers (this is in percentage so divide by 100)
+        $multip += ($this->getMod(Modifier::Regen) / 100);
+
         // Faster regen for flagged rooms
         if ($this->getRoom()->getTemplate()->hasFlag(RoomFlag::Regen)) {
-            $multip += 0.5;
-        }
-
-        // Faster regen if affected by regeneration spell
-        if ($this->getSpellAffection(Spell::Regeneration)) {
             $multip += 0.5;
         }
 

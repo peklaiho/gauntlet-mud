@@ -1,7 +1,7 @@
 <?php
 /**
  * Gauntlet MUD - Modifiers
- * Copyright (C) 2017-2025 Pekka Laiho
+ * Copyright (C) 2017-2026 Pekka Laiho
  * License: AGPL 3.0 (see LICENSE)
  */
 
@@ -19,6 +19,8 @@ enum Modifier: string
     case Health = 'health';
     case Mana = 'mana';
     case Move = 'move';
+    case MoveCost = 'move-cost';
+    case Regen = 'regen';
 
     // Physical combat modifiers
     case Hit = 'hit';

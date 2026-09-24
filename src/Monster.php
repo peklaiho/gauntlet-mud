@@ -15,7 +15,6 @@ use Gauntlet\Enum\MonsterFlag;
 use Gauntlet\Enum\ScriptType;
 use Gauntlet\Enum\Sex;
 use Gauntlet\Enum\Size;
-use Gauntlet\Enum\Spell;
 use Gauntlet\Template\MonsterTemplate;
 use Gauntlet\Trait\CreationTime;
 use Gauntlet\Trait\MagicNumber;
@@ -180,10 +179,8 @@ class Monster extends Living
     {
         $multip = 1;
 
-        // Faster regen if affected by regeneration spell
-        if ($this->getSpellAffection(Spell::Regeneration)) {
-            $multip += 0.5;
-        }
+        // Modifiers (this is in percentage so divide by 100)
+        $multip += ($this->getMod(Modifier::Regen) / 100);
 
         $fn = fn ($cur, $max, $div) => min($max / $div, $max - $cur);
 

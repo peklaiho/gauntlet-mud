@@ -8,6 +8,7 @@
 namespace Gauntlet;
 
 use Gauntlet\Enum\Direction;
+use Gauntlet\Enum\Modifier;
 use Gauntlet\Enum\ScriptType;
 use Gauntlet\Util\Lisp;
 
@@ -106,10 +107,16 @@ class ActionMove
     {
         $moveCost = $room->getTemplate()->getTerrain()->moveCost();
 
-        // Double cost if encumbered
+        // Add modifiers
+        $moveCost += $player->getMod(Modifier::MoveCost);
+
+        // Extra cost if encumbered
         if ($player->isEncumbered()) {
-            $moveCost *= 2;
+            $moveCost += 3;
         }
+
+        // Minimum move cost is 1
+        $moveCost = max(1, $moveCost);
 
         // Allow movement to go negative for admins
         if ($moveCost > $player->getMove() && !$player->getAdminLevel()) {

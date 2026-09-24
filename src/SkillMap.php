@@ -69,7 +69,8 @@ class SkillMap
                     [3, Spell::MinorProtection],
                     [10, Spell::WordOfRecall],
                     [15, Spell::MajorProtection],
-                    [20, Spell::Regeneration],
+                    [20, Spell::LightFeet],
+                    [30, Spell::Regeneration],
                 ],
 
                 PlayerClass::Mage->value => [
