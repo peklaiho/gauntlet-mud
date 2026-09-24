@@ -21,6 +21,8 @@ use Gauntlet\Enum\Spell;
 use Gauntlet\Enum\Skill;
 use Gauntlet\Module\Editor;
 use Gauntlet\Module\Pager;
+use Gauntlet\Spell\AffectionSpell;
+use Gauntlet\Spell\BaseSpell;
 use Gauntlet\Trait\CarryingCapacity;
 use Gauntlet\Trait\CreationTime;
 use Gauntlet\Trait\Level;
@@ -151,17 +153,59 @@ class Player extends Living
             return true;
         }
 
-        if ($target->isPlayer() && $target->getAdminLevel()) {
-            $targetLevel = $target->getAdminLevel()->value;
-            $ownLevel = $this->getAdminLevel() ? $this->getAdminLevel()->value : 0;
-
-            if ($targetLevel >= $ownLevel) {
+        if ($target->isPlayer()) {
+            if ($target->getGroup() && $target->getGroup() === $this->getGroup()) {
                 if ($message) {
-                    $this->outln('That is not a good idea!');
+                    $this->outln('Harming party members is not a good idea!');
                 }
 
                 return false;
             }
+
+            if ($target->getAdminLevel()) {
+                $targetLevel = $target->getAdminLevel()->value;
+                $ownLevel = $this->getAdminLevel() ? $this->getAdminLevel()->value : 0;
+
+                if ($targetLevel >= $ownLevel) {
+                    if ($message) {
+                        $this->outln('Harming administrators is not a good idea!');
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function checkCastSpell(Living|Item $target, BaseSpell $spellInfo, bool $message): bool
+    {
+        // Check for harmful spells
+        if ($target instanceof Living && $spellInfo->isHarmful()) {
+            if (!$this->checkInitiateViolence($message)) {
+                return false;
+            }
+
+            if (!$this->checkInitiateViolenceAgainst($target, $message)) {
+                return false;
+            }
+        }
+
+        // Already affected by higher-level spell?
+        if ($spellInfo instanceof AffectionSpell && $spellInfo->getHigherTierSpell() &&
+            $target->getSpellAffection($spellInfo->getHigherTierSpell())) {
+            if ($message) {
+                if ($target instanceof Item) {
+                    $this->outln('It is already affected by a higher-level version of the spell.');
+                } elseif ($target === $this) {
+                    $this->outln('You are already affected by a higher-level version of the spell.');
+                } else {
+                    $this->outln('%s is already affected by a higher-level version of the spell.',
+                        ucfirst($target->getSex()->heShe()));
+                }
+            }
+            return false;
         }
 
         return true;

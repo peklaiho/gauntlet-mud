@@ -25,6 +25,13 @@ class DamageSpell extends BaseSpell
 
     }
 
+    #[\Override]
+    public function isHarmful(): bool
+    {
+        // Damage spells are always harmful
+        return true;
+    }
+
     public function manaCost(): float
     {
         return $this->manaCost;

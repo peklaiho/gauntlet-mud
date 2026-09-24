@@ -7,22 +7,18 @@
 
 namespace Gauntlet\Commands;
 
-use Gauntlet\Act;
 use Gauntlet\Action;
-use Gauntlet\Item;
 use Gauntlet\Living;
 use Gauntlet\Player;
 use Gauntlet\SkillMap;
 use Gauntlet\SpellMap;
-use Gauntlet\Spell\AffectionSpell;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\SpellParser;
 
 class Cast extends BaseCommand
 {
     public function __construct(
-        protected Action $action,
-        protected Act $act
+        protected Action $action
     ) {
 
     }
@@ -60,18 +56,7 @@ class Cast extends BaseCommand
                 $player->outln('This spell requires a target.');
             }
             return;
-        }
-
-        // Already affected by higher-level spell?
-        if ($spellInfo instanceof AffectionSpell && $spellInfo->getHigherTierSpell() &&
-            $target->getSpellAffection($spellInfo->getHigherTierSpell())) {
-            if ($target instanceof Item) {
-                $player->outln('It is already affected by a higher-level version of the spell.');
-            } elseif ($target === $player) {
-                $player->outln('You are already affected by a higher-level version of the spell.');
-            } else {
-                $this->act->toChar('@E is already affected by a higher-level version of the spell.', $player, null, $target);
-            }
+        } elseif (!$player->checkCastSpell($target, $spellInfo, true)) {
             return;
         }
 
