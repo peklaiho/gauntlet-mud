@@ -9,6 +9,8 @@ namespace Gauntlet\Commands\Items;
 
 use Gauntlet\Action;
 use Gauntlet\Player;
+use Gauntlet\SpellMap;
+use Gauntlet\World;
 use Gauntlet\Commands\BaseCommand;
 use Gauntlet\Util\Input;
 use Gauntlet\Util\ItemFinder;
@@ -17,7 +19,8 @@ class UseCmd extends BaseCommand
 {
     public function __construct(
         protected ItemFinder $finder,
-        protected Action $action
+        protected Action $action,
+        protected World $world
     ) {
 
     }
@@ -46,6 +49,26 @@ class UseCmd extends BaseCommand
                 $this->action->light($player, $item, true);
             } else {
                 $player->outln('It has burned out.');
+            }
+            return;
+        }
+
+        if ($item->isScroll()) {
+            $spellInfo = SpellMap::get($item->getTemplate()->getSpell());
+            $targetName = $input->get(1, null);
+            $target = $spellInfo->findTarget($player, $targetName);
+            if ($target) {
+                if ($player->checkCastSpell($target, $spellInfo, true)) {
+                    $this->action->castScroll($player, $target, $item);
+                    $spellInfo->cast($player, $target);
+                    $this->world->extractItem($item);
+                }
+            } else {
+                if ($targetName) {
+                    $player->outln(MESSAGE_NOONE);
+                } else {
+                    $player->outln('This spell requires a target.');
+                }
             }
             return;
         }

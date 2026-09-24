@@ -78,6 +78,25 @@ class Action
         }
     }
 
+    public function castScroll(Living $living, Living|Item $target, Item $scroll): void
+    {
+        $spell = $scroll->getTemplate()->getSpell();
+        $spellname = $spell->value;
+
+        if ($target instanceof Living) {
+            if ($living === $target) {
+                $this->act->toChar("You focus inward and read the words '$spellname' from @p!", $living, $scroll);
+                $this->performCastRoom($living, $target, $spell, "@t focuses inward and reads the words '{0}' from @o!", $scroll);
+            } else {
+                $this->act->toChar("You stare intently at @T and read the words '$spellname' from @p!", $living, $scroll, $target);
+                $this->performCastRoom($living, $target, $spell, "@t stares intently at @T and reads the words '{0}' from @o!", $scroll);
+            }
+        } else {
+            $this->act->toChar("You stare intently at @P and read the words '$spellname' from @p!", $caster, $scroll, $target);
+            $this->performCastRoom($living, $target, $spell, "@t stares intently at @O and reads the words '{0}' from @o!", $scroll);
+        }
+    }
+
     public function discard(Living $living, Item $item): void
     {
         $encState = $this->getEncumberance($living);
@@ -283,7 +302,7 @@ class Action
         $this->act->toRoom($messages[1], true, $living, $item);
     }
 
-    private function performCastRoom(Living $living, Living|Item $target, Spell $spell, string $template): void
+    private function performCastRoom(Living $living, Living|Item $target, Spell $spell, string $template, ?Item $spellObject = null): void
     {
         foreach ($living->getRoom()->getLiving()->getAll() as $other) {
             if ($other === $living) {
@@ -302,7 +321,7 @@ class Action
                 $spell->value : SpellObfuscator::obfuscate($spell->value);
             $message = str_replace('{0}', $spellName, $message);
 
-            $this->act->performAct($message, $living, null, $target, $other);
+            $this->act->performAct($message, $living, $spellObject, $target, $other);
         }
     }
 
