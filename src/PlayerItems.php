@@ -75,8 +75,11 @@ class PlayerItems
 
             $data = [
                 'id' => $item->getTemplate()->getId(),
-                'state' => $item->getDynamicState(),
             ];
+
+            if ($item->getDynamicState()) {
+                $data['state'] = $item->getDynamicState();
+            }
 
             if (!$item->getContents()->empty()) {
                 $data['contents'] = $this->doSaveItems($item->getContents(), false);
