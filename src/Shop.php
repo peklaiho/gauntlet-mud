@@ -35,7 +35,9 @@ class Shop extends BaseObject
 
         if (($item->isWeapon() && in_array('weapon', $this->buyTypes)) ||
             ($item->isArmor() && in_array('armor', $this->buyTypes)) ||
-            ($item->isContainer() && in_array('container', $this->buyTypes))) {
+            ($item->isContainer() && in_array('container', $this->buyTypes)) ||
+            ($item->isLightSource() && in_array('light', $this->buyTypes)) ||
+            ($item->isScroll() && in_array('scroll', $this->buyTypes))) {
             return $buyValue;
         }
 
