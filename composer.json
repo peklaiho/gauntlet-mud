@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "peklaiho/madlisp": "^2.0",
+        "peklaiho/madlisp": "^2.1",
         "symfony/yaml": "^8.0"
     },
     "require-dev": {
